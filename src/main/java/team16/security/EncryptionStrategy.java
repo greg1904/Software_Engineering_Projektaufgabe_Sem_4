@@ -1,0 +1,50 @@
+package team16.security;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.Base64;
+
+public enum EncryptionStrategy {//SOLID-Prinzip: Strategy
+    AES, DES;
+
+    public String decrypt(String encryptedMessage, String key) {
+        try {
+            Cipher cipher = Cipher.getInstance(name() + "/ECB/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, generate(key));
+            return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedMessage)));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "";
+        }
+    }
+
+    public String encrypt(String plainMessage, String key) {
+        try {
+            Cipher cipher = Cipher.getInstance(name() + "/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, generate(key));
+            return Base64.getEncoder().encodeToString(cipher.doFinal(plainMessage.getBytes(StandardCharsets.UTF_8)));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "";
+        }
+    }
+
+    private SecretKeySpec generate(String inputKey) {
+        MessageDigest sha;
+
+        try {
+            byte[] key = inputKey.getBytes(StandardCharsets.UTF_8);
+            sha = MessageDigest.getInstance("SHA-1");
+            key = sha.digest(key);
+            key = Arrays.copyOf(key, this == AES ? 16 : 8);
+            return new SecretKeySpec(key, name());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+}
