@@ -4,8 +4,8 @@ import team16.base.Configuration;
 import team16.data.datainstances.pallet.Pallet;
 
 public class Trailer {
-    private final Pallet[][] pallets = new Pallet[2][Configuration.instance.trailerPalletCount];
-    
+    private final Pallet[][] pallets = new Pallet[2][5];
+
     public Pallet[] getLeftPallets() {
         return pallets[0];
     }
@@ -15,9 +15,9 @@ public class Trailer {
     }
 
     public boolean isFull() {
-        for(int side=0;side< pallets.length; side++){
-            for(int i=0; i<pallets[side].length; i++){
-                if(pallets[side][i] == null)
+        for (int side = 0; side < pallets.length; side++) {
+            for (int i = 0; i < pallets[side].length; i++) {
+                if (pallets[side][i] == null)
                     return false;
             }
         }
@@ -29,9 +29,9 @@ public class Trailer {
 //    }
 
     public boolean hasLoad() {
-        for(int side=0;side< pallets.length; side++){
-            for(int i=0; i<pallets[side].length; i++){
-                if(pallets[side][i] != null)
+        for (int side = 0; side < pallets.length; side++) {
+            for (int i = 0; i < pallets[side].length; i++) {
+                if (pallets[side][i] != null)
                     return true;
             }
         }
@@ -52,7 +52,7 @@ public class Trailer {
         }
         return false;
     }
-    
+
     public boolean addPalletLeft(Pallet pallet, int pos) {
         if (pallets[0][pos] == null) {
             pallets[0][pos] = pallet;
@@ -60,8 +60,8 @@ public class Trailer {
         }
         return false;
     }
-    
-    
+
+
     public boolean addPalletRight(Pallet pallet) {
         for (int i = 0; i < pallets[1].length; i++) {
             if (pallets[1][i] == null) {
@@ -80,7 +80,7 @@ public class Trailer {
         return false;
     }
 
-    
+
     public Pallet getNextPallet() {
         if (hasLoad()) {
             Pallet pallet = getNextPalletFromLeft();

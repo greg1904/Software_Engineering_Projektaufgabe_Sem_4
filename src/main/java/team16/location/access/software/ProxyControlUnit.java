@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ProxyControlUnit implements IAccess { //SOLID-Prinzip: Proxy
-    private final CentralControlUnit centralControlUnit;
     private static final Map<ControlUnitAcessRole, List<Class<? extends ICommand>>> permissions = new HashMap<>();
 
     static {
@@ -42,9 +41,11 @@ public class ProxyControlUnit implements IAccess { //SOLID-Prinzip: Proxy
         ).collect(Collectors.toCollection(ArrayList::new)));
     }
 
+    private final CentralControlUnit centralControlUnit;
+
     public ProxyControlUnit(CentralControlUnit centralControlUnit) {
         this.centralControlUnit = centralControlUnit;
-        }
+    }
 
     @Override
     public boolean executeCommand(ControlUnitAcessRole role, ICommand command) {

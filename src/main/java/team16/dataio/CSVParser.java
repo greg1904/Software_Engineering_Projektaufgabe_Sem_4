@@ -9,6 +9,7 @@ import team16.data.transport.Truck;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -19,15 +20,15 @@ public class CSVParser {
     private static HashMap<String, Truck> trucksMap;
 
     private static void createPackages() {
-        StringBuilder packageBuilder = new StringBuilder(Configuration.instance.packageContentSize[0] *
-                Configuration.instance.packageContentSize[1] *
-                Configuration.instance.packageContentSize[2] *
+        StringBuilder packageBuilder = new StringBuilder(Configuration.instance.packageContentSizes[0] *
+                Configuration.instance.packageContentSizes[1] *
+                Configuration.instance.packageContentSizes[2] *
                 Configuration.instance.packageCount);
 
         List<Package> generatedPackages = new ArrayList<>(Configuration.instance.packageCount);
         packagesMap = new HashMap<>(Configuration.instance.packageCount);
 
-        for(int i = 0; i< Configuration.instance.packageCount; i++){
+        for (int i = 0; i < Configuration.instance.packageCount; i++) {
             generatedPackages.add(new Package());
         }
 
@@ -35,15 +36,15 @@ public class CSVParser {
 
         Random r = new Random();
         List<Integer> randomPositions = new ArrayList<>();
-        for(int i = 0; i<4; i++){
+        for (int i = 0; i < 4; i++) {
             int rand = r.nextInt(generatedPackages.size());
-            while (randomPositions.contains(rand)){
+            while (randomPositions.contains(rand)) {
                 rand = r.nextInt(generatedPackages.size());
             }
             randomPositions.add(rand);
         }
 
-        for(Integer position : randomPositions){
+        for (Integer position : randomPositions) {
             generatedPackages.get(position).addContent("exp!os:ve");
         }
 
@@ -55,7 +56,7 @@ public class CSVParser {
 //        IntStream.range(0, 4).forEach(i -> packages.get(r.nextInt(packages.size())).addContent("exp!os:ve"));
 
 
-        for(Package p: generatedPackages){
+        for (Package p : generatedPackages) {
             packagesMap.put(p.getId(), p);
 
             packageBuilder.append(String.format(Locale.US, "[%s],[%s],[%05d],[%s],[%.2f]",
@@ -63,7 +64,7 @@ public class CSVParser {
             packageBuilder.append(System.lineSeparator());
         }
 
-        writeToFile(new File(Configuration.instance.packageOutput), packageBuilder.toString());
+        writeToFile(new File(Configuration.instance.packageCSVData), packageBuilder.toString());
     }
 
     private static void createBoxes() {
@@ -72,16 +73,16 @@ public class CSVParser {
 
         List<Box> boxes = new ArrayList<>(Configuration.instance.boxesCount);
 
-        for(int i = 0; i< Configuration.instance.boxesCount; i++){
+        for (int i = 0; i < Configuration.instance.boxesCount; i++) {
             boxes.add(new Box());
         }
 
 
         Iterator<Package> packageIterator = packagesMap.values().iterator();
-        for(Box box: boxes){
+        for (Box box : boxes) {
             boxBuilder.append(String.format("[%s]", box.getId()));
 
-            while(box.hasRoom() && packageIterator.hasNext()){
+            while (box.hasRoom() && packageIterator.hasNext()) {
                 Package pack = packageIterator.next();
                 box.addPackage(pack);
                 boxBuilder.append(String.format(",[%s]", pack.getId()));
@@ -90,7 +91,7 @@ public class CSVParser {
             boxesMap.put(box.getId(), box);
         }
 
-        writeToFile(new File(Configuration.instance.boxOutput), boxBuilder.toString());
+        writeToFile(new File(Configuration.instance.boxCSVData), boxBuilder.toString());
     }
 
     private static void createPallets() {
@@ -98,12 +99,12 @@ public class CSVParser {
         palletsMap = new HashMap<>(Configuration.instance.palletCount);
         List<Pallet> pallets = new ArrayList<>(Configuration.instance.palletCount);
 
-        for(int i=0; i<Configuration.instance.palletCount; i++){
+        for (int i = 0; i < Configuration.instance.palletCount; i++) {
             pallets.add(new Pallet());
         }
 
         Iterator<Box> boxIterator = boxesMap.values().iterator();
-        for(Pallet p : pallets){
+        for (Pallet p : pallets) {
             while (p.hasRoom() && boxIterator.hasNext()) {
                 Box box = boxIterator.next();
                 p.addBox(box);
@@ -122,7 +123,7 @@ public class CSVParser {
 //            }
 //        });
 
-        writeToFile(new File(Configuration.instance.palletOutput), palletBuilder.toString());
+        writeToFile(new File(Configuration.instance.palletCSVData), palletBuilder.toString());
     }
 
     private static void createTrucks() {
@@ -130,14 +131,14 @@ public class CSVParser {
         trucksMap = new HashMap<>();
         List<Truck> trucks = new ArrayList<>();
 
-        for(int i=0; i<Configuration.instance.truckCount; i++){
+        for (int i = 0; i < Configuration.instance.truckCount; i++) {
             trucks.add(new Truck());
         }
 
 
         Iterator<Pallet> palletIterator = palletsMap.values().iterator();
 
-        for(Truck t:trucks){
+        for (Truck t : trucks) {
             while (t.hasRoom() && palletIterator.hasNext()) {
                 Pallet pallet = palletIterator.next();
                 t.addPallet(pallet);
@@ -148,14 +149,16 @@ public class CSVParser {
             trucksMap.put(t.getId(), t);
         }
 
-        writeToFile(new File(Configuration.instance.truckOutput), truckBuilder.toString());
+        writeToFile(new File(Configuration.instance.truckCSVData), truckBuilder.toString());
     }
 
     private static void writeToFile(File f, String s) {
         f.delete();
 
+
         System.out.println("Writing data in File: " + f.getAbsolutePath());
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(f), s.length())) {
+            f.createNewFile();
             bw.write(s);
         } catch (IOException e) {
             e.printStackTrace();
@@ -187,12 +190,12 @@ public class CSVParser {
         readTrucks();
     }
 
-    private static Queue<String> readFileLines(File f){
+    private static Queue<String> readFileLines(File f) {
         Queue<String> lines = new ArrayDeque<>();
 
         try (BufferedReader bw = new BufferedReader(new FileReader(f))) {
             String line;
-            while((line = bw.readLine()) != null){
+            while ((line = bw.readLine()) != null) {
                 lines.add(line);
             }
         } catch (IOException e) {
@@ -202,9 +205,9 @@ public class CSVParser {
         return lines;
     }
 
-    private static String[] removeSurroundingBrackets(String[] data){
-        for(int i=0; i<data.length; i++){
-            data[i] = data[i].trim().substring(1, data[i].length()-1).trim(); //remove []
+    private static String[] removeSurroundingBrackets(String[] data) {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = data[i].trim().substring(1, data[i].length() - 1).trim(); //remove []
         }
 
         return data;
@@ -212,9 +215,9 @@ public class CSVParser {
 
     private static void readPackages() {
         packagesMap = new HashMap<>(Configuration.instance.packageCount);
-        Queue<String> packageData = readFileLines(new File(Configuration.instance.packageOutput));
+        Queue<String> packageData = readFileLines(new File(Configuration.instance.packageCSVData));
 
-        for(String line:packageData){
+        for (String line : packageData) {
             String[] data = removeSurroundingBrackets(line.split(","));
 
             PackageType type = data[3].equals("NORMAL") ? PackageType.NORMAL :
@@ -227,14 +230,14 @@ public class CSVParser {
 
     private static void readBoxes() {
         boxesMap = new HashMap<>(Configuration.instance.boxesCount);
-        Queue<String> boxData = readFileLines(new File(Configuration.instance.boxOutput));
+        Queue<String> boxData = readFileLines(new File(Configuration.instance.boxCSVData));
 
-        for(String line:boxData){
+        for (String line : boxData) {
             String[] data = removeSurroundingBrackets(line.split(","));
 
             Box box = new Box(data[0]);
 
-            for(int i=1; i<data.length; i++){
+            for (int i = 1; i < data.length; i++) {
                 box.addPackage(packagesMap.get(data[i]));
             }
 
@@ -244,14 +247,14 @@ public class CSVParser {
 
     private static void readPallets() {
         palletsMap = new HashMap<>(Configuration.instance.palletCount);
-        Queue<String> palletData = readFileLines(new File(Configuration.instance.palletOutput));
+        Queue<String> palletData = readFileLines(new File(Configuration.instance.palletCSVData));
 
-        for(String line: palletData){
+        for (String line : palletData) {
             String[] data = removeSurroundingBrackets(line.split(","));
 
-            if(palletsMap.containsKey(Integer.parseInt(data[0]))){
+            if (palletsMap.containsKey(Integer.parseInt(data[0]))) {
                 palletsMap.get(Integer.parseInt(data[0])).addBox(boxesMap.get(data[3]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
-            }else{
+            } else {
                 Pallet pallet = new Pallet(Integer.parseInt(data[0]));
                 pallet.addBox(boxesMap.get(data[3]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
                 palletsMap.put(pallet.getId(), pallet);
@@ -261,15 +264,15 @@ public class CSVParser {
 
     private static void readTrucks() {
         trucksMap = new HashMap<>();
-        Queue<String> truckData = readFileLines(new File(Configuration.instance.truckOutput));
+        Queue<String> truckData = readFileLines(new File(Configuration.instance.truckCSVData));
 
-        for (String line:truckData) {
+        for (String line : truckData) {
             String[] data = removeSurroundingBrackets(line.split(","));
             boolean isLeft = data[1].equals("left");
 
-            if(trucksMap.containsKey(data[0])){
+            if (trucksMap.containsKey(data[0])) {
                 trucksMap.get(data[0]).addPallet(palletsMap.get(Integer.parseInt(data[3])), Integer.parseInt(data[2]), isLeft);
-            }else{
+            } else {
                 Truck truck = new Truck(data[0]);
                 truck.addPallet(palletsMap.get(Integer.parseInt(data[3])), Integer.parseInt(data[2]), isLeft);
                 trucksMap.put(data[0], truck);
@@ -293,8 +296,13 @@ public class CSVParser {
         };
 
         if (Files.notExists(Paths.get(Configuration.instance.dataDir))) {
+            try {
+                Files.createDirectory(Path.of(Configuration.instance.dataDir));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return false;
-        }else {
+        } else {
             for (String s : neededFiles) {
                 if (Files.notExists(Paths.get(Configuration.instance.dataDir + Configuration.instance.fileSeparator + s))) {
                     return false;
@@ -306,7 +314,7 @@ public class CSVParser {
     }
 
     public static Collection<Truck> loadTrucks() {
-        if(packagesMap == null && boxesMap == null && palletsMap == null && trucksMap == null) {
+        if (packagesMap == null && boxesMap == null && palletsMap == null && trucksMap == null) {
             readFiles();
         }
 

@@ -6,10 +6,10 @@ import team16.data.datainstances.pallet.Pallet;
 import java.util.Arrays;
 
 public class TemporaryPalletStorage {
-    private final TemporaryPalletStoragePosition[] temporaryPalletStoragePositions = new TemporaryPalletStoragePosition[Configuration.instance.interimPositionsMax];
+    private final TemporaryPalletStoragePosition[] temporaryPalletStoragePositions = new TemporaryPalletStoragePosition[5];
 
     public TemporaryPalletStorage() {
-        for(int i=0; i< temporaryPalletStoragePositions.length; i++)
+        for (int i = 0; i < temporaryPalletStoragePositions.length; i++)
             temporaryPalletStoragePositions[i] = new TemporaryPalletStoragePosition();
     }
 
@@ -18,8 +18,8 @@ public class TemporaryPalletStorage {
             return false;
         }
 
-        for(TemporaryPalletStoragePosition position : temporaryPalletStoragePositions){
-            if(position.hasRoom()) {
+        for (TemporaryPalletStoragePosition position : temporaryPalletStoragePositions) {
+            if (position.hasRoom()) {
                 return position.addPallet(pallet);
             }
         }
@@ -36,8 +36,8 @@ public class TemporaryPalletStorage {
     public boolean hasPallets() {
         System.out.println("checking pallets");
         int count = 0;
-        for(TemporaryPalletStoragePosition position : temporaryPalletStoragePositions){
-            if(position.hasPallets()) {
+        for (TemporaryPalletStoragePosition position : temporaryPalletStoragePositions) {
+            if (position.hasPallets()) {
                 System.out.println("Pallet has been found! pos: " + count);
                 return true;
             }
@@ -50,8 +50,8 @@ public class TemporaryPalletStorage {
 
     public Pallet removePallet() {
         System.out.println("##Removing Pallet Main");
-        for(TemporaryPalletStoragePosition position : temporaryPalletStoragePositions){
-            if(position.hasPallets()) {
+        for (TemporaryPalletStoragePosition position : temporaryPalletStoragePositions) {
+            if (position.hasPallets()) {
                 System.out.println("#Position has pallets - " + position.getPalletsString());
                 return position.removePallet();
             }
@@ -68,7 +68,7 @@ public class TemporaryPalletStorage {
     public int getPalletCount() {
         int count = 0;
 
-        for(TemporaryPalletStoragePosition position : temporaryPalletStoragePositions){
+        for (TemporaryPalletStoragePosition position : temporaryPalletStoragePositions) {
             count += position.getPallets();
         }
 
@@ -77,7 +77,7 @@ public class TemporaryPalletStorage {
 
     public void printStorage() {
         System.out.println("####");
-        for(TemporaryPalletStoragePosition position : temporaryPalletStoragePositions){
+        for (TemporaryPalletStoragePosition position : temporaryPalletStoragePositions) {
             System.out.println(position.getPalletsString());
             System.out.println("---");
         }

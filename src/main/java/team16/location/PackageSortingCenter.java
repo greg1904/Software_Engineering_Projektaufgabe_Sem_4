@@ -6,8 +6,8 @@ import team16.communication.events.IEvent;
 import team16.data.datainstances.packages.Package;
 import team16.data.datainstances.packages.PackageType;
 import team16.location.access.hardware.IDCardReader;
-import team16.location.access.software.ProxyControlUnit;
 import team16.location.access.hardware.Terminal;
+import team16.location.access.software.ProxyControlUnit;
 import team16.location.logistics.temporarystorage.TemporaryPalletStorage;
 import team16.location.logistics.zones.ParkingZone;
 import team16.location.logistics.zones.UnloadZone;
@@ -18,21 +18,20 @@ import java.util.*;
 
 public class PackageSortingCenter {
     private final CentralControlUnit centralControlUnit = new CentralControlUnit();
-    private final UnloadZone[] unloadZones = new UnloadZone[Configuration.instance.unloadZoneNum];
-    private final ParkingZone parkingZone = new ParkingZone(Configuration.instance.parkingZoneAutoCarCount, this);
+    private final UnloadZone[] unloadZones = new UnloadZone[7];
+    private final ParkingZone parkingZone = new ParkingZone(5, this);
     private final SortingSystem sortingSystem = new SortingSystem(this);
 
     private final Terminal terminal = new Terminal(new IDCardReader(), new ProxyControlUnit(centralControlUnit));
     private final TemporaryPalletStorage temporaryPalletStorage = new TemporaryPalletStorage();
     private final Map<PackageType, Integer> packagesCount = new HashMap<>();
-
-    private int trucksDone;
     private final List<Package> forbiddenPackages = new ArrayList<>();
+    private int trucksDone;
 
     public PackageSortingCenter() {
         centralControlUnit.register(parkingZone);
 
-        for(int i=0; i< unloadZones.length; i++){ //TODO WHAT IS THIS
+        for (int i = 0; i < unloadZones.length; i++) { //TODO WHAT IS THIS
             unloadZones[i] = new UnloadZone(centralControlUnit);
             register(unloadZones[i]);
         }

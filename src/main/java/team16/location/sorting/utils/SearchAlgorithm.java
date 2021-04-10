@@ -21,11 +21,28 @@ public class SearchAlgorithm implements ISearchAlgorithm {
         this.currentSearchAlgorithmPath = currentSearchAlgorithmPath;
     }
 
+    public static Object build(String archivePath) {
+        Object archiveInstance = null;
+
+        try {
+            System.out.println("Loading file: " + archivePath);
+            URL[] urls = {new File(archivePath).toURI().toURL()};
+            URLClassLoader urlClassLoader = new URLClassLoader(urls, Application.class.getClassLoader());
+            Class<?> archiveClass = Class.forName("Application", true, urlClassLoader);
+
+            archiveInstance = archiveClass.getConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return archiveInstance;
+    }
+
     @Override
     public boolean checkPackage(Package packet) {
-        if(this.currentSearchAlgorithmPath.equals(Configuration.instance.searchAlgorithmJarPath) && algorithmInstance != null){
+        if (this.currentSearchAlgorithmPath.equals(Configuration.instance.searchAlgorithmJarPath) && algorithmInstance != null) {
             return invokeSearchMethod(packet.getContentAsString());
-        }else{
+        } else {
             algorithmInstance = build(Configuration.instance.searchAlgorithmJarPath);
             return invokeSearchMethod(packet.getContentAsString());
         }
@@ -41,22 +58,5 @@ public class SearchAlgorithm implements ISearchAlgorithm {
         }
 
         throw new RuntimeException("An Invokation Error has occured.");
-    }
-
-    public static Object build(String archivePath){
-        Object archiveInstance = null;
-
-        try {
-            System.out.println("Loading file: " + archivePath);
-            URL[] urls = {new File(archivePath).toURI().toURL()};
-            URLClassLoader urlClassLoader = new URLClassLoader(urls, Application.class.getClassLoader());
-            Class<?> archiveClass = Class.forName("Application", true, urlClassLoader);
-
-            archiveInstance = archiveClass.getConstructor().newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return archiveInstance;
     }
 }

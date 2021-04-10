@@ -5,8 +5,8 @@ import com.google.common.eventbus.Subscribe;
 import team16.communication.events.ProcessSortingTracksEvent;
 import team16.data.datainstances.packages.Package;
 import team16.data.datainstances.packages.PackageType;
-import team16.location.sorting.sensors.PackageScanner;
 import team16.location.PackageSortingCenter;
+import team16.location.sorting.sensors.PackageScanner;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -38,14 +38,14 @@ public class SortingTrack { //SOLID-Prinzip: Chain of Responsibility
     }
 
     public boolean addPackage(Package packet) { //SOLID-Prinzip: Chain of Responsibility
-        if(type != packet.getType()){
-            if(successor == null){
+        if (type != packet.getType()) {
+            if (successor == null) {
                 System.out.println("Last responsible SortingTrack has declined a package.");
                 return false;
-            }else{
+            } else {
                 return successor.addPackage(packet);
             }
-        }else if (packageScanner.checkPackage(packet)) {
+        } else if (packageScanner.checkPackage(packet)) {
             center.addForbiddenPackage(packet);
             System.out.println("Package " + packet.getId() + " has Explosive in it!");
         }

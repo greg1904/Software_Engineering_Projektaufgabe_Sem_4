@@ -1,19 +1,10 @@
 package team16.communication.commands;
 
-import team16.data.datainstances.packages.Package;
-import team16.base.Configuration;
-import team16.data.datainstances.box.Box;
-import team16.data.datainstances.packages.PackageType;
-import team16.data.datainstances.pallet.Pallet;
 import team16.data.transport.Truck;
 import team16.dataio.CSVParser;
 import team16.location.logistics.zones.ParkingZone;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Iterator;
 
 public class InitCommand implements ICommand { //SOLID-Prinzip: Command
     private final ParkingZone zone;
@@ -30,7 +21,7 @@ public class InitCommand implements ICommand { //SOLID-Prinzip: Command
             int count = 0;
 
             Iterator<Truck> truckIterator = CSVParser.loadTrucks().iterator();
-            while(truckIterator.hasNext()){
+            while (truckIterator.hasNext()) {
                 zone.addTruck(truckIterator.next());
                 count++;
             }

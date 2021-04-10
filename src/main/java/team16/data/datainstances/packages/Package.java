@@ -17,8 +17,8 @@ public class Package {
     private final double weight;
 
     public Package() {
-        id = IdGenerator.getId(Configuration.instance.packageIdLength);
-        content = new char[Configuration.instance.packageContentSize[0]][Configuration.instance.packageContentSize[1]][Configuration.instance.packageContentSize[2]];
+        id = IdGenerator.getId(6);
+        content = new char[Configuration.instance.packageContentSizes[0]][Configuration.instance.packageContentSizes[1]][Configuration.instance.packageContentSizes[2]];
         for (int i = 0; i < content.length; i++) {
             for (int j = 0; j < content[i].length; j++) {
                 for (int k = 0; k < content[i][j].length; k++) {
@@ -26,10 +26,10 @@ public class Package {
                 }
             }
         }
-        zipCode = ThreadLocalRandom.current().nextInt(Configuration.instance.zipCodeMaxExclusive - Configuration.instance.zipCodeMinInclusive) + Configuration.instance.zipCodeMinInclusive;
+        zipCode = ThreadLocalRandom.current().nextInt(99_999 - 1067) + 1067;
         int randomType = ThreadLocalRandom.current().nextInt(100);
         type = randomType < 80 ? PackageType.NORMAL : (randomType < 95 ? PackageType.EXPRESS : PackageType.VALUE);
-        weight = ((int) (ThreadLocalRandom.current().nextDouble(Configuration.instance.packageMinWeightInclusive, Configuration.instance.packageMaxWeightExclusive) * 100.0)) / 100.0;
+        weight = ((int) (ThreadLocalRandom.current().nextDouble(1.00, 5.01) * 100.0)) / 100.0;
     }
 
     public Package(String id, String content, int zipCode, PackageType type, double weight) {
@@ -59,8 +59,8 @@ public class Package {
     }
 
     private char[][][] getContentFromString(String cont) {
-        char[][][] fin = new char[Configuration.instance.packageContentSize[0]][Configuration.instance.packageContentSize[1]][Configuration.instance.packageContentSize[2]];
-        String[] contentSplit = splitEqually(cont, Configuration.instance.packageContentSize[2]);
+        char[][][] fin = new char[Configuration.instance.packageContentSizes[0]][Configuration.instance.packageContentSizes[1]][Configuration.instance.packageContentSizes[2]];
+        String[] contentSplit = splitEqually(cont, Configuration.instance.packageContentSizes[2]);
         int count = 0;
         for (int i = 0; i < fin.length; i++) {
             for (int j = 0; j < fin[i].length; j++) {
@@ -74,15 +74,15 @@ public class Package {
     public String getContentAsString() {
         StringBuilder contentBuilder = new StringBuilder();
 
-        for(int l=0; l<content.length; l++){
+        for (int l = 0; l < content.length; l++) {
 //            if(l != 0)
 //                contentBuilder.append("|");
 
-            for(int w=0; w<content[l].length; w++){
+            for (int w = 0; w < content[l].length; w++) {
 //                if(w != 0)
 //                    contentBuilder.append("#");
 
-                for(int h=0; h<content[l][w].length; h++){
+                for (int h = 0; h < content[l][w].length; h++) {
                     contentBuilder.append(content[l][w][h]);
                 }
             }

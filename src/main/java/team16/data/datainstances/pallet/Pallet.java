@@ -6,15 +6,15 @@ import team16.data.datainstances.box.Box;
 public class Pallet {
     private static int nextUsableId = 1;
     private final int id;
-    private final PalletPosition[][] palletPositions = new PalletPosition[Configuration.instance.palletPositions[0]][Configuration.instance.palletPositions[1]];
+    private final PalletPosition[][] palletPositions = new PalletPosition[2][2];
 
     public Pallet() {
         this(nextUsableId++);
     }
 
     public Pallet(int id) {
-        for(int i = 0; i< palletPositions.length; i++){
-            for(int j = 0; j< palletPositions[i].length; j++){
+        for (int i = 0; i < palletPositions.length; i++) {
+            for (int j = 0; j < palletPositions[i].length; j++) {
                 palletPositions[i][j] = new PalletPosition();
             }
         }
@@ -27,10 +27,10 @@ public class Pallet {
     }
 
     public int getPositionIndex(Box box) {
-        for(int i = 0; i< palletPositions.length; i++) {
+        for (int i = 0; i < palletPositions.length; i++) {
             for (int j = 0; j < palletPositions[i].length; j++) {
-                if(palletPositions[i][j].hasBox(box))
-                    return i + j*2;
+                if (palletPositions[i][j].hasBox(box))
+                    return i + j * 2;
             }
         }
 
@@ -49,9 +49,9 @@ public class Pallet {
 
     public boolean addBox(Box box) {
         if (hasRoom()) {
-            for(int i = 0; i< palletPositions.length; i++) {
+            for (int i = 0; i < palletPositions.length; i++) {
                 for (int j = 0; j < palletPositions[i].length; j++) {
-                    if(palletPositions[i][j].hasRoom()) {
+                    if (palletPositions[i][j].hasRoom()) {
                         palletPositions[i][j].addBox(box);
                         return true;
                     }
@@ -104,9 +104,9 @@ public class Pallet {
     }
 
     public boolean hasLoad() {
-        for(int i = 0; i< palletPositions.length; i++) {
+        for (int i = 0; i < palletPositions.length; i++) {
             for (int j = 0; j < palletPositions[i].length; j++) {
-                if(palletPositions[i][j].hasLoad())
+                if (palletPositions[i][j].hasLoad())
                     return true;
             }
         }
@@ -115,9 +115,9 @@ public class Pallet {
     }
 
     public boolean hasRoom() {
-        for(int i = 0; i< palletPositions.length; i++) {
+        for (int i = 0; i < palletPositions.length; i++) {
             for (int j = 0; j < palletPositions[i].length; j++) {
-                if(palletPositions[i][j].hasRoom())
+                if (palletPositions[i][j].hasRoom())
                     return true;
             }
         }

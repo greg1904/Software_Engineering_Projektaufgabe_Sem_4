@@ -40,22 +40,22 @@ public class IdGenerator {
             for (int i = 0; i < count; i++) {
                 builder.append(ID_POOL[random.nextInt(ID_POOL.length)]);
             }
-        }while (givenIds.containsKey(builder.toString()));
+        } while (givenIds.containsKey(builder.toString()));
         givenIds.put(builder.toString(), true);
         return builder.toString();
     }
 
-    public static int getNumericalId(int count){
+    public static int getNumericalId(int count) {
         StringBuilder builder;
 
-        do{
+        do {
             Random random = new Random();
             builder = new StringBuilder();
 
-            for(int i=0; i<count; i++){
+            for (int i = 0; i < count; i++) {
                 builder.append(random.nextInt(10));
             }
-        }while (givenNumericalIds.containsKey(builder.toString()));
+        } while (givenNumericalIds.containsKey(builder.toString()));
         int key = Integer.parseInt(builder.toString());
         givenNumericalIds.put(key, true);
         return key;

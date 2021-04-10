@@ -9,8 +9,8 @@ import team16.data.datainstances.packages.PackageType;
 import team16.data.storagelocations.EmptyBoxesRoom;
 import team16.data.storagelocations.EmptyPalletsRoom;
 import team16.location.PackageSortingCenter;
-import team16.location.sorting.structure.PackageTrack;
 import team16.location.logistics.transportation.Robot;
+import team16.location.sorting.structure.PackageTrack;
 import team16.location.sorting.structure.SortingTrack;
 
 import java.util.Arrays;
@@ -19,19 +19,19 @@ public class SortingSystem {
     private final Robot robot = new Robot(this);
     private final EmptyBoxesRoom boxesRoom = new EmptyBoxesRoom();
     private final EmptyPalletsRoom palletsRoom = new EmptyPalletsRoom();
-    private final PackageTrack[] packageTracks = new PackageTrack[Configuration.instance.packageTrackNum];
-    private final SortingTrack[] sortingTracks = new SortingTrack[Configuration.instance.sortingTrackNum];
+    private final PackageTrack[] packageTracks = new PackageTrack[8];
+    private final SortingTrack[] sortingTracks = new SortingTrack[3];
     private final PackageSortingCenter center;
     private boolean isLocked;
 
     public SortingSystem(PackageSortingCenter center) {
         Arrays.setAll(packageTracks, i -> new PackageTrack(center));
 
-        for(int i=sortingTracks.length-1; i>=0; i--){
-            if(i == sortingTracks.length-1){
+        for (int i = sortingTracks.length - 1; i >= 0; i--) {
+            if (i == sortingTracks.length - 1) {
                 sortingTracks[i] = new SortingTrack(PackageType.values()[i], center, null);
-            }else{
-                sortingTracks[i] = new SortingTrack(PackageType.values()[i], center, sortingTracks[i+1]);
+            } else {
+                sortingTracks[i] = new SortingTrack(PackageType.values()[i], center, sortingTracks[i + 1]);
             }
         }
         this.center = center;
@@ -56,8 +56,8 @@ public class SortingSystem {
         if (!isLocked) {
             System.out.println("Starting sorting process");
 
-            for(PackageTrack track : packageTracks){
-                while (!track.isEmpty()){
+            for (PackageTrack track : packageTracks) {
+                while (!track.isEmpty()) {
                     insertIntoSortingTracks(track.getNextPackage());
                 }
             }

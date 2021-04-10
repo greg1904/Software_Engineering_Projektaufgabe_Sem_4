@@ -1,10 +1,10 @@
 package team16.location.logistics.zones;
 
 import com.google.common.eventbus.Subscribe;
-import team16.data.transport.Truck;
 import team16.base.Configuration;
 import team16.communication.events.ControlCarEvent;
 import team16.communication.events.TruckUnloadedEvent;
+import team16.data.transport.Truck;
 import team16.location.PackageSortingCenter;
 import team16.location.logistics.transportation.AutonomousCar;
 
@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class ParkingZone {
-    private final AutonomousCar[] cars = new AutonomousCar[Configuration.instance.autonomousCarNum];
+    private final AutonomousCar[] cars = new AutonomousCar[5];
     private final Queue<Truck> truckList;
     private final int maxTrucks;
     private final PackageSortingCenter center;
@@ -23,7 +23,7 @@ public class ParkingZone {
         this.truckList = new LinkedList<>();
         this.maxTrucks = room;
 
-        for(int i=0; i<cars.length; i++)
+        for (int i = 0; i < cars.length; i++)
             cars[i] = new AutonomousCar(center);
 
         this.center = center;
@@ -67,8 +67,8 @@ public class ParkingZone {
     public int availableCars() {
         int count = 0;
 
-        for(AutonomousCar car:cars)
-            if(car != null)
+        for (AutonomousCar car : cars)
+            if (car != null)
                 count++;
 
         return count;
@@ -101,8 +101,8 @@ public class ParkingZone {
     }
 
     private boolean hasCarsLeft() {
-        for(AutonomousCar car : cars)
-            if(car != null)
+        for (AutonomousCar car : cars)
+            if (car != null)
                 return true;
 
         return false;

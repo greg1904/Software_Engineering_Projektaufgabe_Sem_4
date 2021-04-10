@@ -31,7 +31,7 @@ public class CentralControlUnit implements ITruckListener {
         bus.register(obj);
     }
 
-    private void unregister(Object obj){
+    private void unregister(Object obj) {
         bus.unregister(obj);
     }
 
@@ -73,7 +73,7 @@ public class CentralControlUnit implements ITruckListener {
     @Subscribe
     public void receive(PackageTrackFullEvent event) {
         filledPackageTracks.add(event.getTrack());
-        if (filledPackageTracks.size() == Configuration.instance.packageTrackNum) {
+        if (filledPackageTracks.size() == 8) {
             filledPackageTracks.clear();
             postEvent(new StartSortingEvent());
         }

@@ -9,9 +9,9 @@ public class Truck {
     private final Trailer trailer = new Trailer();
 
     public Truck() {
-        this.id = IdGenerator.getId(Configuration.instance.truckIdLength);
+        this.id = IdGenerator.getId(4);
     }
-    
+
     public Truck(String id) {
         this.id = id;
     }
@@ -24,8 +24,8 @@ public class Truck {
         return trailer.addPallet(pallet);
     }
 
-    public boolean addPallet(Pallet pallet, int pos, boolean isLeft){
-        if(isLeft)
+    public boolean addPallet(Pallet pallet, int pos, boolean isLeft) {
+        if (isLeft)
             return trailer.addPalletLeft(pallet, pos);
         else
             return trailer.addPalletRight(pallet, pos);

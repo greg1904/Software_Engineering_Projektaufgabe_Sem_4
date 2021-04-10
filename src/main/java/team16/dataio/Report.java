@@ -34,7 +34,7 @@ public class Report {
 
         Iterator<Map.Entry<PackageType, Integer>> iterator = packagesCount.entrySet().iterator();
 
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Map.Entry<PackageType, Integer> data = iterator.next();
 
             builder.append(data.getKey()).append(" - ").append(data.getValue()).append(", ");
@@ -44,13 +44,16 @@ public class Report {
 
         builder.append("\t\t\t ").append("##Explosive Packages: ").append(System.lineSeparator());
 
-        if(explosivePackages.size() != 0){
-            for(Package p:explosivePackages){
+        if (explosivePackages.size() != 0) {
+            for (Package p : explosivePackages) {
                 builder.append("\t\t\t\t").append(p.getId()).append(": ").append(p.getType()).append(System.lineSeparator());
             }
-        }else{
+        } else {
             builder.append("\t\t\t\t\t No explosives have been found yet.").append(System.lineSeparator());
         }
+
+        builder.append(System.lineSeparator());
+        builder.append(System.lineSeparator());
 //
 //        packagesCount.keySet().forEach(type ->
 //                builder.append(type)
@@ -67,9 +70,9 @@ public class Report {
     }
 
     public static class Builder { //SOLID-Prinzip: Builder
+        private final Map<PackageType, Integer> packagesCount = new HashMap<>();
         private boolean addTimestamp;
         private int truckCount;
-        private final Map<PackageType, Integer> packagesCount = new HashMap<>();
         private List<Package> explosivePackages = new ArrayList<>();
 
         public Builder addTimestamp() {
@@ -94,7 +97,7 @@ public class Report {
         public Builder addPackageCount(Map<PackageType, Integer> packagesCount) {
             Iterator<Map.Entry<PackageType, Integer>> iterator = packagesCount.entrySet().iterator();
 
-            while(iterator.hasNext()){
+            while (iterator.hasNext()) {
                 Map.Entry<PackageType, Integer> data = iterator.next();
                 addPackageCount(data.getKey(), data.getValue());
             }
@@ -102,13 +105,13 @@ public class Report {
             return this;
         }
 
-        public Builder addExplosivePackage(Package explosivePackage){
+        public Builder addExplosivePackage(Package explosivePackage) {
             explosivePackages.add(explosivePackage);
             return this;
         }
 
         public Builder addExplosivePackages(List<Package> explosivePackages) {
-            for(Package p: explosivePackages){
+            for (Package p : explosivePackages) {
                 addExplosivePackage(p);
             }
 

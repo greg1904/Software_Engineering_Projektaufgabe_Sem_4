@@ -1,5 +1,4 @@
 public class RabinKarpSearchAlgorithm {
-
     // d is the number of characters in the input alphabet
     private final int d = 256;
 

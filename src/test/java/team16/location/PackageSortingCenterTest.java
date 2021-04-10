@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PackageSortingCenterTest {
     @Test
-    void setupTest(){
+    void setupTest() {
         PackageSortingCenter sortingCenter = new PackageSortingCenter();
         assertNotNull(sortingCenter);
         assertNotNull(sortingCenter.getCentralControlUnit());
@@ -15,11 +15,11 @@ class PackageSortingCenterTest {
 
         UnloadZone[] zonesCopy = sortingCenter.getUnloadZones();
 
-        for(int i=0; i<sortingCenter.getUnloadZones().length; i++){
+        for (int i = 0; i < sortingCenter.getUnloadZones().length; i++) {
             assertNotNull(sortingCenter.getUnloadZones()[i]);
 
-            for(int j=0; j<zonesCopy.length; j++){
-                if(j!=i)
+            for (int j = 0; j < zonesCopy.length; j++) {
+                if (j != i)
                     assertNotEquals(zonesCopy[j], sortingCenter.getUnloadZones()[i]);
             }
         }

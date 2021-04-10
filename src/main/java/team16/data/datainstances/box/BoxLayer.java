@@ -1,10 +1,10 @@
 package team16.data.datainstances.box;
 
-import team16.data.datainstances.packages.Package;
 import team16.base.Configuration;
+import team16.data.datainstances.packages.Package;
 
 public class BoxLayer {
-    private final Package[][] packages = new Package[2][Configuration.instance.boxLayerSize];
+    private final Package[][] packages = new Package[2][4];
 
     public Package[] getLeftPackages() {
         return packages[0];
@@ -15,9 +15,9 @@ public class BoxLayer {
     }
 
     public boolean isFull() {
-        for(int i=0; i<packages.length; i++){
-            for(int j=0; j<packages[i].length; j++){
-                if(packages[i][j] == null)
+        for (int i = 0; i < packages.length; i++) {
+            for (int j = 0; j < packages[i].length; j++) {
+                if (packages[i][j] == null)
                     return false;
             }
         }
@@ -29,9 +29,9 @@ public class BoxLayer {
 //    }
 
     public boolean isEmpty() {
-        for(int i=0; i<packages.length; i++){
-            for(int j=0; j<packages[i].length; j++){
-                if(packages[i][j] != null)
+        for (int i = 0; i < packages.length; i++) {
+            for (int j = 0; j < packages[i].length; j++) {
+                if (packages[i][j] != null)
                     return false;
             }
         }

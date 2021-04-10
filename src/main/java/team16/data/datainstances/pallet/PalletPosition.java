@@ -10,8 +10,8 @@ public class PalletPosition {
     }
 
     public boolean isFilled() {
-        for(Box b:boxes){
-            if(b == null)
+        for (Box b : boxes) {
+            if (b == null)
                 return false;
         }
 
@@ -20,8 +20,8 @@ public class PalletPosition {
     }
 
     public boolean hasLoad() {
-        for(Box b:boxes){
-            if(b != null)
+        for (Box b : boxes) {
+            if (b != null)
                 return true;
         }
 
@@ -71,8 +71,8 @@ public class PalletPosition {
     }
 
     public int getLayerIndex(Box box) {
-        for(int i=0; i<boxes.length; i++){
-            if(boxes[i] == box)
+        for (int i = 0; i < boxes.length; i++) {
+            if (boxes[i] == box)
                 return i;
         }
         return -1;

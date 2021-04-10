@@ -38,7 +38,7 @@ public class PackageTrack {
     }
 
     public boolean isFull() {
-        return packages.size() >= Configuration.instance.packageTrackSize;
+        return packages.size() >= 600;
     }
 
     public boolean hasRoom() {

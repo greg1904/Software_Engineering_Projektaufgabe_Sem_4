@@ -48,7 +48,7 @@ public class IDCardReader {
     private String[] getCardContent(IDCard card) {
         String dec = Configuration.instance.encryptionStrategy.decrypt(card.getMagnetStripe().getStoredData(), Configuration.instance.encryptionKey);
         String[] content = new String[CardContent.values().length];
-        String[] parsed =  Arrays.stream(dec.split(";"))
+        String[] parsed = Arrays.stream(dec.split(";"))
                 .map(c -> c.substring(1))
                 .map(c -> c.substring(0, c.length() - 1))
                 .toArray(String[]::new);

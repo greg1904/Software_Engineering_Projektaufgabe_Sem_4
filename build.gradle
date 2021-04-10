@@ -11,7 +11,7 @@ repositories {
 }
 
 run {
-    jvmArgs(['-Xmx16384M'])
+    jvmArgs(['-Xmx8192M'])
 }
 
 dependencies {
@@ -23,5 +23,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    maxHeapSize = "16384m"
+    maxHeapSize = "8192m"
 }

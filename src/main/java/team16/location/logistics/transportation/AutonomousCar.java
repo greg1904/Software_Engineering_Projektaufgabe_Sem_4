@@ -1,8 +1,8 @@
 package team16.location.logistics.transportation;
 
-import team16.location.PackageSortingCenter;
-import team16.data.transport.Truck;
 import team16.communication.events.TruckUnloadedEvent;
+import team16.data.transport.Truck;
+import team16.location.PackageSortingCenter;
 import team16.location.logistics.zones.UnloadZone;
 
 public class AutonomousCar {

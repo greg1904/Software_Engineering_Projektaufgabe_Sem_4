@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class TemporaryPalletStoragePosition {
-    private final Pallet[] pallets = new Pallet[Configuration.instance.interimPositionsMaxRoom];
+    private final Pallet[] pallets = new Pallet[2];
 
     public boolean addPallet(Pallet pallet) {
         if (hasRoom()) {
@@ -36,8 +36,8 @@ public class TemporaryPalletStoragePosition {
     }
 
     public boolean hasPallets() {
-        for(Pallet pallet : pallets){
-            if(pallet != null) {
+        for (Pallet pallet : pallets) {
+            if (pallet != null) {
                 return true;
             }
         }
@@ -51,9 +51,9 @@ public class TemporaryPalletStoragePosition {
     }
 
     public boolean isEmpty() {
-        for(Pallet pallet : pallets){
+        for (Pallet pallet : pallets) {
             System.out.println(pallet);
-            if(pallet != null) {
+            if (pallet != null) {
                 System.out.println("a pallet was found: ");
                 return false;
             }
@@ -70,8 +70,8 @@ public class TemporaryPalletStoragePosition {
 
     public int getPallets() {
         int count = 0;
-        for(Pallet pallet : pallets){
-            if(pallet != null)
+        for (Pallet pallet : pallets) {
+            if (pallet != null)
                 count++;
         }
 
@@ -80,7 +80,7 @@ public class TemporaryPalletStoragePosition {
 
     public String getPalletsString() {
         StringBuilder builder = new StringBuilder();
-        for(Pallet pallet : pallets){
+        for (Pallet pallet : pallets) {
             builder.append(pallet).append(", ");
         }
 
