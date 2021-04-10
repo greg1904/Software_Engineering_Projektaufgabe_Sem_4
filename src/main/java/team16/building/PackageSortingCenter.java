@@ -18,8 +18,8 @@ import java.util.Map;
 public class PackageSortingCenter {
 
     private final ControlUnit unit = new ControlUnit();
-    private final UnloadZone[] unloadZones = new UnloadZone[Configuration.INSTANCE.unloadZoneNum];
-    private final ParkingZone parkingZone = new ParkingZone(Configuration.INSTANCE.parkingZoneTruckCount, this);
+    private final UnloadZone[] unloadZones = new UnloadZone[Configuration.instance.unloadZoneNum];
+    private final ParkingZone parkingZone = new ParkingZone(Configuration.instance.parkingZoneTruckCount, this);
     @SuppressWarnings("unused")
     private final SortingSystem sortingSystem = new SortingSystem(this);
     private final Terminal terminal = new Terminal(new CardReader(), new ProxyControlUnit(unit));

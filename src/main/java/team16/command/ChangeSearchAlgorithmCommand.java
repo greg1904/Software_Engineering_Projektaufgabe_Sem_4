@@ -8,10 +8,10 @@ public class ChangeSearchAlgorithmCommand implements ICommand {//SOLID-Prinzip: 
     @Override
     public void execute() {
         int count = SearchAlgorithm.values().length;
-        if (Configuration.INSTANCE.searchAlgorithm.ordinal() == count - 1) {
-            Configuration.INSTANCE.searchAlgorithm = SearchAlgorithm.values()[0];
+        if (Configuration.instance.searchAlgorithm.ordinal() == count - 1) {
+            Configuration.instance.searchAlgorithm = SearchAlgorithm.values()[0];
         } else {
-            Configuration.INSTANCE.searchAlgorithm = SearchAlgorithm.values()[Configuration.INSTANCE.searchAlgorithm.ordinal() + 1];
+            Configuration.instance.searchAlgorithm = SearchAlgorithm.values()[Configuration.instance.searchAlgorithm.ordinal() + 1];
         }
     }
 }

@@ -7,7 +7,7 @@ public class MagnetStripe {
     private final String content;
 
     public MagnetStripe(String content) {
-        String encrypted = Configuration.INSTANCE.encryptionStrategy.encrypt(content, Configuration.INSTANCE.key);
+        String encrypted = Configuration.instance.encryptionStrategy.encrypt(content, Configuration.instance.key);
         if (encrypted.length() <= 100) {
             this.content = encrypted;
         } else {

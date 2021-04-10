@@ -4,11 +4,10 @@ import team16.configuration.Configuration;
 import team16.storage.pallet.Pallet;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class InterimPalletStorage {
 
-    private final Position[] positions = new Position[Configuration.INSTANCE.interimPositionsMax];
+    private final Position[] positions = new Position[Configuration.instance.interimPositionsMax];
 
     public InterimPalletStorage() {
         Arrays.setAll(positions, i -> new Position());
@@ -16,10 +15,13 @@ public class InterimPalletStorage {
 
     @SuppressWarnings("UnusedReturnValue")
     public boolean addPallet(Pallet pallet) {
-        return Objects.requireNonNull(Arrays.stream(positions)
+        if (Arrays.stream(positions).noneMatch(Position::hasRoom)) {
+            return false;
+        }
+        return Arrays.stream(positions)
                 .filter(Position::hasRoom)
                 .findFirst()
-                .orElse(null))
+                .orElseThrow()
                 .addPallet(pallet);
     }
 
@@ -28,10 +30,13 @@ public class InterimPalletStorage {
     }
 
     public Pallet removePallet() {
-        return Objects.requireNonNull(Arrays.stream(positions)
+        if (!hasPallets()) {
+            return null;
+        }
+        return Arrays.stream(positions)
                 .filter(Position::hasPallets)
                 .findFirst()
-                .orElse(null))
+                .orElseThrow()
                 .removePallet();
     }
 }

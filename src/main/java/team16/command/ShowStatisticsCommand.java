@@ -23,7 +23,7 @@ public class ShowStatisticsCommand implements ICommand {//SOLID-Prinzip: Command
 
     @Override
     public void execute() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Configuration.INSTANCE.reportOutput, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Configuration.instance.reportOutput, true))) {
             bw.write(new Report.Builder()
                     .addTimestamp()
                     .addExplosiveCount(explosiveCount)

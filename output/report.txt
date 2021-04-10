@@ -1,0 +1,51 @@
+06.04.2021 01:36:52.684: Dispatched Trucks: 1
+						 Package's: Express: 705, Normal: 3831, Value: 264
+						 Packages with Explosives: 2
+06.04.2021 01:37:03.767: Dispatched Trucks: 1
+						 Package's: Value: 264, Normal: 3831, Express: 705
+						 Packages with Explosives: 2
+06.04.2021 01:37:20.574: Dispatched Trucks: 1
+						 Package's: Express: 705, Normal: 3831, Value: 264
+						 Packages with Explosives: 2
+06.04.2021 03:08:33.028: Dispatched Trucks: 1
+						 Package's: Express: 705, Normal: 3831, Value: 264
+						 Packages with Explosives: 2
+06.04.2021 03:56:48.491: Dispatched Trucks: 1
+						 Package's: Normal: 3831, Express: 705, Value: 264
+						 Packages with Explosives: 2
+06.04.2021 03:58:19.939: Dispatched Trucks: 1
+						 Package's: Express: 705, Normal: 3831, Value: 264
+						 Packages with Explosives: 2
+06.04.2021 13:43:07.708: Dispatched Trucks: 1
+						 Package's: Express: 705, Normal: 3831, Value: 264
+						 Packages with Explosives: 2
+06.04.2021 14:23:35.904: Dispatched Trucks: 1
+						 Package's: Express: 705, Normal: 3831, Value: 264
+						 Packages with Explosives: 2
+06.04.2021 14:23:35.923: Dispatched Trucks: 1
+						 Package's: Express: 705, Normal: 3831, Value: 264
+						 Packages with Explosives: 2
+06.04.2021 14:31:37.495: Dispatched Trucks: 1
+						 Package's: Normal: 3831, Express: 705, Value: 264
+						 Packages with Explosives: 2
+06.04.2021 14:31:38.162: Dispatched Trucks: 2
+						 Package's: Normal: 7695, Express: 1398, Value: 507
+						 Packages with Explosives: 2
+06.04.2021 14:32:48.132: Dispatched Trucks: 5
+						 Package's: Express: 3583, Normal: 19167, Value: 1250
+						 Packages with Explosives: 4
+06.04.2021 14:34:12.052: Dispatched Trucks: 5
+						 Package's: Express: 3583, Normal: 19167, Value: 1250
+						 Packages with Explosives: 4
+06.04.2021 14:39:08.329: Dispatched Trucks: 5
+						 Package's: Normal: 19167, Express: 3583, Value: 1250
+						 Packages with Explosives: 4
+06.04.2021 14:39:53.044: Dispatched Trucks: 5
+						 Package's: Value: 1250, Express: 3583, Normal: 19167
+						 Packages with Explosives: 4
+07.04.2021 18:19:21.563: Dispatched Trucks: 5
+						 Package's: Express: 3583, Normal: 19167, Value: 1250
+						 Packages with Explosives: 4
+07.04.2021 18:25:12.683: Dispatched Trucks: 5
+						 Package's: Value: 1250, Express: 3583, Normal: 19167
+						 Packages with Explosives: 4

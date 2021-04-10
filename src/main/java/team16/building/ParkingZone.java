@@ -19,7 +19,7 @@ public class ParkingZone implements IZone {
 
     private final Queue<Truck> truckList;
     private final int maxTrucks;
-    private final AutonomousCar[] cars = new AutonomousCar[Configuration.INSTANCE.autonomousCarNum];
+    private final AutonomousCar[] cars = new AutonomousCar[Configuration.instance.autonomousCarNum];
     private final PackageSortingCenter center;
 
     public ParkingZone(int room, PackageSortingCenter center) {

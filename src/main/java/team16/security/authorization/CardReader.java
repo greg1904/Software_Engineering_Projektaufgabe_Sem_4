@@ -42,7 +42,7 @@ public class CardReader {
 
     @NotNull
     private String[] getCardContent(IDCard card) {
-        String dec = Configuration.INSTANCE.encryptionStrategy.decrypt(card.getStripe().getContent(), Configuration.INSTANCE.key);
+        String dec = Configuration.instance.encryptionStrategy.decrypt(card.getStripe().getContent(), Configuration.instance.key);
         String[] content = new String[CardContent.values().length];
         String[] parsed =  Arrays.stream(dec.split(";"))
                 .map(c -> c.substring(1))

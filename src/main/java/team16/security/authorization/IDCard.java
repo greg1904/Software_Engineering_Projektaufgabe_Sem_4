@@ -27,7 +27,7 @@ public class IDCard {
 
     public void increaseWrongPinCount() {
         wrongPinCount++;
-        if (wrongPinCount == Configuration.INSTANCE.maxWrongPinCount && state == CardState.ACTIVE) {
+        if (wrongPinCount == Configuration.instance.maxWrongPinCount && state == CardState.ACTIVE) {
             System.out.println("Card locked");
             state = CardState.LOCKED;
         }
@@ -39,7 +39,7 @@ public class IDCard {
 
     public void increaseWrongSuperPinCount() {
         wrongSuperPinCount++;
-        if (wrongSuperPinCount == Configuration.INSTANCE.maxWrongSuperPinCount && state == CardState.LOCKED) {
+        if (wrongSuperPinCount == Configuration.instance.maxWrongSuperPinCount && state == CardState.LOCKED) {
             System.out.println("Card invalid");
             state = CardState.INVALID;
         }

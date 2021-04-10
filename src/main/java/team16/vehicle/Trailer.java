@@ -8,33 +8,39 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Trailer {
-
-    private final Pallet[][] pallets = new Pallet[2][Configuration.INSTANCE.trailerPalletCount];
-
-    @SuppressWarnings("unused")
-    @NotNull
+    private final Pallet[][] pallets = new Pallet[2][Configuration.instance.trailerPalletCount];
+    
     public Pallet[] getLeftPallets() {
         return pallets[0];
     }
 
-    @SuppressWarnings("unused")
-    @NotNull
     public Pallet[] getRightPallets() {
         return pallets[1];
     }
 
     public boolean isFull() {
-        return Arrays.stream(pallets).flatMap(Arrays::stream).noneMatch(Objects::isNull);
+        for(int side=0;side< pallets.length; side++){
+            for(int i=0; i<pallets[side].length; i++){
+                if(pallets[side][i] == null)
+                    return false;
+            }
+        }
+        return true;
     }
 
-    public boolean hasRoom() {
-        return !isFull();
-    }
+//    public boolean hasRoom() {
+//        return !isFull();
+//    }
 
     public boolean hasLoad() {
-        return Arrays.stream(pallets)
-                .flatMap(Arrays::stream)
-                .anyMatch(Objects::nonNull);
+        for(int side=0;side< pallets.length; side++){
+            for(int i=0; i<pallets[side].length; i++){
+                if(pallets[side][i] != null)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean addPallet(Pallet pallet) {
@@ -50,21 +56,22 @@ public class Trailer {
         }
         return false;
     }
-
+    
+    public boolean addPalletLeft(Pallet pallet, int pos) {
+        if (pallets[0][pos] == null) {
+            pallets[0][pos] = pallet;
+            return true;
+        }
+        return false;
+    }
+    
+    
     public boolean addPalletRight(Pallet pallet) {
         for (int i = 0; i < pallets[1].length; i++) {
             if (pallets[1][i] == null) {
                 pallets[1][i] = pallet;
                 return true;
             }
-        }
-        return false;
-    }
-
-    public boolean addPalletLeft(Pallet pallet, int pos) {
-        if (pallets[0][pos] == null) {
-            pallets[0][pos] = pallet;
-            return true;
         }
         return false;
     }
@@ -77,6 +84,7 @@ public class Trailer {
         return false;
     }
 
+    
     public Pallet getNextPallet() {
         if (hasLoad()) {
             Pallet pallet = getNextPalletFromLeft();

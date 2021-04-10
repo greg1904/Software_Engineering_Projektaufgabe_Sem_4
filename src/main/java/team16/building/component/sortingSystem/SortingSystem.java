@@ -18,8 +18,8 @@ public class SortingSystem {
     private final Robot robot = new Robot(this);
     private final EmptyBoxesRoom boxesRoom = new EmptyBoxesRoom();
     private final EmptyPalletsRoom palletsRoom = new EmptyPalletsRoom();
-    private final PackageTrack[] packageTracks = new PackageTrack[Configuration.INSTANCE.packageTrackNum];
-    private final SortingTrack[] sortingTracks = new SortingTrack[Configuration.INSTANCE.sortingTrackNum];
+    private final PackageTrack[] packageTracks = new PackageTrack[Configuration.instance.packageTrackNum];
+    private final SortingTrack[] sortingTracks = new SortingTrack[Configuration.instance.sortingTrackNum];
     private final PackageSortingCenter center;
     private boolean isLocked;
 

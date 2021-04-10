@@ -81,7 +81,8 @@ public class ControlUnit {
     @Subscribe
     public void receive(PackageTrackFullEvent event) {
         packageTracks.add(event.getTrack());
-        if (packageTracks.size() == Configuration.INSTANCE.packageTrackNum) {
+        if (packageTracks.size() == Configuration.instance.packageTrackNum) {
+            packageTracks.clear();
             pushEvent(new StartSortingEvent());
         }
     }

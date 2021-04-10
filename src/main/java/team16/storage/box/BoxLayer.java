@@ -7,39 +7,44 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class BoxLayer {
+    private final Package[][] packages = new Package[2][Configuration.instance.boxLayerSize];
 
-    private final Package[][] packages = new Package[2][Configuration.INSTANCE.boxLayerSize];
-
-    public BoxLayer() {
-    }
-
-    @SuppressWarnings("unused")
     public Package[] getLeftPackages() {
         return packages[0];
     }
 
-    @SuppressWarnings("unused")
     public Package[] getRightPackages() {
         return packages[1];
     }
 
     public boolean isFull() {
-        return Arrays.stream(packages).flatMap(Arrays::stream).noneMatch(Objects::isNull);
+        for(int i=0; i<packages.length; i++){
+            for(int j=0; j<packages[i].length; j++){
+                if(packages[i][j] == null)
+                    return false;
+            }
+        }
+        return true;
     }
 
-    public boolean hasRoom() {
-        return !isFull();
-    }
+//    public boolean hasRoom() {
+//        return !isFull();
+//    }
 
     public boolean isEmpty() {
-        return Arrays.stream(packages).flatMap(Arrays::stream).noneMatch(Objects::nonNull);
+        for(int i=0; i<packages.length; i++){
+            for(int j=0; j<packages[i].length; j++){
+                if(packages[i][j] != null)
+                    return false;
+            }
+        }
+        return true;
     }
 
-    public boolean hasLoad() {
-        return !isEmpty();
-    }
+//    public boolean hasLoad() {
+//        return !isEmpty();
+//    }
 
-    @SuppressWarnings("UnusedReturnValue")
     public boolean addPackage(Package packet) {
         return addPackageLeft(packet) || addPackageRight(packet);
     }

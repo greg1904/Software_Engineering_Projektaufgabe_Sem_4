@@ -5,11 +5,10 @@ import team16.building.UnloadZone;
 import team16.event.TruckUnloadedEvent;
 
 public class AutonomousCar {
+    private final PackageSortingCenter packageSortingCenter;
 
-    private final PackageSortingCenter center;
-
-    public AutonomousCar(PackageSortingCenter center) {
-        this.center = center;
+    public AutonomousCar(PackageSortingCenter packageSortingCenter) {
+        this.packageSortingCenter = packageSortingCenter;
     }
 
     public void unloadZone(UnloadZone zone) {
@@ -17,11 +16,11 @@ public class AutonomousCar {
             System.out.println("Truck in Zone " + zone + " is unloading...");
             Truck truck = zone.getTruck();
             while (truck.hasLoad()) {
-                center.getInterimPalletStorage().addPallet(truck.getNextPallet());
+                packageSortingCenter.getInterimPalletStorage().addPallet(truck.getNextPallet());
             }
             System.out.println("Truck unloaded");
-            center.incrementTrucksDone();
-            center.pushEvent(new TruckUnloadedEvent(this, truck));
+            packageSortingCenter.incrementTrucksDone();
+            packageSortingCenter.pushEvent(new TruckUnloadedEvent(this, truck));
         }
     }
 }

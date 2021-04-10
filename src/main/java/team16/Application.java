@@ -1,183 +1,174 @@
 package team16;
 
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.units.qual.A;
 import team16.configuration.Configuration;
 import team16.storage.box.Box;
 import team16.storage.packet.Package;
+import team16.storage.packet.PackageType;
 import team16.storage.pallet.Pallet;
 import team16.vehicle.Truck;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Application {
-
-    private List<Package> packages;
-    private List<Box> boxes;
-    private List<Pallet> pallets;
+    private static HashMap<String, Package> packagesMap;
+    private static HashMap<String, Box> boxesMap;
+    private static HashMap<Integer, Pallet> palletsMap;
+    private static HashMap<String, Truck> trucksMap;
 
     public static void main(String[] args) {
-        Application app = new Application();
-        app.checkIfOutputDirExist();
-        app.processPrint(
-                app.processPackages(),
-                app.processBoxes(),
-                app.processPallets(),
-                app.processTrucks()
-        );
+        loadData();
+
+        executeMainLoop();
     }
 
-    @NotNull
-    private String processPackages() {
-        long start = System.nanoTime();
-
-        String packageString = createPackages();
-
-        long now = System.nanoTime();
-        printTime("Package", Duration.ofNanos(now - start));
-        return packageString;
+    private static void executeMainLoop() {
+        //TODO
     }
 
-    @NotNull
-    private String processBoxes() {
-        long start = System.nanoTime();
+    private static void createPackages() {
+        StringBuilder packageBuilder = new StringBuilder(Configuration.instance.packageContentSize[0] *
+                Configuration.instance.packageContentSize[1] *
+                Configuration.instance.packageContentSize[2] *
+                Configuration.instance.packageCount);
 
-        String boxString = createBoxes();
+        List<Package> generatedPackages = new ArrayList<>(Configuration.instance.packageCount);
+        packagesMap = new HashMap<>(Configuration.instance.packageCount);
 
-        long now = System.nanoTime();
-        printTime("Box", Duration.ofNanos(now - start));
-        return boxString;
-    }
+        for(int i = 0; i< Configuration.instance.packageCount; i++){
+            generatedPackages.add(new Package());
+        }
 
-    @NotNull
-    private String processPallets() {
-        long start = System.nanoTime();
+        Collections.shuffle(generatedPackages);
 
-        String palletString = createPallets();
-
-        long now = System.nanoTime();
-        printTime("Pallet", Duration.ofNanos(now - start));
-        return palletString;
-    }
-
-    @NotNull
-    private String processTrucks() {
-        long start = System.nanoTime();
-
-        String truckString = createTrucks();
-
-        long now = System.nanoTime();
-        printTime("Truck", Duration.ofNanos(now - start));
-        return truckString;
-    }
-
-    private void processPrint(String packageString, String boxString, String palletString, String truckString) {
-        long start = System.nanoTime();
-        File packageFile = new File(Configuration.INSTANCE.packageOutput);
-        File boxFile = new File(Configuration.INSTANCE.boxOutput);
-        File palletFile = new File(Configuration.INSTANCE.palletOutput);
-        File truckFile = new File(Configuration.INSTANCE.truckOutput);
-
-        print(packageFile, packageString);
-        print(boxFile, boxString);
-        print(palletFile, palletString);
-        print(truckFile, truckString);
-
-        long now = System.nanoTime();
-        printTime("Print", Duration.ofNanos(now - start));
-    }
-
-    @NotNull
-    private String createPackages() {
-        packages = IntStream.range(0, Configuration.INSTANCE.packageCount)
-                .parallel().mapToObj(i -> new Package())
-                .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.INSTANCE.packageCount)));
-        Collections.shuffle(packages);
         Random r = new Random();
-        IntStream.range(0, 4).forEach(i -> packages.get(r.nextInt(packages.size())).addContent("exp!os:ve"));
+        List<Integer> randomPositions = new ArrayList<>();
+        for(int i = 0; i<4; i++){
+            int rand = r.nextInt(generatedPackages.size());
+            while (randomPositions.contains(rand)){
+                rand = r.nextInt(generatedPackages.size());
+            }
+            randomPositions.add(rand);
+        }
 
-        StringBuilder packageBuilder = new StringBuilder(Configuration.INSTANCE.packageContentSize[0] *
-                Configuration.INSTANCE.packageContentSize[1] *
-                Configuration.INSTANCE.packageContentSize[2] *
-                Configuration.INSTANCE.packageCount);
-        packages.forEach(pack -> {
+        for(Integer position : randomPositions){
+            generatedPackages.get(position).addContent("exp!os:ve");
+        }
+
+////        packages = IntStream.range(0, Configuration.instance.packageCount)
+////                .parallel().mapToObj(i -> new Package())
+////                .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.instance.packageCount)));
+////        Collections.shuffle(packages);
+//        Random r = new Random();
+//        IntStream.range(0, 4).forEach(i -> packages.get(r.nextInt(packages.size())).addContent("exp!os:ve"));
+
+
+        for(Package p: generatedPackages){
+            packagesMap.put(p.getId(), p);
+
             packageBuilder.append(String.format(Locale.US, "[%s],[%s],[%05d],[%s],[%.2f]",
-                    pack.getId(), pack.getContentAsString(), pack.getZipCode(), pack.getType().name(), pack.getWeight()));
+                    p.getId(), p.getContentAsString(), p.getZipCode(), p.getType().name(), p.getWeight()));
             packageBuilder.append(System.lineSeparator());
-        });
-        return packageBuilder.toString();
+        }
+
+        writeToFile(new File(Configuration.instance.packageOutput), packageBuilder.toString());
     }
 
-    @NotNull
-    private String createBoxes() {
-        boxes = IntStream.range(0, Configuration.INSTANCE.boxesCount)
-                .mapToObj(i -> new Box())
-                .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.INSTANCE.boxesCount)));
+    private static void createBoxes() {
         StringBuilder boxBuilder = new StringBuilder();
-        Iterator<Package> iterator = packages.iterator();
-        boxes.forEach(box -> {
+        boxesMap = new HashMap<>(Configuration.instance.boxesCount);
+
+        List<Box> boxes = new ArrayList<>(Configuration.instance.boxesCount);
+
+        for(int i = 0; i< Configuration.instance.boxesCount; i++){
+            boxes.add(new Box());
+        }
+
+
+        Iterator<Package> packageIterator = packagesMap.values().iterator();
+        for(Box box: boxes){
             boxBuilder.append(String.format("[%s]", box.getId()));
-            while (box.hasRoom() && iterator.hasNext()) {
-                Package pack = iterator.next();
+
+            while(box.hasRoom() && packageIterator.hasNext()){
+                Package pack = packageIterator.next();
                 box.addPackage(pack);
                 boxBuilder.append(String.format(",[%s]", pack.getId()));
             }
             boxBuilder.append(System.lineSeparator());
-        });
-        return boxBuilder.toString();
+            boxesMap.put(box.getId(), box);
+        }
+
+        writeToFile(new File(Configuration.instance.boxOutput), boxBuilder.toString());
     }
 
-    @NotNull
-    private String createPallets() {
-        pallets = IntStream.range(0, Configuration.INSTANCE.palletCount)
-                .mapToObj(i -> new Pallet())
-                .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.INSTANCE.palletCount)));
+    private static void createPallets() {
         StringBuilder palletBuilder = new StringBuilder();
-        Iterator<Box> iterator = boxes.iterator();
-        pallets.forEach(pallet -> {
-            while (pallet.hasRoom() && iterator.hasNext()) {
-                Box box = iterator.next();
-                pallet.addBox(box);
-                palletBuilder.append(String.format("[%d],[%d],[%d],[%s]", pallet.getId(), pallet.getPositionIndex(box), pallet.getLayerIndex(box), box.getId()));
+        palletsMap = new HashMap<>(Configuration.instance.palletCount);
+        List<Pallet> pallets = new ArrayList<>(Configuration.instance.palletCount);
+
+        for(int i=0; i<Configuration.instance.palletCount; i++){
+            pallets.add(new Pallet());
+        }
+
+        Iterator<Box> boxIterator = boxesMap.values().iterator();
+        for(Pallet p : pallets){
+            while (p.hasRoom() && boxIterator.hasNext()) {
+                Box box = boxIterator.next();
+                p.addBox(box);
+                palletBuilder.append(String.format("[%d],[%d],[%d],[%s]", p.getId(), p.getPositionIndex(box), p.getLayerIndex(box), box.getId()));
                 palletBuilder.append(System.lineSeparator());
             }
-        });
-        return palletBuilder.toString();
+
+            palletsMap.put(p.getId(), p);
+        }
+//        pallets.forEach(pallet -> {
+//            while (pallet.hasRoom() && iterator.hasNext()) {
+//                Box box = iterator.next();
+//                pallet.addBox(box);
+//                palletBuilder.append(String.format("[%d],[%d],[%d],[%s]", pallet.getId(), pallet.getPositionIndex(box), pallet.getLayerIndex(box), box.getId()));
+//                palletBuilder.append(System.lineSeparator());
+//            }
+//        });
+
+        writeToFile(new File(Configuration.instance.palletOutput), palletBuilder.toString());
     }
 
-    @NotNull
-    private String createTrucks() {
-        List<Truck> trucks = IntStream.range(0, Configuration.INSTANCE.truckCount)
-                .mapToObj(i -> new Truck())
-                .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.INSTANCE.truckCount)));
+    private static void createTrucks() {
         StringBuilder truckBuilder = new StringBuilder();
-        Iterator<Pallet> iterator = pallets.iterator();
-        trucks.forEach(truck -> {
-            while (truck.hasRoom() && iterator.hasNext()) {
-                Pallet pallet = iterator.next();
-                truck.addPallet(pallet);
-                int[] positions = truck.getPosition(pallet);
-                truckBuilder.append(String.format("[%s],[%s],[%d],[%d]", truck.getId(), positions[0] == 0 ? "left" : "right", positions[1], pallet.getId()));
+        trucksMap = new HashMap<>();
+        List<Truck> trucks = new ArrayList<>();
+
+        for(int i=0; i<Configuration.instance.truckCount; i++){
+            trucks.add(new Truck());
+        }
+        
+
+        Iterator<Pallet> palletIterator = palletsMap.values().iterator();
+        
+        for(Truck t:trucks){
+            while (t.hasRoom() && palletIterator.hasNext()) {
+                Pallet pallet = palletIterator.next();
+                t.addPallet(pallet);
+                int[] positions = t.getPosition(pallet);
+                truckBuilder.append(String.format("[%s],[%s],[%d],[%d]", t.getId(), positions[0] == 0 ? "left" : "right", positions[1], pallet.getId()));
                 truckBuilder.append(System.lineSeparator());
             }
-        });
-        return truckBuilder.toString();
+            trucksMap.put(t.getId(), t);
+        }
+
+        writeToFile(new File(Configuration.instance.truckOutput), truckBuilder.toString());
     }
 
-    private void print(File f, String s) {
+    private static void writeToFile(File f, String s) {
+        f.delete();
+
+        System.out.println("Writing data in File: " + f.getAbsolutePath());
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(f), s.length())) {
             bw.write(s);
         } catch (IOException e) {
@@ -185,18 +176,146 @@ public class Application {
         }
     }
 
-    private void printTime(String type, Duration d) {
-        System.out.printf("%s finished: %02d:%02d.%03d" + System.lineSeparator(), type, d.toMinutesPart(), d.toSecondsPart(), d.toMillisPart());
+    private static void printTime(String type, Duration d) {
+        System.out.println("Type: " + type + " finished: " + d.toMinutesPart() + "m - " + d.toSecondsPart() + "s - " + d.toMillisPart() + "ms");
     }
 
-    private void checkIfOutputDirExist() {
-        if (Files.notExists(Paths.get(Configuration.INSTANCE.outputDir))) {
+    private static void loadData() {
+        boolean creationNeeded = false;
+        String[] neededFiles = {
+                "base_box.csv",
+                "base_package.csv",
+                "base_pallet.csv",
+                "base_truck.csv",
+        };
+
+        if (Files.notExists(Paths.get(Configuration.instance.outputDir))) {
+            creationNeeded = true;
             try {
-                Files.createDirectory(Paths.get(Configuration.INSTANCE.outputDir));
+                Files.createDirectory(Paths.get(Configuration.instance.outputDir));
+                createData();
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);
             }
+        }else{
+            for (String s : neededFiles){
+                if(Files.notExists(Paths.get(Configuration.instance.outputDir + Configuration.instance.fileSeparator + s))){
+                    creationNeeded = true;
+                }
+            }
+
+            if(creationNeeded){
+                createData();
+            }
         }
+
+        if(!creationNeeded){
+            readFiles();
+        }
+    }
+
+    private static void readFiles() {
+        readPackages();
+        readBoxes();
+        readPallets();
+        readTrucks();
+    }
+    
+    private static Queue<String> readFileLines(File f){
+        Queue<String> lines = new ArrayDeque<>();
+
+        try (BufferedReader bw = new BufferedReader(new FileReader(f))) {
+            String line;
+            while((line = bw.readLine()) != null){
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return lines;
+    }
+
+    private static String[] removeSurroundingBrackets(String[] data){
+        for(int i=0; i<data.length; i++){
+            data[i] = data[i].trim().substring(1, data[i].length()-2).trim(); //remove []
+        }
+
+        return data;
+    }
+
+    private static void readPackages() {
+        packagesMap = new HashMap<>(Configuration.instance.packageCount);
+        Queue<String> packageData = readFileLines(new File(Configuration.instance.packageOutput));
+
+        for(String line:packageData){
+            String[] data = removeSurroundingBrackets(line.split(","));
+
+            PackageType type = data[3].equals("NORMAL") ? PackageType.NORMAL :
+                    data[3].equals("EXPRESS") ? PackageType.EXPRESS : PackageType.VALUE;
+
+            packagesMap.put(data[0], new Package(data[0], data[1], Integer.parseInt(data[2]), type, Double.parseDouble(data[4])));
+        }
+    }
+
+
+    private static void readBoxes() {
+        boxesMap = new HashMap<>(Configuration.instance.boxesCount);
+        Queue<String> boxData = readFileLines(new File(Configuration.instance.boxOutput));
+
+        for(String line:boxData){
+            String[] data = removeSurroundingBrackets(line.split(","));
+
+            Box box = new Box(data[0]);
+
+            for(int i=1; i<data.length; i++){
+                box.addPackage(packagesMap.get(data[i]));
+            }
+
+            boxesMap.put(box.getId(), box);
+        }
+    }
+
+    private static void readPallets() {
+        palletsMap = new HashMap<>(Configuration.instance.palletCount);
+        Queue<String> palletData = readFileLines(new File(Configuration.instance.palletOutput));
+
+        for(String line: palletData){
+            String[] data = removeSurroundingBrackets(line.split(","));
+
+            if(palletsMap.containsKey(Integer.parseInt(data[0]))){
+                palletsMap.get(Integer.parseInt(data[0])).addBox(boxesMap.get(data[3]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+            }else{
+                Pallet pallet = new Pallet(Integer.parseInt(data[0]));
+                pallet.addBox(boxesMap.get(data[3]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+                palletsMap.put(pallet.getId(), pallet);
+            }
+        }
+    }
+
+    private static void readTrucks() {
+        trucksMap = new HashMap<>();
+        Queue<String> truckData = readFileLines(new File(Configuration.instance.truckOutput));
+
+        for (String line:truckData) {
+            String[] data = removeSurroundingBrackets(line.split(","));
+            boolean isLeft = data[1].equals("left");
+
+            if(trucksMap.containsKey(data[0])){
+                trucksMap.get(data[0]).addPallet(palletsMap.get(Integer.parseInt(data[3])), Integer.parseInt(data[2]), isLeft);
+            }else{
+                Truck truck = new Truck(data[0]);
+                truck.addPallet(palletsMap.get(Integer.parseInt(data[3])), Integer.parseInt(data[2]), isLeft);
+                trucksMap.put(data[0], truck);
+            }
+        }
+    }
+    
+    private static void createData() {
+        createPackages();
+        createBoxes();
+        createPallets();
+        createTrucks();
     }
 }

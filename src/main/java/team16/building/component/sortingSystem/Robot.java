@@ -27,7 +27,7 @@ public class Robot {
             Pallet pallet = storage.removePallet();
             while (pallet.hasLoad()) {
                 Box box = pallet.getNextBox();
-                for (BoxLayer layer : box.getLayer()) {
+                for (BoxLayer layer : box.getBoxLayers()) {
                     while (layer.hasLoad()) {
                         Objects.requireNonNull(Arrays.stream(system.getPackageTracks())
                                 .filter(PackageTrack::hasRoom)

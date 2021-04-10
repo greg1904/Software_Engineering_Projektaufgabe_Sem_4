@@ -3,7 +3,7 @@ package team16.configuration;
 import team16.security.EncryptionStrategy;
 
 public enum Configuration {
-    INSTANCE;
+    instance;
 
     public final String key = "dhbw";
     public final EncryptionStrategy encryptionStrategy = EncryptionStrategy.AES;
@@ -34,6 +34,7 @@ public enum Configuration {
     public final int palletCount = 50;
     public final int[] palletPositions = {2, 2};
     public final int truckCount = 5;
+    public final int truckIdLength = 4;
     public final int trailerPalletCount = 5;
     public final int interimPositionsMax = 5;
     public final int interimPositionsMaxRoom = 2;

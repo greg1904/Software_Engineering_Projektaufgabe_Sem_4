@@ -1,36 +1,19 @@
 package team16.vehicle;
 
+import team16.configuration.Configuration;
+import team16.storage.IdGenerator;
 import team16.storage.pallet.Pallet;
 
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-@SuppressWarnings("UnusedReturnValue")
 public class Truck {
-
-    private final static char[] idPool;
-
-    static {
-        StringBuilder builder = new StringBuilder();
-        for (char c = 'A'; c < 'Z' + 1; c++) {
-            builder.append(c);
-        }
-        for (char c = '0'; c < '9' + 1; c++) {
-            builder.append(c);
-        }
-        idPool = builder.toString().toCharArray();
-    }
-
     private final String id;
     private final Trailer trailer = new Trailer();
 
     public Truck() {
-        this(IntStream.range(0, 4)
-                .mapToObj(i -> String.valueOf(idPool[new Random().nextInt(idPool.length)]))
-                .collect(Collectors.joining()));
+        this.id = IdGenerator.getId(Configuration.instance.truckIdLength);
     }
-
+    
     public Truck(String id) {
         this.id = id;
     }
@@ -41,6 +24,13 @@ public class Truck {
 
     public boolean addPallet(Pallet pallet) {
         return trailer.addPallet(pallet);
+    }
+
+    public boolean addPallet(Pallet pallet, int pos, boolean isLeft){
+        if(isLeft)
+            return trailer.addPalletLeft(pallet, pos);
+        else
+            return trailer.addPalletRight(pallet, pos);
     }
 
     public boolean addPalletLeft(Pallet pallet, int pos) {
@@ -56,7 +46,7 @@ public class Truck {
     }
 
     public boolean hasRoom() {
-        return trailer.hasRoom();
+        return !trailer.isFull();
     }
 
     public boolean hasLoad() {

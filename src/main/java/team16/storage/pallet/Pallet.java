@@ -9,7 +9,7 @@ public class Pallet {
 
     private static int currentId = 1;
     private final int id;
-    private final Position[][] positions = new Position[Configuration.INSTANCE.palletPositions[0]][Configuration.INSTANCE.palletPositions[1]];
+    private final Position[][] positions = new Position[Configuration.instance.palletPositions[0]][Configuration.instance.palletPositions[1]];
 
     public Pallet() {
         this(currentId++);

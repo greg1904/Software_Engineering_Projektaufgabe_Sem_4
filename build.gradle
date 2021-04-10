@@ -2,8 +2,6 @@ plugins {
     id 'application'
 }
 
-mainClassName = "team16.Application"
-
 group 'dhbw'
 
 repositories {

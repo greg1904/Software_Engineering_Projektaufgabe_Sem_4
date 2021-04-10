@@ -39,13 +39,13 @@ public class InitCommand implements ICommand {//SOLID-Prinzip: Command
 
     private List<Package> getPackages() {
         List<Package> packages = new ArrayList<>(1);
-        try (BufferedReader br = new BufferedReader(new FileReader(Configuration.INSTANCE.packageOutput))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(Configuration.instance.packageOutput))) {
             packages = br.lines()
                     .map(line -> Arrays.stream(line.split(","))
                             .map(c -> c.substring(1, c.length() - 1))
                             .toArray(String[]::new))
                     .map(pck -> new Package(pck[0], pck[1], Integer.parseInt(pck[2]), PackageType.valueOf(pck[3]), Double.parseDouble(pck[4])))
-                    .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.INSTANCE.packageCount)));
+                    .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.instance.packageCount)));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -56,13 +56,13 @@ public class InitCommand implements ICommand {//SOLID-Prinzip: Command
     private List<Box> getBoxes() {
         List<Package> packages = getPackages();
         List<Box> boxes = new ArrayList<>(1);
-        try (BufferedReader br = new BufferedReader(new FileReader(Configuration.INSTANCE.boxOutput))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(Configuration.instance.boxOutput))) {
             boxes = br.lines()
                     .map(line -> Arrays.stream(line.split(","))
                             .map(c -> c.substring(1, c.length() - 1))
                             .toArray(String[]::new))
                     .map(pck -> new Box(pck[0]))
-                    .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.INSTANCE.boxesCount)));
+                    .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.instance.boxesCount)));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -77,9 +77,9 @@ public class InitCommand implements ICommand {//SOLID-Prinzip: Command
 
     private List<Pallet> getPallets() {
         List<Box> boxes = getBoxes();
-        List<Pallet> pallets = new ArrayList<>(Configuration.INSTANCE.palletCount);
+        List<Pallet> pallets = new ArrayList<>(Configuration.instance.palletCount);
         Map<String, List<String>> palletMap = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(Configuration.INSTANCE.palletOutput))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(Configuration.instance.palletOutput))) {
             palletMap = br.lines()
                     .filter(line -> !line.trim().isEmpty())
                     .collect(Collectors.groupingBy(line -> line.substring(0, line.indexOf(","))));
@@ -120,9 +120,9 @@ public class InitCommand implements ICommand {//SOLID-Prinzip: Command
 
     private List<Truck> getTrucks() {
         List<Pallet> pallets = getPallets();
-        List<Truck> trucks = new ArrayList<>(Configuration.INSTANCE.truckCount);
+        List<Truck> trucks = new ArrayList<>(Configuration.instance.truckCount);
         Map<String, List<String>> truckMap = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(Configuration.INSTANCE.truckOutput))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(Configuration.instance.truckOutput))) {
             truckMap = br.lines()
                     .filter(line -> !line.trim().isEmpty())
                     .collect(Collectors.groupingBy(line -> line.substring(0, line.indexOf(","))));

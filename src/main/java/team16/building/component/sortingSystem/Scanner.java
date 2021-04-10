@@ -6,6 +6,6 @@ import team16.storage.packet.Package;
 public class Scanner {
 
     public boolean checkPackage(Package packet) {
-        return Configuration.INSTANCE.searchAlgorithm.checkPackage(packet);
+        return Configuration.instance.searchAlgorithm.checkPackage(packet);
     }
 }
