@@ -120,3 +120,10 @@ so0djd: NORMAL
 				408q4u: NORMAL
 				3tnqn6: NORMAL
 				so0djd: NORMAL
+10.04.2021 19:04:08.161: Processed Trucks: 5
+			 ##Packages: VALUE - 1235, EXPRESS - 3555, NORMAL - 19210
+			 ##Explosive Packages: 
+				ljzjph: NORMAL
+				408q4u: NORMAL
+				3tnqn6: NORMAL
+				so0djd: NORMAL

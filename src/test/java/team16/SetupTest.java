@@ -6,15 +6,11 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import team16.building.PackageSortingCenter;
-import team16.building.UnloadZone;
-import team16.building.component.Terminal;
-import team16.command.ChangeSearchAlgorithmCommand;
-import team16.command.InitCommand;
-import team16.command.NextCommand;
-import team16.command.ShowStatisticsCommand;
-import team16.command.ShutdownCommand;
-import team16.employee.Supervisor;
+import team16.communication.commands.*;
+import team16.employees.roles.Supervisor;
+import team16.location.PackageSortingCenter;
+import team16.location.logistics.zones.UnloadZone;
+import team16.location.access.hardware.Terminal;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -36,7 +32,7 @@ public class SetupTest {
         assertNotNull(center);//Test Nummer 1 -> Zentrum wird erstellt.
         Terminal terminal = center.getTerminal();
         assertNotNull(terminal);
-        Supervisor supervisor = new Supervisor("Andreas Köhler", 8596, 1996, 851996, true);
+        Supervisor supervisor = new Supervisor("Testi Testmann", 8596, 1996, 851996, true);
         assertFalse(terminal.login(1996));
         assertTrue(terminal.insertCard(supervisor.getCard()));
         assertFalse(terminal.startFunctionOnTouchPad(new ChangeSearchAlgorithmCommand()));

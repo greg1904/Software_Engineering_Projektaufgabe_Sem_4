@@ -5,14 +5,15 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import team16.building.PackageSortingCenter;
-import team16.building.ParkingZone;
-import team16.configuration.Configuration;
-import team16.storage.box.Box;
-import team16.storage.box.BoxLayer;
-import team16.storage.packet.Package;
-import team16.storage.pallet.Pallet;
-import team16.vehicle.Truck;
+import team16.communication.commands.InitCommand;
+import team16.location.PackageSortingCenter;
+import team16.location.logistics.zones.ParkingZone;
+import team16.base.Configuration;
+import team16.data.datainstances.box.Box;
+import team16.data.datainstances.box.BoxLayer;
+import team16.data.datainstances.packages.Package;
+import team16.data.datainstances.pallet.Pallet;
+import team16.data.transport.Truck;
 
 import java.time.Duration;
 
@@ -60,7 +61,7 @@ class InitCommandTest {
                     assertNotNull(box);
                     boxCount++;
                     for (BoxLayer layer : box.getBoxLayers()) {
-                        while (layer.hasLoad()) {
+                        while (!layer.isEmpty()) {
                             Package packet = layer.getNextPackage();
                             assertNotNull(packet);
                             packageCount++;
