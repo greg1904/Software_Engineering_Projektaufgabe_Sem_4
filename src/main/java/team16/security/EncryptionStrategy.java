@@ -10,22 +10,22 @@ import java.util.Base64;
 public enum EncryptionStrategy {//SOLID-Prinzip: Strategy
     AES, DES;
 
-    public String decrypt(String encryptedMessage, String key) {
+    public String decrypt(String cypher, String key) {
         try {
             Cipher cipher = Cipher.getInstance(name() + "/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, generate(key));
-            return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedMessage)));
+            return new String(cipher.doFinal(Base64.getDecoder().decode(cypher)));
         } catch (Exception ex) {
             ex.printStackTrace();
             return "";
         }
     }
 
-    public String encrypt(String plainMessage, String key) {
+    public String encrypt(String message, String key) {
         try {
             Cipher cipher = Cipher.getInstance(name() + "/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, generate(key));
-            return Base64.getEncoder().encodeToString(cipher.doFinal(plainMessage.getBytes(StandardCharsets.UTF_8)));
+            return Base64.getEncoder().encodeToString(cipher.doFinal(message.getBytes(StandardCharsets.UTF_8)));
         } catch (Exception ex) {
             ex.printStackTrace();
             return "";

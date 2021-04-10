@@ -1,6 +1,6 @@
 package team16.employee;
 
 @SuppressWarnings("unused")
-public enum AdminProfile {
+public enum AdminProfileType {
     A, B, C
 }

@@ -14,7 +14,6 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-@SuppressWarnings({"UnstableApiUsage"})
 public class ParkingZone implements IZone {
 
     private final Queue<Truck> truckList;

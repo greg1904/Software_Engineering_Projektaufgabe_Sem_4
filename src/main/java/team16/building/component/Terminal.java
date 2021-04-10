@@ -2,20 +2,19 @@ package team16.building.component;
 
 import team16.command.ICommand;
 import team16.security.ProxyControlUnit;
-import team16.security.authorization.CardReader;
-import team16.security.authorization.CardState;
+import team16.security.authorization.IDCardReader;
+import team16.security.authorization.IDCardState;
 import team16.security.authorization.IDCard;
 
 public class Terminal {
-
-    private final CardReader cardReader;
+    private final IDCardReader IDCardReader;
     private final TouchPad touchPad = new TouchPad(this);
     private final ProxyControlUnit proxy;
     private IDCard currentCard;
     private boolean loggedIn = false;
 
-    public Terminal(CardReader cardReader, ProxyControlUnit proxy) {
-        this.cardReader = cardReader;
+    public Terminal(IDCardReader IDCardReader, ProxyControlUnit proxy) {
+        this.IDCardReader = IDCardReader;
         this.proxy = proxy;
     }
 
@@ -25,28 +24,28 @@ public class Terminal {
             return false;
         }
         System.out.println("Execute Command " + command.getClass().getSimpleName());
-        return touchPad.accessControlUnit(cardReader.getRole(currentCard), command);
+        return touchPad.accessControlUnit(IDCardReader.getRole(currentCard), command);
     }
 
     public boolean insertCard(IDCard card) {
         if (currentCard == null) {
-            System.out.println("Card inserted!");
+            System.out.println("Card has been inserted!");
             currentCard = card;
             return true;
         }
-        System.out.println("There is already a card inserted!");
+        System.out.println("There is already a card in the Card Reader!");
         return false;
     }
 
     public IDCard ejectCard() {
         if (!checkIfCardInserted()) {
-            System.out.println("No Card Injected!");
+            System.out.println("No Card available to eject!");
             return null;
         }
         IDCard card = currentCard;
         currentCard = null;
         loggedIn = false;
-        System.out.println("Card ejected!");
+        System.out.println("Card has been ejected!");
         return card;
     }
 
@@ -54,7 +53,7 @@ public class Terminal {
         if (!checkIfCardInserted()) {
             return false;
         }
-        boolean ret = cardReader.validateCard(currentCard, pin);
+        boolean ret = IDCardReader.validateCard(currentCard, pin);
         if (!ret) {
             System.out.println("Wrong Pin: " + pin);
             currentCard.increaseWrongPinCount();
@@ -66,27 +65,25 @@ public class Terminal {
         return ret;
     }
 
-    @SuppressWarnings("unused")
     public boolean unlockCard(int superPin) {
         if (!checkIfCardInserted()) {
             System.out.println("No Card inserted!");
             return false;
         }
-        boolean ret = cardReader.unlockCard(currentCard, superPin);
+        boolean ret = IDCardReader.unlockCard(currentCard, superPin);
         if (!ret) {
             System.out.println("Wrong superPIN: " + superPin);
             currentCard.increaseWrongSuperPinCount();
         } else {
             System.out.println("Successfully unlocked!");
-            changeCardState(CardState.ACTIVE);
+            changeCardState(IDCardState.ACTIVE);
             currentCard.resetWrongSuperPinCount();
         }
         return ret;
     }
 
-    @SuppressWarnings("SameParameterValue")
-    private void changeCardState(CardState state) {
-        cardReader.changeCardState(currentCard, state);
+    private void changeCardState(IDCardState state) {
+        IDCardReader.changeCardState(currentCard, state);
     }
 
     private boolean checkIfLoggedIn() {
@@ -95,7 +92,7 @@ public class Terminal {
 
     private boolean checkIfCardInserted() {
         if (currentCard == null) {
-            System.out.println("Please insert Card first");
+            System.out.println("A Card has to be inserted.");
             return false;
         }
         return true;

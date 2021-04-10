@@ -3,49 +3,48 @@ package team16.security.authorization;
 import team16.configuration.Configuration;
 
 public class IDCard {
-
-    private final MagnetStripe stripe;
-    private CardState state = CardState.ACTIVE;
-    private int wrongPinCount = 0;
-    private int wrongSuperPinCount = 0;
+    private final MagnetStripe magnetStripe;
+    private IDCardState state = IDCardState.ACTIVE;
+    private int wrongPinEnteredCount = 0;
+    private int wrongSuperPinEnteredCount = 0;
 
     public IDCard(MagnetStripe stripe) {
-        this.stripe = stripe;
+        this.magnetStripe = stripe;
     }
 
-    public MagnetStripe getStripe() {
-        return stripe;
+    public MagnetStripe getMagnetStripe() {
+        return magnetStripe;
     }
 
-    public CardState getState() {
+    public IDCardState getState() {
         return state;
     }
 
-    public void setState(CardState state) {
+    public void setState(IDCardState state) {
         this.state = state;
     }
 
     public void increaseWrongPinCount() {
-        wrongPinCount++;
-        if (wrongPinCount == Configuration.instance.maxWrongPinCount && state == CardState.ACTIVE) {
+        wrongPinEnteredCount++;
+        if (wrongPinEnteredCount == Configuration.instance.maxWrongPinCount && state == IDCardState.ACTIVE) {
             System.out.println("Card locked");
-            state = CardState.LOCKED;
+            state = IDCardState.LOCKED;
         }
     }
 
     public void resetWrongPinCount() {
-        wrongPinCount = 0;
+        wrongPinEnteredCount = 0;
     }
 
     public void increaseWrongSuperPinCount() {
-        wrongSuperPinCount++;
-        if (wrongSuperPinCount == Configuration.instance.maxWrongSuperPinCount && state == CardState.LOCKED) {
+        wrongSuperPinEnteredCount++;
+        if (wrongSuperPinEnteredCount == Configuration.instance.maxWrongSuperPinCount && state == IDCardState.LOCKED) {
             System.out.println("Card invalid");
-            state = CardState.INVALID;
+            state = IDCardState.INVALID;
         }
     }
 
     public void resetWrongSuperPinCount() {
-        wrongSuperPinCount = 0;
+        wrongSuperPinEnteredCount = 0;
     }
 }

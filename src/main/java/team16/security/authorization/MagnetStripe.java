@@ -3,19 +3,18 @@ package team16.security.authorization;
 import team16.configuration.Configuration;
 
 public class MagnetStripe {
+    private final String storedData;
 
-    private final String content;
-
-    public MagnetStripe(String content) {
-        String encrypted = Configuration.instance.encryptionStrategy.encrypt(content, Configuration.instance.key);
+    public MagnetStripe(String data) {
+        String encrypted = Configuration.instance.encryptionStrategy.encrypt(data, Configuration.instance.encryptionKey);
         if (encrypted.length() <= 100) {
-            this.content = encrypted;
+            this.storedData = encrypted;
         } else {
-            this.content = encrypted.substring(0, 100);
+            this.storedData = encrypted.substring(0, 100);
         }
     }
 
-    public String getContent() {
-        return content;
+    public String getStoredData() {
+        return storedData;
     }
 }

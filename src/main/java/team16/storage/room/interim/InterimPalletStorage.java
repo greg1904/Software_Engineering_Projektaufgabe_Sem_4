@@ -6,14 +6,12 @@ import team16.storage.pallet.Pallet;
 import java.util.Arrays;
 
 public class InterimPalletStorage {
-
     private final Position[] positions = new Position[Configuration.instance.interimPositionsMax];
 
     public InterimPalletStorage() {
         Arrays.setAll(positions, i -> new Position());
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public boolean addPallet(Pallet pallet) {
         if (Arrays.stream(positions).noneMatch(Position::hasRoom)) {
             return false;

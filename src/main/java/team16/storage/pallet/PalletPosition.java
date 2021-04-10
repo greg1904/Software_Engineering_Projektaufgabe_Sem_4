@@ -6,21 +6,31 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
-public class Position {
-
+public class PalletPosition {
     private final Box[] boxes = new Box[3];
 
     public boolean hasRoom() {
         return !isFilled();
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isFilled() {
-        return Arrays.stream(boxes).noneMatch(Objects::isNull);
+        for(Box b:boxes){
+            if(b == null)
+                return false;
+        }
+
+        return true;
+//        return Arrays.stream(boxes).noneMatch(Objects::isNull);
     }
 
     public boolean hasLoad() {
-        return Arrays.stream(boxes).anyMatch(Objects::nonNull);
+        for(Box b:boxes){
+            if(b != null)
+                return true;
+        }
+
+        return false;
+//        return Arrays.stream(boxes).anyMatch(Objects::nonNull);
     }
 
     public boolean addBox(Box box) {
@@ -35,7 +45,6 @@ public class Position {
         return false;
     }
 
-    @SuppressWarnings("unused")
     public Box[] getBoxes() {
         return boxes;
     }
@@ -66,6 +75,11 @@ public class Position {
     }
 
     public int getLayerIndex(Box box) {
-        return IntStream.range(0, boxes.length).filter(i -> boxes[i] == box).findFirst().orElse(-1);
+        for(int i=0; i<boxes.length; i++){
+            if(boxes[i] == box)
+                return i;
+        }
+        return -1;
+//        return IntStream.range(0, boxes.length).filter(i -> boxes[i] == box).findFirst().orElse(-1);
     }
 }

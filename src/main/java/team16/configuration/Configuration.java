@@ -5,7 +5,7 @@ import team16.security.EncryptionStrategy;
 public enum Configuration {
     instance;
 
-    public final String key = "dhbw";
+    public final String encryptionKey = "dhbw";
     public final EncryptionStrategy encryptionStrategy = EncryptionStrategy.AES;
     public final String homeDir = System.getProperty("user.dir");
     public final String fileSeparator = System.getProperty("file.separator");
@@ -38,7 +38,7 @@ public enum Configuration {
     public final int trailerPalletCount = 5;
     public final int interimPositionsMax = 5;
     public final int interimPositionsMaxRoom = 2;
-    public final int parkingZoneTruckCount = 5;
+    public final int parkingZoneAutoCarCount = 5;
     public final int unloadZoneNum = 7;
     public final int maxWrongPinCount = 3;
     public final int maxWrongSuperPinCount = 2;

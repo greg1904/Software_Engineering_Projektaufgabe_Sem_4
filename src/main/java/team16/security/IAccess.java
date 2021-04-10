@@ -1,9 +1,8 @@
 package team16.security;
 
 import team16.command.ICommand;
-import team16.security.authorization.Role;
+import team16.security.authorization.ControlUnitAcessRole;
 
 public interface IAccess {
-
-    boolean executeCommand(Role role, ICommand command);
+    boolean executeCommand(ControlUnitAcessRole role, ICommand command);
 }

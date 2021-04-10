@@ -1,18 +1,16 @@
 package team16.employee;
 
-import team16.security.authorization.Role;
+import team16.security.authorization.ControlUnitAcessRole;
 
-@SuppressWarnings("unused")
 public class Administrator extends Employee {
+    private final AdminProfileType profile;
 
-    private final AdminProfile profile;
-
-    public Administrator(String name, int id, int pin, int superPin, AdminProfile profile) {
-        super(Role.ADMINISTRATOR, name, id, pin, superPin);
+    public Administrator(String name, int id, int pin, int superPin, AdminProfileType profile) {
+        super(ControlUnitAcessRole.ADMINISTRATOR, name, id, pin, superPin);
         this.profile = profile;
     }
 
-    public AdminProfile getProfile() {
+    public AdminProfileType getProfile() {
         return profile;
     }
 }

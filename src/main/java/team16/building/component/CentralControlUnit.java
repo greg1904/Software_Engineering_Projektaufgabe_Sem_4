@@ -22,12 +22,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @SuppressWarnings("UnstableApiUsage")
-public class ControlUnit {
+public class CentralControlUnit {
 
-    private final EventBus bus = new EventBus("Team05-PackageSortingCenter");
+    private final EventBus bus = new EventBus("PackageSortingCenter");
     private final Set<PackageTrack> packageTracks = new HashSet<>();
 
-    public ControlUnit() {
+    public CentralControlUnit() {
         bus.register(this);
     }
 

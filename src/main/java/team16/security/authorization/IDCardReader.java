@@ -5,7 +5,7 @@ import team16.configuration.Configuration;
 
 import java.util.Arrays;
 
-public class CardReader {
+public class IDCardReader {
 
     public boolean validateCard(IDCard card, int pin) {
         return switch (card.getState()) {
@@ -28,11 +28,11 @@ public class CardReader {
         return false;
     }
 
-    public Role getRole(IDCard card) {
-        return Role.valueOf(getCardContent(card, CardContent.ROLE));
+    public ControlUnitAcessRole getRole(IDCard card) {
+        return ControlUnitAcessRole.valueOf(getCardContent(card, CardContent.ROLE));
     }
 
-    public void changeCardState(IDCard card, CardState state) {
+    public void changeCardState(IDCard card, IDCardState state) {
         card.setState(state);
     }
 
@@ -42,7 +42,7 @@ public class CardReader {
 
     @NotNull
     private String[] getCardContent(IDCard card) {
-        String dec = Configuration.instance.encryptionStrategy.decrypt(card.getStripe().getContent(), Configuration.instance.key);
+        String dec = Configuration.instance.encryptionStrategy.decrypt(card.getMagnetStripe().getStoredData(), Configuration.instance.encryptionKey);
         String[] content = new String[CardContent.values().length];
         String[] parsed =  Arrays.stream(dec.split(";"))
                 .map(c -> c.substring(1))

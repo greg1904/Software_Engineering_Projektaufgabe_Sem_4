@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Position {
-
     private final Pallet[] pallets = new Pallet[Configuration.instance.interimPositionsMaxRoom];
 
     public boolean addPallet(Pallet pallet) {

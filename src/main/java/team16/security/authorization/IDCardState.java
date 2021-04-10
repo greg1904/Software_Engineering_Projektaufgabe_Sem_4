@@ -1,5 +1,5 @@
 package team16.security.authorization;
 
-public enum CardState {//SOLID-Prinzip: State
+public enum IDCardState {//SOLID-Prinzip: State
     ACTIVE, LOCKED, INVALID
 }

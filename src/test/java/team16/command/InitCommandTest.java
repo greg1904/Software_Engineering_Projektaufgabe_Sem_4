@@ -47,7 +47,7 @@ class InitCommandTest {
         int palletCount = 0;
         int boxCount = 0;
         int packageCount = 0;
-        for (int i = 0; i < Configuration.instance.parkingZoneTruckCount; i++) {
+        for (int i = 0; i < Configuration.instance.parkingZoneAutoCarCount; i++) {
             Truck truck = zone.getNextTruck();
             assertNotNull(truck);
             truckCount++;
