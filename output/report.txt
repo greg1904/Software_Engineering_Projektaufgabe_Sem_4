@@ -65,3 +65,58 @@ No explosives have been found yet.
 			 ##Packages
 			 ##Explosive Packages: 
 No explosives have been found yet.
+10.04.2021 17:55:23.800: Processed Trucks: 1
+			 ##Packages
+			 ##Explosive Packages: 
+No explosives have been found yet.
+10.04.2021 17:58:42.822: Processed Trucks: 1
+			 ##Packages
+			 ##Explosive Packages: 
+No explosives have been found yet.
+10.04.2021 17:59:50.626: Processed Trucks: 1
+			 ##Packages
+			 ##Explosive Packages: 
+No explosives have been found yet.
+10.04.2021 18:00:29.090: Processed Trucks: 1
+			 ##Packages: VALUE - 253, EXPRESS - 681, NORMAL - 3866
+			 ##Explosive Packages: 
+ljzjph: NORMAL
+408q4u: NORMAL
+10.04.2021 18:03:16.361: Processed Trucks: 1
+			 ##Packages: VALUE - 253, EXPRESS - 681, NORMAL - 3866
+			 ##Explosive Packages: 
+ljzjph: NORMAL
+408q4u: NORMAL
+10.04.2021 18:03:16.519: Processed Trucks: 2
+			 ##Packages: VALUE - 524, EXPRESS - 1453, NORMAL - 7623
+			 ##Explosive Packages: 
+ljzjph: NORMAL
+408q4u: NORMAL
+3tnqn6: NORMAL
+10.04.2021 18:03:16.679: Processed Trucks: 3
+			 ##Packages: VALUE - 741, EXPRESS - 2130, NORMAL - 11529
+			 ##Explosive Packages: 
+ljzjph: NORMAL
+408q4u: NORMAL
+3tnqn6: NORMAL
+10.04.2021 18:03:16.821: Processed Trucks: 4
+			 ##Packages: VALUE - 996, EXPRESS - 2870, NORMAL - 15334
+			 ##Explosive Packages: 
+ljzjph: NORMAL
+408q4u: NORMAL
+3tnqn6: NORMAL
+so0djd: NORMAL
+10.04.2021 18:03:16.967: Processed Trucks: 5
+			 ##Packages: VALUE - 1235, EXPRESS - 3555, NORMAL - 19210
+			 ##Explosive Packages: 
+ljzjph: NORMAL
+408q4u: NORMAL
+3tnqn6: NORMAL
+so0djd: NORMAL
+10.04.2021 18:04:48.428: Processed Trucks: 5
+			 ##Packages: VALUE - 1235, EXPRESS - 3555, NORMAL - 19210
+			 ##Explosive Packages: 
+				ljzjph: NORMAL
+				408q4u: NORMAL
+				3tnqn6: NORMAL
+				so0djd: NORMAL

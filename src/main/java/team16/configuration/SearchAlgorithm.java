@@ -1,5 +1,6 @@
 package team16.configuration;
 
+import team16.Application;
 import team16.storage.packet.Package;
 
 import java.io.File;
@@ -45,8 +46,9 @@ public class SearchAlgorithm implements ISearchAlgorithm {
         Object archiveInstance = null;
 
         try {
+            System.out.println("Loading file: " + archivePath);
             URL[] urls = {new File(archivePath).toURI().toURL()};
-            URLClassLoader urlClassLoader = new URLClassLoader(urls, SearchAlgorithm.class.getClassLoader());
+            URLClassLoader urlClassLoader = new URLClassLoader(urls, Application.class.getClassLoader());
             Class<?> archiveClass = Class.forName("Application", true, urlClassLoader);
 
             archiveInstance = archiveClass.getConstructor().newInstance();

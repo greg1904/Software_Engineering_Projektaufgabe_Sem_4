@@ -17,9 +17,9 @@ public enum Configuration {
     public final String reportOutput = outputDir + fileSeparator + "report.txt";
 
     public final String boyerMooreJarPath = homeDir + fileSeparator + "components" + fileSeparator
-            + "BoyerMoore" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "libs" + fileSeparator + "BoyerMoore.jar";
+            + "BoyerMoore" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "BoyerMoore.jar";
     public final String rabinKarpJarPath = homeDir + fileSeparator + "components" + fileSeparator
-            + "RabinKarp" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "libs" + fileSeparator + "RabinKarp.jar";
+            + "RabinKarp" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "RabinKarp.jar";
 
     public String searchAlgorithmJarPath = rabinKarpJarPath;
 

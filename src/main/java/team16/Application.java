@@ -36,7 +36,9 @@ public class Application {
     private static void executeMainLoop() {
         PackageSortingCenter center = new PackageSortingCenter();
         center.pushCommand(new InitCommand(center.getParkingZone()));
-        center.pushCommand(new NextCommand(center.getParkingZone(), center.getUnloadZones()[0]));
+        for(int i=0; center.getTrucksDone() < Configuration.instance.truckCount; i++){
+            center.pushCommand(new NextCommand(center.getParkingZone(), center.getUnloadZones()[i]));
+        }
         center.pushCommand(new ShowStatisticsCommand(center.getTrucksDone(), center.getPackagesCount(), center.getForbiddenPackages()));
     }
 

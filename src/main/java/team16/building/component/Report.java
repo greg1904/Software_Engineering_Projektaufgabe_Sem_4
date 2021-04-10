@@ -46,10 +46,10 @@ public class Report {
 
         if(explosivePackages.size() != 0){
             for(Package p:explosivePackages){
-                builder.append(p.getId()).append(": ").append(p.getType()).append(System.lineSeparator());
+                builder.append("\t\t\t\t").append(p.getId()).append(": ").append(p.getType()).append(System.lineSeparator());
             }
         }else{
-            builder.append("No explosives have been found yet.").append(System.lineSeparator());
+            builder.append("\t\t\t\t\t No explosives have been found yet.").append(System.lineSeparator());
         }
 //
 //        packagesCount.keySet().forEach(type ->

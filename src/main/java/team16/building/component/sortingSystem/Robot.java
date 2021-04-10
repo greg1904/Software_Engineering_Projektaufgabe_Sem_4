@@ -24,11 +24,9 @@ public class Robot {
         while (storage.hasPallets()) {
             Pallet pallet = storage.removePallet();
 
-            if(palletCount < 20) {
+            if(palletCount % 100 == 0) {
                 System.out.println("Starting next Pallet: " + palletCount);
                 System.out.println(pallet);
-            }else{
-                System.exit(1);
             }
             palletCount++;
 
