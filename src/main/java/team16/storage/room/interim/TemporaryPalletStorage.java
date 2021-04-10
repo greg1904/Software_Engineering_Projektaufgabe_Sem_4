@@ -34,18 +34,27 @@ public class TemporaryPalletStorage {
     }
 
     public boolean hasPallets() {
+        System.out.println("checking pallets");
+        int count = 0;
         for(TemporaryPalletStoragePosition position : temporaryPalletStoragePositions){
-            if(position.hasPallets())
+            if(position.hasPallets()) {
+                System.out.println("Pallet has been found! pos: " + count);
                 return true;
+            }
+
+            count++;
         }
 
         return false;
     }
 
     public Pallet removePallet() {
+        System.out.println("##Removing Pallet Main");
         for(TemporaryPalletStoragePosition position : temporaryPalletStoragePositions){
-            if(position.hasPallets())
-                return removePallet();
+            if(position.hasPallets()) {
+                System.out.println("#Position has pallets - " + position.getPalletsString());
+                return position.removePallet();
+            }
         }
 
         return null;
@@ -54,5 +63,24 @@ public class TemporaryPalletStorage {
 //                .findFirst()
 //                .orElseThrow()
 //                .removePallet();
+    }
+
+    public int getPalletCount() {
+        int count = 0;
+
+        for(TemporaryPalletStoragePosition position : temporaryPalletStoragePositions){
+            count += position.getPallets();
+        }
+
+        return count;
+    }
+
+    public void printStorage() {
+        System.out.println("####");
+        for(TemporaryPalletStoragePosition position : temporaryPalletStoragePositions){
+            System.out.println(position.getPalletsString());
+            System.out.println("---");
+        }
+        System.out.println("####");
     }
 }

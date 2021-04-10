@@ -4,12 +4,14 @@ plugins {
 
 group 'dhbw'
 
+mainClassName = "team16.Application"
+
 repositories {
     mavenCentral()
 }
 
 run {
-    jvmArgs(['-Xmx8192M'])
+    jvmArgs(['-Xmx16384M'])
 }
 
 dependencies {
@@ -21,5 +23,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    maxHeapSize = "8192m"
+    maxHeapSize = "16384m"
 }

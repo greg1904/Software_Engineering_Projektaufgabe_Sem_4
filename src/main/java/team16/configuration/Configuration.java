@@ -16,6 +16,13 @@ public enum Configuration {
     public final String truckOutput = outputDir + fileSeparator + "base_truck.csv";
     public final String reportOutput = outputDir + fileSeparator + "report.txt";
 
+    public final String boyerMooreJarPath = homeDir + fileSeparator + "components" + fileSeparator
+            + "BoyerMoore" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "libs" + fileSeparator + "BoyerMoore.jar";
+    public final String rabinKarpJarPath = homeDir + fileSeparator + "components" + fileSeparator
+            + "RabinKarp" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "libs" + fileSeparator + "RabinKarp.jar";
+
+    public String searchAlgorithmJarPath = rabinKarpJarPath;
+
     public final int packageTrackNum = 8;
     public final int packageTrackSize = 600;
     public final int sortingTrackNum = 3;
@@ -42,5 +49,6 @@ public enum Configuration {
     public final int unloadZoneNum = 7;
     public final int maxWrongPinCount = 3;
     public final int maxWrongSuperPinCount = 2;
-    public SearchAlgorithm searchAlgorithm = SearchAlgorithm.RABINKARP;
+
+    public SearchAlgorithm searchAlgorithm = new SearchAlgorithm(searchAlgorithmJarPath);
 }

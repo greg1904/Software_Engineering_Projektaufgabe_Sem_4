@@ -18,9 +18,21 @@ public class Robot {
     public void receive(StartRobotEvent event) {
         System.out.println("Robot is starting to working on TemporaryPalletStorage!");
         TemporaryPalletStorage storage = sortingSystem.getCenter().getTemporaryPalletStorage();
+        System.out.println("Pallet count: " + storage.getPalletCount());
+        storage.printStorage();
+        int palletCount = 0;
         while (storage.hasPallets()) {
             Pallet pallet = storage.removePallet();
-            while (pallet.hasLoad()) {
+
+            if(palletCount < 20) {
+                System.out.println("Starting next Pallet: " + palletCount);
+                System.out.println(pallet);
+            }else{
+                System.exit(1);
+            }
+            palletCount++;
+
+            while (pallet != null && pallet.hasLoad()) {
                 Box box = pallet.getNextBox();
                 for (BoxLayer layer : box.getBoxLayers()) {
                     while (!layer.isEmpty()) {

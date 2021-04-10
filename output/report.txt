@@ -49,3 +49,19 @@
 07.04.2021 18:25:12.683: Dispatched Trucks: 5
 						 Package's: Value: 1250, Express: 3583, Normal: 19167
 						 Packages with Explosives: 4
+10.04.2021 17:04:13.349: Processed Trucks: 0
+			 ##Packages
+			 ##Explosive Packages: 
+No explosives have been found yet.
+10.04.2021 17:08:06.160: Processed Trucks: 1
+			 ##Packages
+			 ##Explosive Packages: 
+No explosives have been found yet.
+10.04.2021 17:46:51.186: Processed Trucks: 1
+			 ##Packages
+			 ##Explosive Packages: 
+No explosives have been found yet.
+10.04.2021 17:53:38.859: Processed Trucks: 1
+			 ##Packages
+			 ##Explosive Packages: 
+No explosives have been found yet.

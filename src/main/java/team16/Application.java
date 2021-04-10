@@ -1,6 +1,10 @@
 package team16;
 
 import org.checkerframework.checker.units.qual.A;
+import team16.building.PackageSortingCenter;
+import team16.command.InitCommand;
+import team16.command.NextCommand;
+import team16.command.ShowStatisticsCommand;
 import team16.configuration.Configuration;
 import team16.storage.box.Box;
 import team16.storage.packet.Package;
@@ -23,13 +27,17 @@ public class Application {
     private static HashMap<String, Truck> trucksMap;
 
     public static void main(String[] args) {
-        loadData();
+        //loadData();
+//        createData();
 
         executeMainLoop();
     }
 
     private static void executeMainLoop() {
-        //TODO
+        PackageSortingCenter center = new PackageSortingCenter();
+        center.pushCommand(new InitCommand(center.getParkingZone()));
+        center.pushCommand(new NextCommand(center.getParkingZone(), center.getUnloadZones()[0]));
+        center.pushCommand(new ShowStatisticsCommand(center.getTrucksDone(), center.getPackagesCount(), center.getForbiddenPackages()));
     }
 
     private static void createPackages() {

@@ -22,6 +22,7 @@ public class TemporaryPalletStoragePosition {
     }
 
     public Pallet removePallet() {
+        System.out.println("Removing pallet: " + !isEmpty());
         if (!isEmpty()) {
             for (int i = pallets.length - 1; i >= 0; i--) {
                 if (pallets[i] != null) {
@@ -35,7 +36,13 @@ public class TemporaryPalletStoragePosition {
     }
 
     public boolean hasPallets() {
-        return Arrays.stream(pallets).anyMatch(Objects::nonNull);
+        for(Pallet pallet : pallets){
+            if(pallet != null) {
+                return true;
+            }
+        }
+//        return Arrays.stream(pallets).anyMatch(Objects::nonNull);
+        return false;
     }
 
     @SuppressWarnings("unused")
@@ -44,10 +51,39 @@ public class TemporaryPalletStoragePosition {
     }
 
     public boolean isEmpty() {
-        return Arrays.stream(pallets).noneMatch(Objects::nonNull);
+        for(Pallet pallet : pallets){
+            System.out.println(pallet);
+            if(pallet != null) {
+                System.out.println("a pallet was found: ");
+                return false;
+            }
+        }
+
+        System.out.println("returning true!");
+        return true;
+//        return Arrays.stream(pallets).noneMatch(Objects::nonNull);
     }
 
     public boolean hasRoom() {
         return Arrays.stream(pallets).anyMatch(Objects::isNull);
+    }
+
+    public int getPallets() {
+        int count = 0;
+        for(Pallet pallet : pallets){
+            if(pallet != null)
+                count++;
+        }
+
+        return count;
+    }
+
+    public String getPalletsString() {
+        StringBuilder builder = new StringBuilder();
+        for(Pallet pallet : pallets){
+            builder.append(pallet).append(", ");
+        }
+
+        return builder.toString();
     }
 }

@@ -1,3 +1,8 @@
 rootProject.name = 'Komplexaufgabe'
 include 'components'
+include 'BoyerMoore'
+include 'components:BoyerMoore'
+findProject(':components:BoyerMoore')?.name = 'BoyerMoore'
+include 'components:RabinKarp'
+findProject(':components:RabinKarp')?.name = 'RabinKarp'
 

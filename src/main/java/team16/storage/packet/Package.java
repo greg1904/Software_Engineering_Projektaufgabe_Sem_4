@@ -43,17 +43,17 @@ public class Package {
     }
 
     private static String[] splitEqually(String text, int size) {
-        List<String> parts = new ArrayList<>();
-        int startIndex = 0;
-        while(startIndex + size < text.length()){
-            parts.add(text.substring(startIndex, startIndex+size));
-            startIndex += size;
-        }
-        return (String[]) parts.toArray();
-//        return IntStream.iterate(0, start -> start < text.length(), start -> start + size)
-//                .mapToObj(start -> text.substring(start, Math.min(text.length(), start + size)))
-//                .collect(Collectors.toCollection(() -> new ArrayList<>((text.length() + size - 1) / size)))
-//                .toArray(new String[]{});
+//        List<String> parts = new ArrayList<>();
+//        int startIndex = 0;
+//        while(startIndex + size < text.length()){
+//            parts.add(text.substring(startIndex, startIndex+size));
+//            startIndex += size;
+//        }
+//        return (String[]) parts.toArray();
+        return IntStream.iterate(0, start -> start < text.length(), start -> start + size)
+                .mapToObj(start -> text.substring(start, Math.min(text.length(), start + size)))
+                .collect(Collectors.toCollection(() -> new ArrayList<>((text.length() + size - 1) / size)))
+                .toArray(new String[]{});
     }
 
     public char[][][] getContent() {
