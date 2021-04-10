@@ -6,7 +6,7 @@ import team16.storage.pallet.Pallet;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Position {
+public class TemporaryPalletStoragePosition {
     private final Pallet[] pallets = new Pallet[Configuration.instance.interimPositionsMaxRoom];
 
     public boolean addPallet(Pallet pallet) {

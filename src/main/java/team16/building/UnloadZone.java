@@ -2,24 +2,21 @@ package team16.building;
 
 import com.google.common.eventbus.Subscribe;
 import team16.building.component.ITruckListener;
-import team16.building.component.Sensor;
+import team16.building.component.TruckArrivalSensor;
 import team16.event.TruckUnloadedEvent;
 import team16.vehicle.Truck;
 
-@SuppressWarnings("UnstableApiUsage")
 public class UnloadZone implements IZone {
-
     private static int currentId = 1;
-    private final Sensor sensor;
+    private final TruckArrivalSensor truckArrivalSensor;
     private final int id = currentId++;
     private Truck truck;
 
     public UnloadZone(ITruckListener listener) {
-        this.sensor = new Sensor();
-        sensor.addListener(listener);
+        this.truckArrivalSensor = new TruckArrivalSensor();
+        truckArrivalSensor.addListener(listener);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public boolean addTruck(Truck truck) {
         if (truck == null) {
             System.out.println("No Truck available!");
@@ -28,10 +25,10 @@ public class UnloadZone implements IZone {
         if (this.truck == null) {
             this.truck = truck;
             System.out.println("Truck moved to UnloadZone");
-            sensor.notifyListeners(id);
+            truckArrivalSensor.notifyListeners(id);
             return true;
         }
-        System.out.println("Already in use!");
+        System.out.println("UnloadZone is already in use!");
         return false;
     }
 
@@ -51,7 +48,7 @@ public class UnloadZone implements IZone {
         return id;
     }
 
-    public Sensor getSensor() {
-        return sensor;
+    public TruckArrivalSensor getSensor() {
+        return truckArrivalSensor;
     }
 }

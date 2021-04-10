@@ -12,9 +12,7 @@ import team16.storage.room.trash.EmptyPalletsRoom;
 
 import java.util.Arrays;
 
-@SuppressWarnings({"UnstableApiUsage", "unused", "FieldCanBeLocal"})
 public class SortingSystem {
-
     private final Robot robot = new Robot(this);
     private final EmptyBoxesRoom boxesRoom = new EmptyBoxesRoom();
     private final EmptyPalletsRoom palletsRoom = new EmptyPalletsRoom();
@@ -46,18 +44,21 @@ public class SortingSystem {
     @Subscribe
     public void receive(StartSortingEvent event) {
         if (!isLocked) {
-            System.out.println("Start sorting process");
-            Arrays.stream(packageTracks).forEach(track -> {
-                while (!track.isEmpty()) {
+            System.out.println("Starting sorting process");
+
+            for(PackageTrack track : packageTracks){
+                while (!track.isEmpty()){
                     insertIntoSortingTrack(track.getNextPackage());
                 }
-            });
-            center.pushEvent(new ProcessSortingTracksEvent());
+            }
+
+            center.postEvent(new ProcessSortingTracksEvent());
         }
     }
 
-    private void insertIntoSortingTrack(Package packet) {//SOLID-Prinzip: Chain of Responsibility
+    private void insertIntoSortingTrack(Package packet) { //SOLID-Prinzip: Chain of Responsibility
         if (!isLocked) {
+
             switch (packet.getType()) {
                 case VALUE -> sortingTracks[2].addPackage(packet);
                 case EXPRESS -> sortingTracks[1].addPackage(packet);

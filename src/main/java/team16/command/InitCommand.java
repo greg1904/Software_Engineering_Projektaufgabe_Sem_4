@@ -18,13 +18,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class InitCommand implements ICommand {//SOLID-Prinzip: Command
-
+public class InitCommand implements ICommand { //SOLID-Prinzip: Command
     private final ParkingZone zone;
 
     public InitCommand(ParkingZone zone) {
         this.zone = zone;
     }
+
+    //TODO CHANGE ALGORITHMS
 
     @Override
     public void execute() {

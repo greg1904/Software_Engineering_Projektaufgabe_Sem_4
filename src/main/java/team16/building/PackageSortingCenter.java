@@ -8,12 +8,12 @@ import team16.configuration.Configuration;
 import team16.event.IEvent;
 import team16.security.ProxyControlUnit;
 import team16.security.authorization.IDCardReader;
+import team16.storage.packet.Package;
 import team16.storage.packet.PackageType;
-import team16.storage.room.interim.InterimPalletStorage;
+import team16.storage.room.interim.TemporaryPalletStorage;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 
 public class PackageSortingCenter {
     private final CentralControlUnit unit = new CentralControlUnit();
@@ -22,11 +22,11 @@ public class PackageSortingCenter {
     private final SortingSystem sortingSystem = new SortingSystem(this);
 
     private final Terminal terminal = new Terminal(new IDCardReader(), new ProxyControlUnit(unit));
-    private final InterimPalletStorage interimPalletStorage = new InterimPalletStorage();
+    private final TemporaryPalletStorage temporaryPalletStorage = new TemporaryPalletStorage();
     private final Map<PackageType, Integer> packagesCount = new HashMap<>();
 
     private int trucksDone;
-    private int forbiddenPackages;
+    private final List<Package> forbiddenPackages = new ArrayList<>();
 
     public PackageSortingCenter() {
         unit.register(parkingZone);
@@ -35,6 +35,7 @@ public class PackageSortingCenter {
 //            unloadZones[i] = new UnloadZone();
 //            register(unloadZones[i]);
 //        }
+
         Arrays.setAll(unloadZones, i -> new UnloadZone(unit::truckArrived));
         Arrays.stream(unloadZones).forEach(this::register);
     }
@@ -57,15 +58,14 @@ public class PackageSortingCenter {
                 .orElse(null);
     }
 
-    public InterimPalletStorage getInterimPalletStorage() {
-        return interimPalletStorage;
+    public TemporaryPalletStorage getTemporaryPalletStorage() {
+        return temporaryPalletStorage;
     }
 
-    public void pushEvent(IEvent event) {
-        unit.pushEvent(event);
+    public void postEvent(IEvent event) {
+        unit.postEvent(event);
     }
 
-    @SuppressWarnings("unused")
     public void pushCommand(ICommand command) {
         unit.sendCommand(command);
     }
@@ -94,15 +94,15 @@ public class PackageSortingCenter {
         }
     }
 
-    public void incrementForbiddenPackages() {
-        forbiddenPackages++;
+    public void addForbiddenPackage(Package forbiddenPackage) {
+        forbiddenPackages.add(forbiddenPackage);
     }
 
     public int getTrucksDone() {
         return trucksDone;
     }
 
-    public int getForbiddenPackages() {
+    public List<Package> getForbiddenPackages() {
         return forbiddenPackages;
     }
 

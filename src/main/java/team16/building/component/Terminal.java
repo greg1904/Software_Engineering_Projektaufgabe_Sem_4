@@ -10,7 +10,7 @@ public class Terminal {
     private final IDCardReader IDCardReader;
     private final TouchPad touchPad = new TouchPad(this);
     private final ProxyControlUnit proxy;
-    private IDCard currentCard;
+    private IDCard insertedCard;
     private boolean loggedIn = false;
 
     public Terminal(IDCardReader IDCardReader, ProxyControlUnit proxy) {
@@ -24,13 +24,13 @@ public class Terminal {
             return false;
         }
         System.out.println("Execute Command " + command.getClass().getSimpleName());
-        return touchPad.accessControlUnit(IDCardReader.getRole(currentCard), command);
+        return touchPad.accessControlUnit(IDCardReader.getRole(insertedCard), command);
     }
 
     public boolean insertCard(IDCard card) {
-        if (currentCard == null) {
+        if (insertedCard == null) {
             System.out.println("Card has been inserted!");
-            currentCard = card;
+            insertedCard = card;
             return true;
         }
         System.out.println("There is already a card in the Card Reader!");
@@ -42,8 +42,8 @@ public class Terminal {
             System.out.println("No Card available to eject!");
             return null;
         }
-        IDCard card = currentCard;
-        currentCard = null;
+        IDCard card = insertedCard;
+        insertedCard = null;
         loggedIn = false;
         System.out.println("Card has been ejected!");
         return card;
@@ -53,13 +53,13 @@ public class Terminal {
         if (!checkIfCardInserted()) {
             return false;
         }
-        boolean ret = IDCardReader.validateCard(currentCard, pin);
+        boolean ret = IDCardReader.validateCard(insertedCard, pin);
         if (!ret) {
             System.out.println("Wrong Pin: " + pin);
-            currentCard.increaseWrongPinCount();
+            insertedCard.increaseWrongPinCount();
         } else {
             System.out.println("Successfully logged in!");
-            currentCard.resetWrongPinCount();
+            insertedCard.resetWrongPinCount();
             loggedIn = true;
         }
         return ret;
@@ -70,20 +70,20 @@ public class Terminal {
             System.out.println("No Card inserted!");
             return false;
         }
-        boolean ret = IDCardReader.unlockCard(currentCard, superPin);
+        boolean ret = IDCardReader.unlockCard(insertedCard, superPin);
         if (!ret) {
             System.out.println("Wrong superPIN: " + superPin);
-            currentCard.increaseWrongSuperPinCount();
+            insertedCard.increaseWrongSuperPinCount();
         } else {
             System.out.println("Successfully unlocked!");
             changeCardState(IDCardState.ACTIVE);
-            currentCard.resetWrongSuperPinCount();
+            insertedCard.resetWrongSuperPinCount();
         }
         return ret;
     }
 
     private void changeCardState(IDCardState state) {
-        IDCardReader.changeCardState(currentCard, state);
+        IDCardReader.changeCardState(insertedCard, state);
     }
 
     private boolean checkIfLoggedIn() {
@@ -91,7 +91,7 @@ public class Terminal {
     }
 
     private boolean checkIfCardInserted() {
-        if (currentCard == null) {
+        if (insertedCard == null) {
             System.out.println("A Card has to be inserted.");
             return false;
         }

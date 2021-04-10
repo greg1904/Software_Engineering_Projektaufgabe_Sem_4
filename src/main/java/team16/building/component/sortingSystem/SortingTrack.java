@@ -10,7 +10,6 @@ import team16.storage.packet.PackageType;
 import java.util.LinkedList;
 import java.util.Queue;
 
-@SuppressWarnings("UnstableApiUsage")
 public class SortingTrack {
     private final PackageType type;
     private final Scanner scanner = new Scanner();
@@ -35,10 +34,9 @@ public class SortingTrack {
         }
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public boolean addPackage(Package packet) {
         if (scanner.checkPackage(packet)) {
-            center.incrementForbiddenPackages();
+            center.addForbiddenPackage(packet);
             System.out.println("Package " + packet.getId() + " has Explosive in it!");
         }
         return packages.add(packet);

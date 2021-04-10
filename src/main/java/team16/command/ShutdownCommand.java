@@ -4,20 +4,19 @@ import team16.building.PackageSortingCenter;
 import team16.building.UnloadZone;
 import team16.event.ProcessSortingTracksEvent;
 
-public class ShutdownCommand implements ICommand {//SOLID-Prinzip: Command
+public class ShutdownCommand implements ICommand { //SOLID-Prinzip: Command
+    private final UnloadZone unloadZone;
+    private final PackageSortingCenter sortingCenter;
 
-    private final UnloadZone zone;
-    private final PackageSortingCenter center;
-
-    public ShutdownCommand(UnloadZone zone, PackageSortingCenter center) {
-        this.zone = zone;
-        this.center = center;
+    public ShutdownCommand(UnloadZone unloadZone, PackageSortingCenter sortingCenter) {
+        this.unloadZone = unloadZone;
+        this.sortingCenter = sortingCenter;
     }
 
     @Override
     public void execute() {
-        zone.getSensor().deactivate();
-        System.out.println("Shutdown");
-        center.pushEvent(new ProcessSortingTracksEvent());
+        System.out.println("Shutting down.");
+        unloadZone.getSensor().deactivate();
+        sortingCenter.postEvent(new ProcessSortingTracksEvent());
     }
 }

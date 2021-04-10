@@ -1,24 +1,23 @@
 package team16.building.component;
 
+import team16.storage.packet.Package;
 import team16.storage.packet.PackageType;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Report {
-
     private final boolean addTimestamp;
     private final int truckCount;
     private final Map<PackageType, Integer> packagesCount;
-    private final int explosiveCount;
+    private final List<Package> explosivePackages;
 
     private Report(Builder builder) {
         addTimestamp = builder.addTimestamp;
         truckCount = builder.truckCount;
         packagesCount = builder.packagesCount;
-        explosiveCount = builder.explosiveCount;
+        explosivePackages = builder.explosivePackages;
     }
 
     @Override
@@ -28,32 +27,50 @@ public class Report {
             builder.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss.SSS")))
                     .append(": ");
         }
-        builder.append("Dispatched Trucks: ")
+        builder.append("Processed Trucks: ")
                 .append(truckCount)
                 .append(System.lineSeparator())
-                .append("\t\t\t\t\t\t ")
-                .append("Package's: ");
+                .append("\t\t\t ").append("##Packages: ");
 
-        packagesCount.keySet().forEach(type ->
-                builder.append(type)
-                        .append(": ")
-                        .append(packagesCount.get(type))
-                        .append(", "));
+        Iterator<Map.Entry<PackageType, Integer>> iterator = packagesCount.entrySet().iterator();
+
+        while(iterator.hasNext()){
+            Map.Entry<PackageType, Integer> data = iterator.next();
+
+            builder.append(data.getKey()).append(" - ").append(data.getValue()).append(", ");
+        }
         builder.delete(builder.length() - 2, builder.length());
-        return builder.append(System.lineSeparator())
-                .append("\t\t\t\t\t\t ")
-                .append("Packages with Explosives: ")
-                .append(explosiveCount)
-                .append(System.lineSeparator())
-                .toString();
+        builder.append(System.lineSeparator());
+
+        builder.append("\t\t\t ").append("##Explosive Packages: ").append(System.lineSeparator());
+
+        if(explosivePackages.size() != 0){
+            for(Package p:explosivePackages){
+                builder.append(p.getId()).append(": ").append(p.getType()).append(System.lineSeparator());
+            }
+        }else{
+            builder.append("No explosives have been found yet.").append(System.lineSeparator());
+        }
+//
+//        packagesCount.keySet().forEach(type ->
+//                builder.append(type)
+//                        .append(": ")
+//                        .append(packagesCount.get(type))
+//                        .append(", "));
+//        builder.delete(builder.length() - 2, builder.length());
+//        builder.append(System.lineSeparator())
+//                .append("\t\t\t ").append("Packages with Explosives: ")
+//                .append(explosiveCount)
+//                .append(System.lineSeparator());
+
+        return builder.toString();
     }
 
-    public static class Builder {//SOLID-Prinzip: Builder
-
-        private final Map<PackageType, Integer> packagesCount = new HashMap<>();
+    public static class Builder { //SOLID-Prinzip: Builder
         private boolean addTimestamp;
         private int truckCount;
-        private int explosiveCount;
+        private final Map<PackageType, Integer> packagesCount = new HashMap<>();
+        private List<Package> explosivePackages = new ArrayList<>();
 
         public Builder addTimestamp() {
             addTimestamp = true;
@@ -65,7 +82,6 @@ public class Report {
             return this;
         }
 
-        @SuppressWarnings("UnusedReturnValue")
         public Builder addPackageCount(PackageType type, int count) {
             if (packagesCount.containsKey(type)) {
                 packagesCount.put(type, packagesCount.get(type) + count);
@@ -76,16 +92,32 @@ public class Report {
         }
 
         public Builder addPackageCount(Map<PackageType, Integer> packagesCount) {
-            packagesCount.keySet().forEach(type ->
-                    addPackageCount(type, packagesCount.get(type))
-            );
+            Iterator<Map.Entry<PackageType, Integer>> iterator = packagesCount.entrySet().iterator();
+
+            while(iterator.hasNext()){
+                Map.Entry<PackageType, Integer> data = iterator.next();
+                addPackageCount(data.getKey(), data.getValue());
+            }
+
             return this;
         }
 
-        public Builder addExplosiveCount(int count) {
-            explosiveCount += count;
+        public Builder addExplosivePackage(Package explosivePackage){
+            explosivePackages.add(explosivePackage);
             return this;
         }
+
+        public Builder addExplosivePackages(List<Package> explosivePackages) {
+            for(Package p: explosivePackages){
+                addExplosivePackage(p);
+            }
+
+            return this;
+        }
+//        public Builder addExplosiveCount(int count) {
+//            explosiveCount += count;
+//            return this;
+//        }
 
         public Report build() {
             return new Report(this);

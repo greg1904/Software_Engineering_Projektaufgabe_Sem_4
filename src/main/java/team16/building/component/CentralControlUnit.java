@@ -21,11 +21,9 @@ import team16.event.TruckUnloadedEvent;
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings("UnstableApiUsage")
 public class CentralControlUnit {
-
     private final EventBus bus = new EventBus("PackageSortingCenter");
-    private final Set<PackageTrack> packageTracks = new HashSet<>();
+    private final Set<PackageTrack> filledPackageTracks = new HashSet<>();
 
     public CentralControlUnit() {
         bus.register(this);
@@ -35,7 +33,7 @@ public class CentralControlUnit {
         bus.post(command);
     }
 
-    public void pushEvent(IEvent event) {
+    public void postEvent(IEvent event) {
         bus.post(event);
     }
 
@@ -75,21 +73,21 @@ public class CentralControlUnit {
 
     @Subscribe
     public void receive(TruckUnloadedEvent event) {
-        pushEvent(new StartRobotEvent());
+        postEvent(new StartRobotEvent());
     }
 
     @Subscribe
     public void receive(PackageTrackFullEvent event) {
-        packageTracks.add(event.getTrack());
-        if (packageTracks.size() == Configuration.instance.packageTrackNum) {
-            packageTracks.clear();
-            pushEvent(new StartSortingEvent());
+        filledPackageTracks.add(event.getTrack());
+        if (filledPackageTracks.size() == Configuration.instance.packageTrackNum) {
+            filledPackageTracks.clear();
+            postEvent(new StartSortingEvent());
         }
     }
 
     public void truckArrived(int id) {
-        System.out.println("Truck Arrived!");
-        pushEvent(new ControlCarEvent(id));
+        System.out.println("Truck has arrived!");
+        postEvent(new ControlCarEvent(id));
     }
 
 }

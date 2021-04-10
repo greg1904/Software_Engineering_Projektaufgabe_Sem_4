@@ -18,16 +18,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ProxyControlUnit implements IAccess {//SOLID-Prinzip: Proxy
-
+public class ProxyControlUnit implements IAccess { //SOLID-Prinzip: Proxy
     private final CentralControlUnit centralControlUnit;
-    private final Map<ControlUnitAcessRole, List<Class<? extends ICommand>>> permissions = new HashMap<>();
+    private static final Map<ControlUnitAcessRole, List<Class<? extends ICommand>>> permissions = new HashMap<>();
 
-    public ProxyControlUnit(CentralControlUnit centralControlUnit) {
-        this.centralControlUnit = centralControlUnit;
+    static {
         permissions.put(ControlUnitAcessRole.SUPERVISOR, Stream.of(
-                InitCommand.class,
                 ChangeSearchAlgorithmCommand.class,
+                InitCommand.class,
                 LockCommand.class,
                 NextCommand.class,
                 ShowStatisticsCommand.class,
@@ -35,12 +33,24 @@ public class ProxyControlUnit implements IAccess {//SOLID-Prinzip: Proxy
                 UnlockCommand.class
         ).collect(Collectors.toCollection(ArrayList::new)));
 
-        permissions.put(ControlUnitAcessRole.ADMINISTRATOR, Stream.of(ShowStatisticsCommand.class, ShutdownCommand.class).collect(Collectors.toCollection(ArrayList::new)));
+        permissions.put(ControlUnitAcessRole.ADMINISTRATOR, Stream.of(
+                ShutdownCommand.class,
+                ShowStatisticsCommand.class
+        ).collect(Collectors.toCollection(ArrayList::new)));
 
-        permissions.put(ControlUnitAcessRole.OPERATOR, Stream.of(NextCommand.class, ShowStatisticsCommand.class).collect(Collectors.toCollection(ArrayList::new)));
+        permissions.put(ControlUnitAcessRole.OPERATOR, Stream.of(
+                NextCommand.class,
+                ShowStatisticsCommand.class
+        ).collect(Collectors.toCollection(ArrayList::new)));
 
-        permissions.put(ControlUnitAcessRole.DATAANALYST, Stream.of(ShowStatisticsCommand.class).collect(Collectors.toCollection(ArrayList::new)));
+        permissions.put(ControlUnitAcessRole.DATAANALYST, Stream.of(
+                ShowStatisticsCommand.class
+        ).collect(Collectors.toCollection(ArrayList::new)));
     }
+
+    public ProxyControlUnit(CentralControlUnit centralControlUnit) {
+        this.centralControlUnit = centralControlUnit;
+        }
 
     @Override
     public boolean executeCommand(ControlUnitAcessRole role, ICommand command) {

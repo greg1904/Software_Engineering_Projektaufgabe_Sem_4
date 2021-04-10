@@ -15,16 +15,18 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class ParkingZone implements IZone {
-
+    private final AutonomousCar[] cars = new AutonomousCar[Configuration.instance.autonomousCarNum];
     private final Queue<Truck> truckList;
     private final int maxTrucks;
-    private final AutonomousCar[] cars = new AutonomousCar[Configuration.instance.autonomousCarNum];
     private final PackageSortingCenter center;
 
     public ParkingZone(int room, PackageSortingCenter center) {
         this.truckList = new LinkedList<>();
         this.maxTrucks = room;
-        Arrays.setAll(cars, i -> new AutonomousCar(center));
+
+        for(int i=0; i<cars.length; i++)
+            cars[i] = new AutonomousCar(center);
+
         this.center = center;
     }
 
@@ -35,11 +37,10 @@ public class ParkingZone implements IZone {
 
     @Subscribe
     public void receive(TruckUnloadedEvent event) {
-        System.out.println("Autonomous Car drives back!");
+        System.out.println("Autonomous Car is returning!");
         returnCar(event.getCar());
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public boolean addTruck(Truck truck) {
         if (hasRoom()) {
             truckList.add(truck);
@@ -56,7 +57,6 @@ public class ParkingZone implements IZone {
         return truckList.size() >= maxTrucks;
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public boolean returnCar(AutonomousCar car) {
         if (availableCars() == cars.length) {
             return false;
@@ -66,10 +66,15 @@ public class ParkingZone implements IZone {
     }
 
     public int availableCars() {
-        return (int) Arrays.stream(cars).filter(Objects::nonNull).count();
+        int count = 0;
+
+        for(AutonomousCar car:cars)
+            if(car != null)
+                count++;
+
+        return count;
     }
 
-    @SuppressWarnings("unused")
     public AutonomousCar getCar() {
         for (int i = 0; i < cars.length; i++) {
             if (cars[i] != null) {
@@ -86,18 +91,22 @@ public class ParkingZone implements IZone {
             AutonomousCar car;
             do {
                 int index = new Random().nextInt(cars.length);
-                car = cars[index];
+                car = cars[new Random().nextInt(cars.length)];
                 cars[index] = null;
             } while (car == null);
-            System.out.println("Getting random Car");
+            System.out.println("Selected random Car");
             return car;
         }
-        System.out.println("No Car left!");
+        System.out.println("No Cars available!");
         return null;
     }
 
     private boolean hasCarsLeft() {
-        return Arrays.stream(cars).anyMatch(Objects::nonNull);
+        for(AutonomousCar car : cars)
+            if(car != null)
+                return true;
+
+        return false;
     }
 
     public Truck getNextTruck() {

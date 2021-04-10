@@ -8,26 +8,24 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class PackageTrack {
-
     private final Queue<Package> packages = new LinkedList<>();
-    private final Sensor sensor;
+    private final PackageTrackFillSensor packageTrackFillSensor;
 
     public PackageTrack(PackageSortingCenter center) {
-        sensor = new Sensor(this, center);
+        packageTrackFillSensor = new PackageTrackFillSensor(this, center);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public boolean addPackage(Package packet) {
         if (!isFull()) {
             boolean ret = packages.add(packet);
-            notifySensor();
+            checkFillStatus();
             return ret;
         }
         return false;
     }
 
-    private void notifySensor() {
-        sensor.checkFillingStatus();
+    private void checkFillStatus() {
+        packageTrackFillSensor.checkFillingStatus();
     }
 
     public Package getNextPackage() {

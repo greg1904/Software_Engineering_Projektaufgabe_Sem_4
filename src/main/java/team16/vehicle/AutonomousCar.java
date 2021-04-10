@@ -13,14 +13,14 @@ public class AutonomousCar {
 
     public void unloadZone(UnloadZone zone) {
         if (zone != null) {
-            System.out.println("Truck in Zone " + zone + " is unloading...");
+            System.out.println("Truck in UnloadingZone " + zone + " is being unloaded.");
             Truck truck = zone.getTruck();
             while (truck.hasLoad()) {
-                packageSortingCenter.getInterimPalletStorage().addPallet(truck.getNextPallet());
+                packageSortingCenter.getTemporaryPalletStorage().addPallet(truck.getNextPallet());
             }
-            System.out.println("Truck unloaded");
+            System.out.println("Truck has been unloaded!");
             packageSortingCenter.incrementTrucksDone();
-            packageSortingCenter.pushEvent(new TruckUnloadedEvent(this, truck));
+            packageSortingCenter.postEvent(new TruckUnloadedEvent(this, truck));
         }
     }
 }

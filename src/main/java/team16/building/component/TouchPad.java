@@ -4,7 +4,6 @@ import team16.command.ICommand;
 import team16.security.authorization.ControlUnitAcessRole;
 
 public class TouchPad {
-
     private final Terminal terminal;
 
     public TouchPad(Terminal terminal) {
