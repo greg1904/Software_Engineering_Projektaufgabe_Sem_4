@@ -16,3 +16,39 @@
 				ilic0q: NORMAL
 
 
+11.04.2021 00:51:42.221: Processed Trucks: 5
+			 ##Packages: VALUE - 1156, NORMAL - 19314, EXPRESS - 3530
+			 ##Explosive Packages: 
+				7dbzyr: NORMAL
+				ix0o2f: EXPRESS
+				2c2h5r: EXPRESS
+				ilic0q: NORMAL
+
+
+11.04.2021 00:58:18.893: Processed Trucks: 5
+			 ##Packages: EXPRESS - 3530, VALUE - 1156, NORMAL - 19314
+			 ##Explosive Packages: 
+				7dbzyr: NORMAL
+				ix0o2f: EXPRESS
+				2c2h5r: EXPRESS
+				ilic0q: NORMAL
+
+
+11.04.2021 01:24:36.674: Processed Trucks: 5
+			 ##Packages: EXPRESS - 3530, VALUE - 1156, NORMAL - 19314
+			 ##Explosive Packages: 
+				7dbzyr: NORMAL
+				ix0o2f: EXPRESS
+				2c2h5r: EXPRESS
+				ilic0q: NORMAL
+
+
+11.04.2021 01:52:58.279: Processed Trucks: 5
+			 ##Packages: VALUE - 1156, EXPRESS - 3530, NORMAL - 19314
+			 ##Explosive Packages: 
+				7dbzyr: NORMAL
+				ix0o2f: EXPRESS
+				2c2h5r: EXPRESS
+				ilic0q: NORMAL
+
+

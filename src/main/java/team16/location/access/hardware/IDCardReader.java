@@ -2,42 +2,40 @@ package team16.location.access.hardware;
 
 import org.jetbrains.annotations.NotNull;
 import team16.base.Configuration;
-import team16.employees.security.access.ControlUnitAcessRole;
+import team16.employees.security.access.ControlUnitAccessRole;
 import team16.employees.security.idcard.CardContent;
 import team16.employees.security.idcard.IDCard;
-import team16.employees.security.idcard.IDCardState;
+import team16.employees.security.idcard.states.IDCardActiveState;
+import team16.employees.security.idcard.states.IDCardInvalidState;
+import team16.employees.security.idcard.states.IDCardLockedState;
 
 import java.util.Arrays;
 
 public class IDCardReader {
 
     public boolean validateCard(IDCard card, int pin) {
-        return switch (card.getState()) {
-            case LOCKED, INVALID -> false;
-            default -> getCardContent(card, CardContent.PIN).equals(Integer.toString(pin));
-        };
+        if(card.getState() instanceof IDCardLockedState || card.getState() instanceof IDCardInvalidState)
+            return false;
+        else
+            return getCardContent(card, CardContent.PIN).equals(Integer.toString(pin));
     }
 
     public boolean unlockCard(IDCard card, int superPin) {
-        switch (card.getState()) {
-            case INVALID:
-                System.out.println("Card is already invalid!");
-                return false;
-            case ACTIVE:
-                System.out.println("Card already unlocked!");
-                return true;
-            case LOCKED:
-                return getCardContent(card, CardContent.SUPERPIN).equals(Integer.toString(superPin));
+        if(card.getState() instanceof IDCardActiveState){
+            System.out.println("Card is already unlocked.");
+            return true;
+        }else if(card.getState() instanceof IDCardInvalidState){
+            System.out.println("Card is already invalid!");
+            return false;
+        }else if(card.getState() instanceof IDCardLockedState){
+            return getCardContent(card, CardContent.SUPERPIN).equals(Integer.toString(superPin));
         }
+
         return false;
     }
 
-    public ControlUnitAcessRole getRole(IDCard card) {
-        return ControlUnitAcessRole.valueOf(getCardContent(card, CardContent.ROLE));
-    }
-
-    public void changeCardState(IDCard card, IDCardState state) {
-        card.setState(state);
+    public ControlUnitAccessRole getRole(IDCard card) {
+        return ControlUnitAccessRole.valueOf(getCardContent(card, CardContent.ROLE));
     }
 
     private String getCardContent(IDCard card, CardContent content) {
@@ -56,7 +54,7 @@ public class IDCardReader {
         content[CardContent.NAME.ordinal()] = parsed[1];
         content[CardContent.ROLE.ordinal()] = parsed[2];
         content[CardContent.PIN.ordinal()] = parsed[3];
-        content[CardContent.SUPERPIN.ordinal()] = parsed[4];//Make sure the ordinal matches the Content
+        content[CardContent.SUPERPIN.ordinal()] = parsed[4];
         return content;
     }
 }

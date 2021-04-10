@@ -8,7 +8,6 @@ public class ChangeSearchAlgorithmCommand implements ICommand { //SOLID-Prinzip:
     public void execute() {
         Configuration.instance.searchAlgorithmJarPath =
                 Configuration.instance.searchAlgorithmJarPath.equals(Configuration.instance.boyerMooreJarPath) ?
-                        Configuration.instance.rabinKarpJarPath
-                        : Configuration.instance.boyerMooreJarPath;
+                        Configuration.instance.rabinKarpJarPath : Configuration.instance.boyerMooreJarPath;
     }
 }

@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Report {
+public class ReportCreator {
     private final boolean addTimestamp;
     private final int truckCount;
     private final Map<PackageType, Integer> packagesCount;
     private final List<Package> explosivePackages;
 
-    private Report(Builder builder) {
+    private ReportCreator(Builder builder) {
         addTimestamp = builder.addTimestamp;
         truckCount = builder.truckCount;
         packagesCount = builder.packagesCount;
@@ -54,17 +54,6 @@ public class Report {
 
         builder.append(System.lineSeparator());
         builder.append(System.lineSeparator());
-//
-//        packagesCount.keySet().forEach(type ->
-//                builder.append(type)
-//                        .append(": ")
-//                        .append(packagesCount.get(type))
-//                        .append(", "));
-//        builder.delete(builder.length() - 2, builder.length());
-//        builder.append(System.lineSeparator())
-//                .append("\t\t\t ").append("Packages with Explosives: ")
-//                .append(explosiveCount)
-//                .append(System.lineSeparator());
 
         return builder.toString();
     }
@@ -117,13 +106,9 @@ public class Report {
 
             return this;
         }
-//        public Builder addExplosiveCount(int count) {
-//            explosiveCount += count;
-//            return this;
-//        }
 
-        public Report build() {
-            return new Report(this);
+        public ReportCreator build() {
+            return new ReportCreator(this);
         }
 
     }

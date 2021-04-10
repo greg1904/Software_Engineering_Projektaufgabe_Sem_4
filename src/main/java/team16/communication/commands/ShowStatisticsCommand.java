@@ -3,7 +3,7 @@ package team16.communication.commands;
 import team16.base.Configuration;
 import team16.data.datainstances.packages.Package;
 import team16.data.datainstances.packages.PackageType;
-import team16.dataio.Report;
+import team16.dataio.ReportCreator;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -25,7 +25,7 @@ public class ShowStatisticsCommand implements ICommand { //SOLID-Prinzip: Comman
     @Override
     public void execute() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Configuration.instance.reportData, true))) {
-            bw.write(new Report.Builder()
+            bw.write(new ReportCreator.Builder()
                     .addTimestamp()
                     .addExplosivePackages(explosivePackages)
                     .addPackageCount(packagesCount)
@@ -33,7 +33,7 @@ public class ShowStatisticsCommand implements ICommand { //SOLID-Prinzip: Comman
                     .build()
                     .toString()
             );
-            System.out.println("Report has been printed into the report.txt file!");
+            System.out.println("Report has been printed into the report.txt file.");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

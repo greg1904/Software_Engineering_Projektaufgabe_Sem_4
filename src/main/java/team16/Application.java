@@ -9,12 +9,9 @@ import team16.employees.roles.DataAnalyst;
 import team16.employees.roles.Supervisor;
 import team16.location.PackageSortingCenter;
 
-import javax.xml.crypto.Data;
-
 public class Application {
-
     public static void main(String[] args) {
-        if (!CSVParser.dataExists()) {
+        if (!CSVParser.checkDataExists()) {
             System.out.println("Creating CSV Files.");
             CSVParser.createData();
         }

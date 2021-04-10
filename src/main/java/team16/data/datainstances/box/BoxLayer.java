@@ -6,14 +6,6 @@ import team16.data.datainstances.packages.Package;
 public class BoxLayer {
     private final Package[][] packages = new Package[2][4];
 
-    public Package[] getLeftPackages() {
-        return packages[0];
-    }
-
-    public Package[] getRightPackages() {
-        return packages[1];
-    }
-
     public boolean isFull() {
         for (int i = 0; i < packages.length; i++) {
             for (int j = 0; j < packages[i].length; j++) {
@@ -24,10 +16,6 @@ public class BoxLayer {
         return true;
     }
 
-//    public boolean hasRoom() {
-//        return !isFull();
-//    }
-
     public boolean isEmpty() {
         for (int i = 0; i < packages.length; i++) {
             for (int j = 0; j < packages[i].length; j++) {
@@ -37,10 +25,6 @@ public class BoxLayer {
         }
         return true;
     }
-
-//    public boolean hasLoad() {
-//        return !isEmpty();
-//    }
 
     public boolean addPackage(Package packet) {
         return addPackageLeft(packet) || addPackageRight(packet);

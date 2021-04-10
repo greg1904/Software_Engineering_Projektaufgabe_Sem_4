@@ -1,6 +1,6 @@
 package team16.employees.security.access;
 
-public enum ControlUnitAcessRole {//SOLID-Prinzip: Role
+public enum ControlUnitAccessRole { //SOLID-Prinzip: Role
     SUPERVISOR("Supervisor"),
     ADMINISTRATOR("Administrator"),
     OPERATOR("Operator"),
@@ -8,7 +8,7 @@ public enum ControlUnitAcessRole {//SOLID-Prinzip: Role
 
     private final String displayName;
 
-    ControlUnitAcessRole(String name) {
+    ControlUnitAccessRole(String name) {
         displayName = name;
     }
 

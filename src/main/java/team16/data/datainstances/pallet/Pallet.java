@@ -38,13 +38,8 @@ public class Pallet {
     }
 
     public int getLayerIndex(Box box) {
-        return switch (getPositionIndex(box)) {
-            case 0 -> palletPositions[0][0].getLayerIndex(box);
-            case 1 -> palletPositions[1][0].getLayerIndex(box);
-            case 2 -> palletPositions[0][1].getLayerIndex(box);
-            case 3 -> palletPositions[1][1].getLayerIndex(box);
-            default -> -1;
-        };
+        int position = getPositionIndex(box);
+        return palletPositions[position % 2][position >= 2 ? 1 : 0].getLayerIndex(box);
     }
 
     public boolean addBox(Box box) {
@@ -63,13 +58,7 @@ public class Pallet {
 
     public boolean addBox(Box box, int position, int layer) {
         if (hasRoom()) {
-            PalletPosition pos = switch (position) {
-                case 0 -> palletPositions[0][0];
-                case 1 -> palletPositions[1][0];
-                case 2 -> palletPositions[0][1];
-                case 3 -> palletPositions[1][1];
-                default -> null;
-            };
+            PalletPosition pos = palletPositions[position % 2][position >= 2 ? 1 : 0];
             if (pos == null) {
                 return false;
             } else {
@@ -91,18 +80,6 @@ public class Pallet {
         return null;
     }
 
-    public PalletPosition[][] getPositions() {
-        return palletPositions;
-    }
-
-    public PalletPosition[] getRightPositions() {
-        return palletPositions[1];
-    }
-
-    public PalletPosition[] getLeftPositions() {
-        return palletPositions[0];
-    }
-
     public boolean hasLoad() {
         for (int i = 0; i < palletPositions.length; i++) {
             for (int j = 0; j < palletPositions[i].length; j++) {
@@ -111,7 +88,6 @@ public class Pallet {
             }
         }
         return false;
-//        return Arrays.stream(positions).flatMap(Arrays::stream).anyMatch(Position::hasLoad);
     }
 
     public boolean hasRoom() {
@@ -122,6 +98,5 @@ public class Pallet {
             }
         }
         return false;
-//        return Arrays.stream(positions).flatMap(Arrays::stream).anyMatch(Position::hasRoom);
     }
 }

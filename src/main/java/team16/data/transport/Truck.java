@@ -31,14 +31,6 @@ public class Truck {
             return trailer.addPalletRight(pallet, pos);
     }
 
-    public boolean addPalletLeft(Pallet pallet, int pos) {
-        return trailer.addPalletLeft(pallet, pos);
-    }
-
-    public boolean addPalletRight(Pallet pallet, int pos) {
-        return trailer.addPalletRight(pallet, pos);
-    }
-
     public int[] getPosition(Pallet pallet) {
         return trailer.getPosition(pallet);
     }

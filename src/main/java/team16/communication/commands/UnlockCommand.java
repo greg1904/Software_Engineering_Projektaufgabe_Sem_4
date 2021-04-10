@@ -11,7 +11,7 @@ public class UnlockCommand implements ICommand { //SOLID-Prinzip: Command
 
     @Override
     public void execute() {
-        System.out.println("System has been unlocked");
+        System.out.println("System has been unlocked.");
         sortingSystem.unlock();
     }
 }

@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Base64;
 
-public enum EncryptionStrategy {//SOLID-Prinzip: Strategy
+public enum EncryptionStrategy { //SOLID-Prinzip: Strategy
     AES, DES;
 
     public String decrypt(String cypher, String key) {
@@ -15,8 +15,8 @@ public enum EncryptionStrategy {//SOLID-Prinzip: Strategy
             Cipher cipher = Cipher.getInstance(name() + "/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, generate(key));
             return new String(cipher.doFinal(Base64.getDecoder().decode(cypher)));
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             return "";
         }
     }
@@ -26,8 +26,8 @@ public enum EncryptionStrategy {//SOLID-Prinzip: Strategy
             Cipher cipher = Cipher.getInstance(name() + "/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, generate(key));
             return Base64.getEncoder().encodeToString(cipher.doFinal(message.getBytes(StandardCharsets.UTF_8)));
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             return "";
         }
     }

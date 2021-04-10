@@ -3,7 +3,6 @@ package team16.location.sorting.utils;
 import team16.Application;
 import team16.base.Configuration;
 import team16.data.datainstances.packages.Package;
-import team16.data.utils.ISearchAlgorithm;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;

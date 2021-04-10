@@ -1,50 +1,34 @@
 package team16.employees.security.idcard;
 
 import team16.base.Configuration;
+import team16.employees.security.idcard.states.IDCardActiveState;
+import team16.employees.security.idcard.states.IIDCardState;
 
 public class IDCard {
     private final MagnetStripe magnetStripe;
-    private IDCardState state = IDCardState.ACTIVE;
-    private int wrongPinEnteredCount = 0;
-    private int wrongSuperPinEnteredCount = 0;
+    private IIDCardState state = new IDCardActiveState();   //SOLID-Prinzip: State
 
     public IDCard(MagnetStripe stripe) {
         this.magnetStripe = stripe;
+    }
+
+    public void wrongPinEntered(){
+        state.wrongInput(this);
+    }
+
+    public void correctPinEntered(){
+        state.rightInput(this);
     }
 
     public MagnetStripe getMagnetStripe() {
         return magnetStripe;
     }
 
-    public IDCardState getState() {
+    public IIDCardState getState() {
         return state;
     }
 
-    public void setState(IDCardState state) {
+    public void setState(IIDCardState state) {
         this.state = state;
-    }
-
-    public void increaseWrongPinCount() {
-        wrongPinEnteredCount++;
-        if (wrongPinEnteredCount == 3 && state == IDCardState.ACTIVE) {
-            state = IDCardState.LOCKED;
-            System.out.println("Card has been locked.");
-        }
-    }
-
-    public void resetWrongPinCount() {
-        wrongPinEnteredCount = 0;
-    }
-
-    public void increaseWrongSuperPinCount() {
-        wrongSuperPinEnteredCount++;
-        if (wrongSuperPinEnteredCount == 2 && state == IDCardState.LOCKED) {
-            state = IDCardState.INVALID;
-            System.out.println("Card has been invalidated.");
-        }
-    }
-
-    public void resetWrongSuperPinCount() {
-        wrongSuperPinEnteredCount = 0;
     }
 }

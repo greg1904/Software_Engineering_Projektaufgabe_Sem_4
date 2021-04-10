@@ -19,8 +19,42 @@ public class CSVParser {
     private static HashMap<Integer, Pallet> palletsMap;
     private static HashMap<String, Truck> trucksMap;
 
+    public static boolean checkDataExists() {
+        String[] neededFiles = {
+                "base_box.csv",
+                "base_package.csv",
+                "base_pallet.csv",
+                "base_truck.csv",
+        };
+
+        if (Files.notExists(Paths.get(Configuration.instance.dataDir))) {
+            try {
+                Files.createDirectory(Path.of(Configuration.instance.dataDir));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        } else {
+            for (String s : neededFiles) {
+                if (Files.notExists(Paths.get(Configuration.instance.dataDir + Configuration.instance.fileSeparator + s))) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static void createData() {
+        createPackages();
+        createBoxes();
+        createPallets();
+        createTrucks();
+    }
+
     private static void createPackages() {
-        StringBuilder packageBuilder = new StringBuilder(Configuration.instance.packageContentSizes[0] *
+        StringBuilder packageBuilder = new StringBuilder(
+                Configuration.instance.packageContentSizes[0] *
                 Configuration.instance.packageContentSizes[1] *
                 Configuration.instance.packageContentSizes[2] *
                 Configuration.instance.packageCount);
@@ -38,9 +72,11 @@ public class CSVParser {
         List<Integer> randomPositions = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             int rand = r.nextInt(generatedPackages.size());
+
             while (randomPositions.contains(rand)) {
                 rand = r.nextInt(generatedPackages.size());
             }
+
             randomPositions.add(rand);
         }
 
@@ -48,18 +84,10 @@ public class CSVParser {
             generatedPackages.get(position).addContent("exp!os:ve");
         }
 
-////        packages = IntStream.range(0, Configuration.instance.packageCount)
-////                .parallel().mapToObj(i -> new Package())
-////                .collect(Collectors.toCollection(() -> new ArrayList<>(Configuration.instance.packageCount)));
-////        Collections.shuffle(packages);
-//        Random r = new Random();
-//        IntStream.range(0, 4).forEach(i -> packages.get(r.nextInt(packages.size())).addContent("exp!os:ve"));
-
-
         for (Package p : generatedPackages) {
             packagesMap.put(p.getId(), p);
 
-            packageBuilder.append(String.format(Locale.US, "[%s],[%s],[%05d],[%s],[%.2f]",
+            packageBuilder.append(String.format("[%s],[%s],[%05d],[%s],[%.2f]",
                     p.getId(), p.getContentAsString(), p.getZipCode(), p.getType().name(), p.getWeight()));
             packageBuilder.append(System.lineSeparator());
         }
@@ -76,7 +104,6 @@ public class CSVParser {
         for (int i = 0; i < Configuration.instance.boxesCount; i++) {
             boxes.add(new Box());
         }
-
 
         Iterator<Package> packageIterator = packagesMap.values().iterator();
         for (Box box : boxes) {
@@ -114,14 +141,6 @@ public class CSVParser {
 
             palletsMap.put(p.getId(), p);
         }
-//        pallets.forEach(pallet -> {
-//            while (pallet.hasRoom() && iterator.hasNext()) {
-//                Box box = iterator.next();
-//                pallet.addBox(box);
-//                palletBuilder.append(String.format("[%d],[%d],[%d],[%s]", pallet.getId(), pallet.getPositionIndex(box), pallet.getLayerIndex(box), box.getId()));
-//                palletBuilder.append(System.lineSeparator());
-//            }
-//        });
 
         writeToFile(new File(Configuration.instance.palletCSVData), palletBuilder.toString());
     }
@@ -134,7 +153,6 @@ public class CSVParser {
         for (int i = 0; i < Configuration.instance.truckCount; i++) {
             trucks.add(new Truck());
         }
-
 
         Iterator<Pallet> palletIterator = palletsMap.values().iterator();
 
@@ -153,8 +171,7 @@ public class CSVParser {
     }
 
     private static void writeToFile(File f, String s) {
-        f.delete();
-
+        f.delete();     //delete previous contents
 
         System.out.println("Writing data in File: " + f.getAbsolutePath());
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(f), s.length())) {
@@ -165,23 +182,21 @@ public class CSVParser {
         }
     }
 
-//    private static void printTime(String type, Duration d) {
-//        System.out.println("Type: " + type + " finished: " + d.toMinutesPart() + "m - " + d.toSecondsPart() + "s - " + d.toMillisPart() + "ms");
-//    }
+    public static Collection<Truck> loadTrucks() {
+        if (packagesMap == null && boxesMap == null && palletsMap == null && trucksMap == null) {
+            readFiles();
+        }
 
-//    private static void loadData() {
-//        if (Files.notExists(Paths.get(Configuration.instance.dataDir))) {
-//            try {
-//                Files.createDirectory(Paths.get(Configuration.instance.dataDir));
-//                createData();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                System.exit(1);
-//            }
-//        }
-//        readFiles();
-//
-//    }
+        StringBuilder builder = new StringBuilder();
+        builder.append("CSV Data has been read, for a total of:").append(System.lineSeparator());
+        builder.append("\t\t").append(packagesMap.size()).append(" packages;").append(System.lineSeparator());
+        builder.append("\t\t").append(boxesMap.size()).append(" boxes;").append(System.lineSeparator());
+        builder.append("\t\t").append(palletsMap.size()).append(" pallets;").append(System.lineSeparator());
+        builder.append("\t\t").append(trucksMap.size()).append(" trucks;").append(System.lineSeparator());
+
+        System.out.println(builder);
+        return trucksMap.values();
+    }
 
     private static void readFiles() {
         readPackages();
@@ -226,7 +241,6 @@ public class CSVParser {
             packagesMap.put(data[0], new Package(data[0], data[1], Integer.parseInt(data[2]), type, Double.parseDouble(data[4])));
         }
     }
-
 
     private static void readBoxes() {
         boxesMap = new HashMap<>(Configuration.instance.boxesCount);
@@ -280,52 +294,5 @@ public class CSVParser {
         }
     }
 
-    public static void createData() {
-        createPackages();
-        createBoxes();
-        createPallets();
-        createTrucks();
-    }
 
-    public static boolean dataExists() {
-        String[] neededFiles = {
-                "base_box.csv",
-                "base_package.csv",
-                "base_pallet.csv",
-                "base_truck.csv",
-        };
-
-        if (Files.notExists(Paths.get(Configuration.instance.dataDir))) {
-            try {
-                Files.createDirectory(Path.of(Configuration.instance.dataDir));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return false;
-        } else {
-            for (String s : neededFiles) {
-                if (Files.notExists(Paths.get(Configuration.instance.dataDir + Configuration.instance.fileSeparator + s))) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    public static Collection<Truck> loadTrucks() {
-        if (packagesMap == null && boxesMap == null && palletsMap == null && trucksMap == null) {
-            readFiles();
-        }
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("CSV Data has been read, for a total of:").append(System.lineSeparator());
-        builder.append("\t\t").append(packagesMap.size()).append(" packages;").append(System.lineSeparator());
-        builder.append("\t\t").append(boxesMap.size()).append(" boxes;").append(System.lineSeparator());
-        builder.append("\t\t").append(palletsMap.size()).append(" pallets;").append(System.lineSeparator());
-        builder.append("\t\t").append(trucksMap.size()).append(" trucks;").append(System.lineSeparator());
-
-        System.out.println(builder);
-        return trucksMap.values();
-    }
 }

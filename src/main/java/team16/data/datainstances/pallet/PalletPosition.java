@@ -16,7 +16,6 @@ public class PalletPosition {
         }
 
         return true;
-//        return Arrays.stream(boxes).noneMatch(Objects::isNull);
     }
 
     public boolean hasLoad() {
@@ -26,7 +25,6 @@ public class PalletPosition {
         }
 
         return false;
-//        return Arrays.stream(boxes).anyMatch(Objects::nonNull);
     }
 
     public boolean addBox(Box box) {
@@ -38,11 +36,8 @@ public class PalletPosition {
                 }
             }
         }
-        return false;
-    }
 
-    public Box[] getBoxes() {
-        return boxes;
+        return false;
     }
 
     public boolean addBox(Box box, int layer) {
@@ -76,6 +71,5 @@ public class PalletPosition {
                 return i;
         }
         return -1;
-//        return IntStream.range(0, boxes.length).filter(i -> boxes[i] == box).findFirst().orElse(-1);
     }
 }

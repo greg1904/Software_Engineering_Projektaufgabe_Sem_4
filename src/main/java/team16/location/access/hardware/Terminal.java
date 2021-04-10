@@ -2,11 +2,10 @@ package team16.location.access.hardware;
 
 import team16.communication.commands.ICommand;
 import team16.employees.security.idcard.IDCard;
-import team16.employees.security.idcard.IDCardState;
 import team16.location.access.software.ProxyControlUnit;
 
 public class Terminal {
-    private final team16.location.access.hardware.IDCardReader IDCardReader;
+    private final IDCardReader IDCardReader;
     private final TouchPad touchPad = new TouchPad(this);
     private final ProxyControlUnit proxy;
     private IDCard insertedCard;
@@ -55,10 +54,10 @@ public class Terminal {
         boolean ret = IDCardReader.validateCard(insertedCard, pin);
         if (!ret) {
             System.out.println("Wrong Pin: " + pin);
-            insertedCard.increaseWrongPinCount();
+            insertedCard.wrongPinEntered();
         } else {
             System.out.println("Successfully logged in!");
-            insertedCard.resetWrongPinCount();
+            insertedCard.correctPinEntered();
             loggedIn = true;
         }
         return ret;
@@ -72,17 +71,12 @@ public class Terminal {
         boolean ret = IDCardReader.unlockCard(insertedCard, superPin);
         if (!ret) {
             System.out.println("Wrong superPIN: " + superPin);
-            insertedCard.increaseWrongSuperPinCount();
+            insertedCard.wrongPinEntered();
         } else {
             System.out.println("Successfully unlocked!");
-            changeCardState(IDCardState.ACTIVE);
-            insertedCard.resetWrongSuperPinCount();
+            insertedCard.correctPinEntered();
         }
         return ret;
-    }
-
-    private void changeCardState(IDCardState state) {
-        IDCardReader.changeCardState(insertedCard, state);
     }
 
     private boolean checkIfLoggedIn() {
