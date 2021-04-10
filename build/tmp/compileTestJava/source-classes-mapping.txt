@@ -1,0 +1,8 @@
+team16/location/PackageSortingCenterTest.java
+ team16.location.PackageSortingCenterTest
+old/command/InitCommandTest.java
+ old.command.InitCommandTest
+old/SetupTest.java
+ old.SetupTest
+team16/location/logistics/transportation/AutonomousCarTest.java
+ team16.location.logistics.transportation.AutonomousCarTest

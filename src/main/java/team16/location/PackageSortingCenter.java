@@ -5,7 +5,6 @@ import team16.communication.commands.ICommand;
 import team16.communication.events.IEvent;
 import team16.data.datainstances.packages.Package;
 import team16.data.datainstances.packages.PackageType;
-import team16.location.CentralControlUnit;
 import team16.location.access.hardware.IDCardReader;
 import team16.location.access.software.ProxyControlUnit;
 import team16.location.access.hardware.Terminal;
@@ -18,12 +17,12 @@ import java.util.*;
 
 
 public class PackageSortingCenter {
-    private final CentralControlUnit unit = new CentralControlUnit();
+    private final CentralControlUnit centralControlUnit = new CentralControlUnit();
     private final UnloadZone[] unloadZones = new UnloadZone[Configuration.instance.unloadZoneNum];
     private final ParkingZone parkingZone = new ParkingZone(Configuration.instance.parkingZoneAutoCarCount, this);
     private final SortingSystem sortingSystem = new SortingSystem(this);
 
-    private final Terminal terminal = new Terminal(new IDCardReader(), new ProxyControlUnit(unit));
+    private final Terminal terminal = new Terminal(new IDCardReader(), new ProxyControlUnit(centralControlUnit));
     private final TemporaryPalletStorage temporaryPalletStorage = new TemporaryPalletStorage();
     private final Map<PackageType, Integer> packagesCount = new HashMap<>();
 
@@ -31,15 +30,15 @@ public class PackageSortingCenter {
     private final List<Package> forbiddenPackages = new ArrayList<>();
 
     public PackageSortingCenter() {
-        unit.register(parkingZone);
+        centralControlUnit.register(parkingZone);
 
-//        for(int i=0; i< unloadZones.length; i++){ //TODO WHAT IS THIS
-//            unloadZones[i] = new UnloadZone();
-//            register(unloadZones[i]);
-//        }
+        for(int i=0; i< unloadZones.length; i++){ //TODO WHAT IS THIS
+            unloadZones[i] = new UnloadZone(centralControlUnit);
+            register(unloadZones[i]);
+        }
 
-        Arrays.setAll(unloadZones, i -> new UnloadZone(unit::truckArrived));
-        Arrays.stream(unloadZones).forEach(this::register);
+//        Arrays.setAll(unloadZones, i -> new UnloadZone(centralControlUnit::truckArrived));
+//        Arrays.stream(unloadZones).forEach(this::register);
     }
 
     public UnloadZone getZone(int id) {
@@ -65,15 +64,15 @@ public class PackageSortingCenter {
     }
 
     public void postEvent(IEvent event) {
-        unit.postEvent(event);
+        centralControlUnit.postEvent(event);
     }
 
     public void pushCommand(ICommand command) {
-        unit.sendCommand(command);
+        centralControlUnit.sendCommand(command);
     }
 
     public void register(Object obj) {
-        unit.register(obj);
+        centralControlUnit.register(obj);
     }
 
     public Terminal getTerminal() {
@@ -110,5 +109,13 @@ public class PackageSortingCenter {
 
     public Map<PackageType, Integer> getPackagesCount() {
         return packagesCount;
+    }
+
+    public CentralControlUnit getCentralControlUnit() {
+        return centralControlUnit;
+    }
+
+    public SortingSystem getSortingSystem() {
+        return sortingSystem;
     }
 }

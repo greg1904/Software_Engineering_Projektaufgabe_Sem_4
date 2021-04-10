@@ -30,6 +30,26 @@ public class Box {
         return false;
     }
 
+    public Package removeNextPackage(){
+        for(int i=0; i<boxLayers.length; i++){
+            if(!boxLayers[i].isEmpty()){
+                return boxLayers[i].getNextPackage();
+            }
+        }
+
+        return null;
+    }
+
+    public boolean isEmpty(){
+        for(int i = 0; i< boxLayers.length; i++){
+            if(!boxLayers[i].isEmpty()){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public boolean hasRoom() {
         for(int i = 0; i< boxLayers.length; i++){
             if(!boxLayers[i].isFull()){

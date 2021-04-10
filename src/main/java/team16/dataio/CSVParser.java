@@ -166,40 +166,19 @@ public class CSVParser {
 //        System.out.println("Type: " + type + " finished: " + d.toMinutesPart() + "m - " + d.toSecondsPart() + "s - " + d.toMillisPart() + "ms");
 //    }
 
-    private static void loadData() {
-        boolean creationNeeded = false;
-        String[] neededFiles = {
-                "base_box.csv",
-                "base_package.csv",
-                "base_pallet.csv",
-                "base_truck.csv",
-        };
-
-        if (Files.notExists(Paths.get(Configuration.instance.dataDir))) {
-            creationNeeded = true;
-            try {
-                Files.createDirectory(Paths.get(Configuration.instance.dataDir));
-                createData();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
-        }else{
-            for (String s : neededFiles){
-                if(Files.notExists(Paths.get(Configuration.instance.dataDir + Configuration.instance.fileSeparator + s))){
-                    creationNeeded = true;
-                }
-            }
-
-            if(creationNeeded){
-                createData();
-            }
-        }
-
-        if(!creationNeeded){
-            readFiles();
-        }
-    }
+//    private static void loadData() {
+//        if (Files.notExists(Paths.get(Configuration.instance.dataDir))) {
+//            try {
+//                Files.createDirectory(Paths.get(Configuration.instance.dataDir));
+//                createData();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                System.exit(1);
+//            }
+//        }
+//        readFiles();
+//
+//    }
 
     private static void readFiles() {
         readPackages();
@@ -225,7 +204,7 @@ public class CSVParser {
 
     private static String[] removeSurroundingBrackets(String[] data){
         for(int i=0; i<data.length; i++){
-            data[i] = data[i].trim().substring(1, data[i].length()-2).trim(); //remove []
+            data[i] = data[i].trim().substring(1, data[i].length()-1).trim(); //remove []
         }
 
         return data;
@@ -324,5 +303,21 @@ public class CSVParser {
         }
 
         return true;
+    }
+
+    public static Collection<Truck> loadTrucks() {
+        if(packagesMap == null && boxesMap == null && palletsMap == null && trucksMap == null) {
+            readFiles();
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("CSV Data has been read, for a total of:").append(System.lineSeparator());
+        builder.append("\t\t").append(packagesMap.size()).append(" packages;").append(System.lineSeparator());
+        builder.append("\t\t").append(boxesMap.size()).append(" boxes;").append(System.lineSeparator());
+        builder.append("\t\t").append(palletsMap.size()).append(" pallets;").append(System.lineSeparator());
+        builder.append("\t\t").append(trucksMap.size()).append(" trucks;").append(System.lineSeparator());
+
+        System.out.println(builder);
+        return trucksMap.values();
     }
 }

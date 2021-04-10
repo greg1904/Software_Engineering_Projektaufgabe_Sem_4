@@ -5,12 +5,13 @@ import com.google.common.eventbus.Subscribe;
 import team16.base.Configuration;
 import team16.communication.commands.*;
 import team16.communication.events.*;
+import team16.location.logistics.sensors.ITruckListener;
 import team16.location.sorting.structure.PackageTrack;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class CentralControlUnit {
+public class CentralControlUnit implements ITruckListener {
     private final EventBus bus = new EventBus("PackageSortingCenter");
     private final Set<PackageTrack> filledPackageTracks = new HashSet<>();
 
@@ -28,6 +29,10 @@ public class CentralControlUnit {
 
     public void register(Object obj) {
         bus.register(obj);
+    }
+
+    private void unregister(Object obj){
+        bus.unregister(obj);
     }
 
     @Subscribe
@@ -74,6 +79,7 @@ public class CentralControlUnit {
         }
     }
 
+    @Override
     public void truckArrived(int id) {
         System.out.println("Truck has arrived!");
         postEvent(new ControlCarEvent(id));
