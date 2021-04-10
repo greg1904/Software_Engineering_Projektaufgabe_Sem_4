@@ -23,7 +23,14 @@ public class SortingSystem {
 
     public SortingSystem(PackageSortingCenter center) {
         Arrays.setAll(packageTracks, i -> new PackageTrack(center));
-        Arrays.setAll(sortingTracks, i -> new SortingTrack(PackageType.values()[i], center));
+
+        for(int i=sortingTracks.length-1; i>=0; i--){
+            if(i == sortingTracks.length-1){
+                sortingTracks[i] = new SortingTrack(PackageType.values()[i], center, null);
+            }else{
+                sortingTracks[i] = new SortingTrack(PackageType.values()[i], center, sortingTracks[i+1]);
+            }
+        }
         this.center = center;
         center.register(this);
         center.register(robot);
@@ -48,7 +55,7 @@ public class SortingSystem {
 
             for(PackageTrack track : packageTracks){
                 while (!track.isEmpty()){
-                    insertIntoSortingTrack(track.getNextPackage());
+                    insertIntoSortingTracks(track.getNextPackage());
                 }
             }
 
@@ -56,14 +63,14 @@ public class SortingSystem {
         }
     }
 
-    private void insertIntoSortingTrack(Package packet) { //SOLID-Prinzip: Chain of Responsibility
+    private void insertIntoSortingTracks(Package packet) { //SOLID-Prinzip: Chain of Responsibility
         if (!isLocked) {
-
-            switch (packet.getType()) {
-                case VALUE -> sortingTracks[2].addPackage(packet);
-                case EXPRESS -> sortingTracks[1].addPackage(packet);
-                case NORMAL -> sortingTracks[0].addPackage(packet);
-            }
+            sortingTracks[0].addPackage(packet);
+//            switch (packet.getType()) {
+//                case VALUE -> sortingTracks[2].addPackage(packet);
+//                case EXPRESS -> sortingTracks[1].addPackage(packet);
+//                case NORMAL -> sortingTracks[0].addPackage(packet);
+//            }
         }
     }
 

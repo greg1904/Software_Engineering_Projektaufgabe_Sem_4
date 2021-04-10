@@ -10,16 +10,18 @@ import team16.storage.packet.PackageType;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class SortingTrack {
+public class SortingTrack { //SOLID-Prinzip: Chain of Responsibility
     private final PackageType type;
-    private final Scanner scanner = new Scanner();
+    private final PackageScanner packageScanner = new PackageScanner();
     private final Queue<Package> packages = new LinkedList<>();
     private final PackageSortingCenter center;
+    private final SortingTrack successor;
 
-    public SortingTrack(PackageType type, PackageSortingCenter center) {
+    public SortingTrack(PackageType type, PackageSortingCenter center, SortingTrack successor) {
         this.type = type;
         center.register(this);
         this.center = center;
+        this.successor = successor;
     }
 
     @Subscribe
@@ -34,8 +36,15 @@ public class SortingTrack {
         }
     }
 
-    public boolean addPackage(Package packet) {
-        if (scanner.checkPackage(packet)) {
+    public boolean addPackage(Package packet) { //SOLID-Prinzip: Chain of Responsibility
+        if(type != packet.getType()){
+            if(successor == null){
+                System.out.println("Last responsible SortingTrack has declined a package.");
+                return false;
+            }else{
+                return successor.addPackage(packet);
+            }
+        }else if (packageScanner.checkPackage(packet)) {
             center.addForbiddenPackage(packet);
             System.out.println("Package " + packet.getId() + " has Explosive in it!");
         }
