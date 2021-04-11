@@ -4,7 +4,7 @@ import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-public class AESStrategy implements IEncryptionStrategy{
+public class AESStrategy implements IEncryptionStrategy {
     @Override
     public String decrypt(String cypher, String key) { //SOLID-Prinzip: Strategy
         try {

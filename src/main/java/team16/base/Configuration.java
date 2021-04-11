@@ -1,7 +1,6 @@
 package team16.base;
 
 import team16.employees.security.encryption.AESStrategy;
-import team16.employees.security.encryption.EncryptionStrategyContext;
 import team16.employees.security.encryption.IEncryptionStrategy;
 import team16.location.sorting.utils.SearchAlgorithm;
 
@@ -23,15 +22,12 @@ public enum Configuration {
             + "BoyerMoore" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "BoyerMoore.jar";
     public final String rabinKarpJarPath = homeDir + fileSeparator + "components" + fileSeparator
             + "RabinKarp" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "RabinKarp.jar";
-
-    public IEncryptionStrategy currentEncryptionStrategy = new AESStrategy();
-
     public final int[] packageContentSizes = {25, 10, 10};
     public final int packageCount = 24_000;
     public final int boxesCount = 600;
     public final int palletCount = 50;
     public final int truckCount = 5;
-
+    public IEncryptionStrategy currentEncryptionStrategy = new AESStrategy();
     public String searchAlgorithmJarPath = rabinKarpJarPath;
     public SearchAlgorithm searchAlgorithm = new SearchAlgorithm(searchAlgorithmJarPath);
 }
