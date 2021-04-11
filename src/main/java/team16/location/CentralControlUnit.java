@@ -2,7 +2,6 @@ package team16.location;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import team16.base.Configuration;
 import team16.communication.commands.*;
 import team16.communication.events.*;
 import team16.location.logistics.sensors.ITruckListener;
@@ -72,7 +71,7 @@ public class CentralControlUnit implements ITruckListener {
 
     @Subscribe
     public void receive(PackageTrackFullEvent event) {
-        System.out.println("Packagetrack "+event.getTrack()+" is full.");
+        System.out.println("Packagetrack " + event.getTrack() + " is full.");
         filledPackageTracks.add(event.getTrack());
         if (filledPackageTracks.size() == 8) {
             filledPackageTracks.clear();

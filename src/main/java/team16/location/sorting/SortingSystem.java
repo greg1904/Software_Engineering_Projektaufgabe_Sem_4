@@ -1,7 +1,6 @@
 package team16.location.sorting;
 
 import com.google.common.eventbus.Subscribe;
-import team16.base.Configuration;
 import team16.communication.events.ProcessSortingTracksEvent;
 import team16.communication.events.StartSortingEvent;
 import team16.data.datainstances.packages.Package;

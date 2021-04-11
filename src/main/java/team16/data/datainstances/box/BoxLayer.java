@@ -1,6 +1,5 @@
 package team16.data.datainstances.box;
 
-import team16.base.Configuration;
 import team16.data.datainstances.packages.Package;
 
 public class BoxLayer {

@@ -1,6 +1,5 @@
 package team16.location;
 
-import team16.base.Configuration;
 import team16.communication.commands.ICommand;
 import team16.communication.events.IEvent;
 import team16.data.datainstances.packages.Package;

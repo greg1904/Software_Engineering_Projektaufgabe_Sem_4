@@ -1,6 +1,5 @@
 package team16.location.sorting.structure;
 
-import team16.base.Configuration;
 import team16.data.datainstances.packages.Package;
 import team16.location.PackageSortingCenter;
 import team16.location.sorting.sensors.PackageTrackFillSensor;

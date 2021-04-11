@@ -2,14 +2,14 @@ package team16.employees.security.idcard.states;
 
 import team16.employees.security.idcard.IDCard;
 
-public class IDCardLockedState implements IIDCardState{
+public class IDCardLockedState implements IIDCardState {
     private int wrongCounter = 0;
 
     @Override
     public void wrongInput(IDCard card) { //SOLID-Prinzip: State
         wrongCounter++;
 
-        if(wrongCounter >= 2){
+        if (wrongCounter >= 2) {
             lock(card);
         }
     }

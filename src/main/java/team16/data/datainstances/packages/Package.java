@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Package {
     private final char[][][] content;
@@ -44,8 +42,8 @@ public class Package {
     private static List<String> splitEqually(String text, int size) {
         List<String> parts = new ArrayList<>();
         int startIndex = 0;
-        while(startIndex + size <= text.length()){
-            parts.add(text.substring(startIndex, startIndex+size));
+        while (startIndex + size <= text.length()) {
+            parts.add(text.substring(startIndex, startIndex + size));
             startIndex += size;
         }
         return parts;

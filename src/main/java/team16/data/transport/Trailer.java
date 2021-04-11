@@ -1,13 +1,12 @@
 package team16.data.transport;
 
-import team16.base.Configuration;
 import team16.data.datainstances.pallet.Pallet;
 
 public class Trailer {
     private final Pallet[][] pallets = new Pallet[2][5];
 
     public boolean isFull() {
-        for(int side = 0; side < pallets.length; side++) {
+        for (int side = 0; side < pallets.length; side++) {
             for (int i = 0; i < pallets[side].length; i++) {
                 if (pallets[side][i] == null)
                     return false;

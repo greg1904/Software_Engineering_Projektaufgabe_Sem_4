@@ -1,6 +1,5 @@
 package team16.data.datainstances.pallet;
 
-import team16.base.Configuration;
 import team16.data.datainstances.box.Box;
 
 public class Pallet {

@@ -1,6 +1,5 @@
 package team16.location.logistics.temporarystorage;
 
-import team16.base.Configuration;
 import team16.data.datainstances.pallet.Pallet;
 
 import java.util.Arrays;

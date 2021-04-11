@@ -55,9 +55,9 @@ public class CSVParser {
     private static void createPackages() {
         StringBuilder packageBuilder = new StringBuilder(
                 Configuration.instance.packageContentSizes[0] *
-                Configuration.instance.packageContentSizes[1] *
-                Configuration.instance.packageContentSizes[2] *
-                Configuration.instance.packageCount);
+                        Configuration.instance.packageContentSizes[1] *
+                        Configuration.instance.packageContentSizes[2] *
+                        Configuration.instance.packageCount);
 
         List<Package> generatedPackages = new ArrayList<>(Configuration.instance.packageCount);
         packagesMap = new HashMap<>(Configuration.instance.packageCount);

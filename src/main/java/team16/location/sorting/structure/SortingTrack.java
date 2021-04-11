@@ -1,6 +1,5 @@
 package team16.location.sorting.structure;
 
-import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import team16.communication.events.ProcessSortingTracksEvent;
 import team16.data.datainstances.packages.Package;

@@ -1,6 +1,5 @@
 package team16.location.access.hardware;
 
-import org.jetbrains.annotations.NotNull;
 import team16.base.Configuration;
 import team16.employees.security.access.ControlUnitAccessRole;
 import team16.employees.security.idcard.CardContent;
@@ -13,20 +12,20 @@ import java.util.Arrays;
 
 public class IDCardReader {
     public boolean validateCard(IDCard card, int pin) {
-        if(card.getState() instanceof IDCardLockedState || card.getState() instanceof IDCardInvalidState)
+        if (card.getState() instanceof IDCardLockedState || card.getState() instanceof IDCardInvalidState)
             return false;
         else
             return getCardContent(card, CardContent.PIN).equals(Integer.toString(pin));
     }
 
     public boolean unlockCard(IDCard card, int superPin) {
-        if(card.getState() instanceof IDCardActiveState){
+        if (card.getState() instanceof IDCardActiveState) {
             System.out.println("Card is already unlocked.");
             return true;
-        }else if(card.getState() instanceof IDCardInvalidState){
+        } else if (card.getState() instanceof IDCardInvalidState) {
             System.out.println("Card is already invalid!");
             return false;
-        }else if(card.getState() instanceof IDCardLockedState){
+        } else if (card.getState() instanceof IDCardLockedState) {
             return getCardContent(card, CardContent.SUPERPIN).equals(Integer.toString(superPin));
         }
 

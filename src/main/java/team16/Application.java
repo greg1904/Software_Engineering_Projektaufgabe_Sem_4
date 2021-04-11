@@ -31,7 +31,7 @@ public class Application {
         for (int i = 0; center.getTrucksDone() < Configuration.instance.truckCount; i++) {
             center.getTerminal().startFunctionOnTouchPad(new NextCommand(center.getParkingZone(), center.getUnloadZones()[i]));
             System.out.println();
-            System.out.println("##################Truck " + (i+1) + " done!##################");
+            System.out.println("##################Truck " + (i + 1) + " done!##################");
             System.out.println();
         }
 

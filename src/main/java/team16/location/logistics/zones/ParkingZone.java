@@ -1,7 +1,6 @@
 package team16.location.logistics.zones;
 
 import com.google.common.eventbus.Subscribe;
-import team16.base.Configuration;
 import team16.communication.events.ControlCarEvent;
 import team16.communication.events.TruckUnloadedEvent;
 import team16.data.transport.Truck;

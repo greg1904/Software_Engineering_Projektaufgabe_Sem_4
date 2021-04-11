@@ -86,7 +86,7 @@ class AutonomousCarTest {
                 while (!box.isEmpty()) {
                     Package pack = box.removeNextPackage();
                     assertTrue(packages.containsKey(pack.getId()));
-                    packages.remove(pack);
+                    packages.remove(pack.getId());
                 }
                 boxes.remove(box.getId());
             }

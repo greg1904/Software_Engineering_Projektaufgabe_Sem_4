@@ -1,6 +1,5 @@
 package team16.employees.security.idcard;
 
-import team16.base.Configuration;
 import team16.employees.security.idcard.states.IDCardActiveState;
 import team16.employees.security.idcard.states.IIDCardState;
 
@@ -12,11 +11,11 @@ public class IDCard {
         this.magnetStripe = stripe;
     }
 
-    public void wrongPinEntered(){
+    public void wrongPinEntered() {
         state.wrongInput(this);
     }
 
-    public void correctPinEntered(){
+    public void correctPinEntered() {
         state.rightInput(this);
     }
 

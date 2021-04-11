@@ -1,6 +1,5 @@
 package team16.data.transport;
 
-import team16.base.Configuration;
 import team16.data.datainstances.pallet.Pallet;
 import team16.data.utils.IdGenerator;
 
