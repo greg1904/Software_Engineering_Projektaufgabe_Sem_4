@@ -25,7 +25,6 @@ public enum Configuration {
             + "RabinKarp" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "RabinKarp.jar";
 
     public IEncryptionStrategy currentEncryptionStrategy = new AESStrategy();
-//    public final EncryptionStrategyContext encryptionStrategyContext = EncryptionStrategyContext.AES;
 
     public final int[] packageContentSizes = {25, 10, 10};
     public final int packageCount = 24_000;
