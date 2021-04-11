@@ -15,7 +15,6 @@ public class PackageTrackFillSensor { //SOLID-Prinzip: Observer
 
     public void checkFillingStatus() {
         if (track.isFull()) {
-            System.out.println("Packagetrack " + track + "is full!");
             center.postEvent(new PackageTrackFullEvent(track));
         }
     }

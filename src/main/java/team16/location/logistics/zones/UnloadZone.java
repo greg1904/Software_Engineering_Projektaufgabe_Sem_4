@@ -35,7 +35,7 @@ public class UnloadZone {
     @Subscribe
     public void receive(TruckUnloadedEvent event) {
         if (event.getTruck() == truck) {
-            System.out.println("Removing Truck from zone " + this + "!");
+            System.out.println("Removing Truck from zone " + this + ".");
             truck = null;
         }
     }

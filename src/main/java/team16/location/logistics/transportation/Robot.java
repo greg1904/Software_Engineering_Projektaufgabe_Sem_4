@@ -18,19 +18,9 @@ public class Robot {
 
     @Subscribe
     public void receive(StartRobotEvent event) {
-        System.out.println("Robot is starting to working on TemporaryPalletStorage!");
         TemporaryPalletStorage storage = sortingSystem.getCenter().getTemporaryPalletStorage();
-        System.out.println("Pallet count: " + storage.getPalletCount());
-        storage.printStorage();
-        int palletCount = 0;
         while (storage.hasPallets()) {
             Pallet pallet = storage.removePallet();
-
-            if (palletCount % 100 == 0) {
-                System.out.println("Starting next Pallet: " + palletCount);
-                System.out.println(pallet);
-            }
-            palletCount++;
 
             while (pallet != null && pallet.hasLoad()) {
                 Box box = pallet.getNextBox();
@@ -41,11 +31,6 @@ public class Robot {
                                 packageTrack.addPackage(layer.getNextPackage());
                             }
                         }
-//                        Objects.requireNonNull(Arrays.stream(system.getPackageTracks())
-//                                .filter(PackageTrack::hasRoom)
-//                                .findFirst()
-//                                .orElse(null))
-//                                .addPackage(layer.getNextPackage());
                     }
                 }
 

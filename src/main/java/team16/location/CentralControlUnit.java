@@ -72,6 +72,7 @@ public class CentralControlUnit implements ITruckListener {
 
     @Subscribe
     public void receive(PackageTrackFullEvent event) {
+        System.out.println("Packagetrack "+event.getTrack()+" is full.");
         filledPackageTracks.add(event.getTrack());
         if (filledPackageTracks.size() == 8) {
             filledPackageTracks.clear();

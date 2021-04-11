@@ -11,8 +11,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 public class SearchAlgorithm implements ISearchAlgorithm {
-//    BOYERMOORE(new BoyerMooreSearchAlgorithm()), RABINKARP(new RabinKarpSearchAlgorithm());
-
     private String currentSearchAlgorithmPath;
     private Object algorithmInstance;
 
@@ -24,7 +22,6 @@ public class SearchAlgorithm implements ISearchAlgorithm {
         Object archiveInstance = null;
 
         try {
-            System.out.println("Loading file: " + archivePath);
             URL[] urls = {new File(archivePath).toURI().toURL()};
             URLClassLoader urlClassLoader = new URLClassLoader(urls, Application.class.getClassLoader());
             Class<?> archiveClass = Class.forName("Application", true, urlClassLoader);
@@ -39,12 +36,10 @@ public class SearchAlgorithm implements ISearchAlgorithm {
 
     @Override
     public boolean checkPackage(Package packet) {
-        if (this.currentSearchAlgorithmPath.equals(Configuration.instance.searchAlgorithmJarPath) && algorithmInstance != null) {
-            return invokeSearchMethod(packet.getContentAsString());
-        } else {
+        if (!this.currentSearchAlgorithmPath.equals(Configuration.instance.searchAlgorithmJarPath) || algorithmInstance == null) {
             algorithmInstance = build(Configuration.instance.searchAlgorithmJarPath);
-            return invokeSearchMethod(packet.getContentAsString());
         }
+        return invokeSearchMethod(packet.getContentAsString());
     }
 
     private boolean invokeSearchMethod(String content) {

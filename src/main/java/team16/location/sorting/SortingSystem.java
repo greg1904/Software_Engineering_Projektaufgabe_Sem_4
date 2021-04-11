@@ -34,6 +34,7 @@ public class SortingSystem {
                 sortingTracks[i] = new SortingTrack(PackageType.values()[i], center, sortingTracks[i + 1]);
             }
         }
+
         this.center = center;
         center.register(this);
         center.register(robot);
@@ -54,6 +55,7 @@ public class SortingSystem {
     @Subscribe
     public void receive(StartSortingEvent event) {
         if (!isLocked) {
+            System.out.println();
             System.out.println("Starting sorting process");
 
             for (PackageTrack track : packageTracks) {
@@ -69,11 +71,6 @@ public class SortingSystem {
     private void insertIntoSortingTracks(Package packet) { //SOLID-Prinzip: Chain of Responsibility
         if (!isLocked) {
             sortingTracks[0].addPackage(packet);
-//            switch (packet.getType()) {
-//                case VALUE -> sortingTracks[2].addPackage(packet);
-//                case EXPRESS -> sortingTracks[1].addPackage(packet);
-//                case NORMAL -> sortingTracks[0].addPackage(packet);
-//            }
         }
     }
 
@@ -89,7 +86,4 @@ public class SortingSystem {
         return packageTracks;
     }
 
-    public SortingTrack[] getSortingTracks() {
-        return sortingTracks;
-    }
 }

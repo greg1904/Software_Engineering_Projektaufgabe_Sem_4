@@ -22,7 +22,6 @@ public class TemporaryPalletStoragePosition {
     }
 
     public Pallet removePallet() {
-        System.out.println("Removing pallet: " + !isEmpty());
         if (!isEmpty()) {
             for (int i = pallets.length - 1; i >= 0; i--) {
                 if (pallets[i] != null) {
@@ -41,27 +40,16 @@ public class TemporaryPalletStoragePosition {
                 return true;
             }
         }
-//        return Arrays.stream(pallets).anyMatch(Objects::nonNull);
         return false;
-    }
-
-    @SuppressWarnings("unused")
-    public boolean isFull() {
-        return Arrays.stream(pallets).noneMatch(Objects::isNull);
     }
 
     public boolean isEmpty() {
         for (Pallet pallet : pallets) {
-            System.out.println(pallet);
             if (pallet != null) {
-                System.out.println("a pallet was found: ");
                 return false;
             }
         }
-
-        System.out.println("returning true!");
         return true;
-//        return Arrays.stream(pallets).noneMatch(Objects::nonNull);
     }
 
     public boolean hasRoom() {

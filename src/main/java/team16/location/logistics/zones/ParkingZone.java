@@ -74,17 +74,6 @@ public class ParkingZone {
         return count;
     }
 
-    public AutonomousCar getCar() {
-        for (int i = 0; i < cars.length; i++) {
-            if (cars[i] != null) {
-                AutonomousCar car = cars[i];
-                cars[i] = null;
-                return car;
-            }
-        }
-        return null;
-    }
-
     public AutonomousCar getRandomCar() {
         if (hasCarsLeft()) {
             AutonomousCar car;

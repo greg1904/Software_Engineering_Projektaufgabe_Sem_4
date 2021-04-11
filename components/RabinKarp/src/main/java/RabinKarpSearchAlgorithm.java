@@ -43,7 +43,6 @@ public class RabinKarpSearchAlgorithm {
 
                 // if patternHash == textHash and pattern[0...patternLength-1] = text[i, i+1, ...i+patternLength-1]
                 if (j == patternLength) {
-                    System.out.println("Pattern found at index " + i);
                     found++;
                 }
             }

@@ -46,7 +46,6 @@ public class BoyerMooreSearchAlgorithm {
              shift, then index j will become -1 after
              the above loop */
             if (j < 0) {
-                System.out.println("Patterns occur at shift = " + s);
                 found = true;
               /* Shift the pattern so that the next
                  character in text aligns with the last

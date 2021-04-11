@@ -12,7 +12,6 @@ import team16.employees.security.idcard.states.IDCardLockedState;
 import java.util.Arrays;
 
 public class IDCardReader {
-
     public boolean validateCard(IDCard card, int pin) {
         if(card.getState() instanceof IDCardLockedState || card.getState() instanceof IDCardInvalidState)
             return false;
@@ -42,7 +41,6 @@ public class IDCardReader {
         return getCardContent(card)[content.ordinal()];
     }
 
-    @NotNull
     private String[] getCardContent(IDCard card) {
         String dec = Configuration.instance.encryptionStrategy.decrypt(card.getMagnetStripe().getStoredData(), Configuration.instance.encryptionKey);
         String[] content = new String[CardContent.values().length];

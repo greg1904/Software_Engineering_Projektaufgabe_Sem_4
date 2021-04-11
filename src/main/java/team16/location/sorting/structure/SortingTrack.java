@@ -26,7 +26,6 @@ public class SortingTrack { //SOLID-Prinzip: Chain of Responsibility
     }
 
     @Subscribe
-    @AllowConcurrentEvents
     public void receive(ProcessSortingTracksEvent event) {
         if (!packages.isEmpty()) {
             System.out.println("Starting to process all " + packages.size() + " " + type + "-Packages...");
@@ -35,6 +34,7 @@ public class SortingTrack { //SOLID-Prinzip: Chain of Responsibility
             }
             System.out.println("All " + type + "-Packages done!");
         }
+        System.out.println();
     }
 
     public boolean addPackage(Package packet) { //SOLID-Prinzip: Chain of Responsibility
@@ -48,6 +48,7 @@ public class SortingTrack { //SOLID-Prinzip: Chain of Responsibility
         } else if (packageScanner.checkPackage(packet)) {
             center.addForbiddenPackage(packet);
             System.out.println("Package " + packet.getId() + " has Explosive in it!");
+            return false;               //TODO CHECK IF THIS DOESN'T BREAK SHIT
         }
         return packages.add(packet);
     }

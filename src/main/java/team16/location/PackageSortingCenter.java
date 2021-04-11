@@ -35,9 +35,6 @@ public class PackageSortingCenter {
             unloadZones[i] = new UnloadZone(centralControlUnit);
             register(unloadZones[i]);
         }
-
-//        Arrays.setAll(unloadZones, i -> new UnloadZone(centralControlUnit::truckArrived));
-//        Arrays.stream(unloadZones).forEach(this::register);
     }
 
     public UnloadZone getZone(int id) {
