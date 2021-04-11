@@ -30,7 +30,7 @@ public class PackageSortingCenter {
     public PackageSortingCenter() {
         centralControlUnit.register(parkingZone);
 
-        for (int i = 0; i < unloadZones.length; i++) { //TODO WHAT IS THIS
+        for (int i = 0; i < unloadZones.length; i++) {
             unloadZones[i] = new UnloadZone(centralControlUnit);
             register(unloadZones[i]);
         }

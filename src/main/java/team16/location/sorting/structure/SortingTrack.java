@@ -47,7 +47,7 @@ public class SortingTrack { //SOLID-Prinzip: Chain of Responsibility
         } else if (packageScanner.checkPackage(packet)) {
             center.addForbiddenPackage(packet);
             System.out.println("Package " + packet.getId() + " has Explosive in it!");
-            return false;               //TODO CHECK IF THIS DOESN'T BREAK SHIT
+            return false;
         }
         return packages.add(packet);
     }
