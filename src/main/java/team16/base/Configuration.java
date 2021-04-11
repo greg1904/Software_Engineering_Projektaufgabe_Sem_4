@@ -1,6 +1,8 @@
 package team16.base;
 
-import team16.employees.security.encryption.EncryptionStrategy;
+import team16.employees.security.encryption.AESStrategy;
+import team16.employees.security.encryption.EncryptionStrategyContext;
+import team16.employees.security.encryption.IEncryptionStrategy;
 import team16.location.sorting.utils.SearchAlgorithm;
 
 public enum Configuration {
@@ -22,7 +24,8 @@ public enum Configuration {
     public final String rabinKarpJarPath = homeDir + fileSeparator + "components" + fileSeparator
             + "RabinKarp" + fileSeparator + "build" + fileSeparator + "libs" + fileSeparator + "RabinKarp.jar";
 
-    public final EncryptionStrategy encryptionStrategy = EncryptionStrategy.AES;
+    public IEncryptionStrategy currentEncryptionStrategy = new AESStrategy();
+//    public final EncryptionStrategyContext encryptionStrategyContext = EncryptionStrategyContext.AES;
 
     public final int[] packageContentSizes = {25, 10, 10};
     public final int packageCount = 24_000;

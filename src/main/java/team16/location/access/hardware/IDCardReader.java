@@ -2,6 +2,7 @@ package team16.location.access.hardware;
 
 import team16.base.Configuration;
 import team16.employees.security.access.ControlUnitAccessRole;
+import team16.employees.security.encryption.EncryptionStrategyContext;
 import team16.employees.security.idcard.CardContent;
 import team16.employees.security.idcard.IDCard;
 import team16.employees.security.idcard.states.IDCardActiveState;
@@ -41,7 +42,7 @@ public class IDCardReader {
     }
 
     private String[] getCardContent(IDCard card) {
-        String dec = Configuration.instance.encryptionStrategy.decrypt(card.getMagnetStripe().getStoredData(), Configuration.instance.encryptionKey);
+        String dec = new EncryptionStrategyContext(Configuration.instance.currentEncryptionStrategy).decrypt(card.getMagnetStripe().getStoredData(), Configuration.instance.encryptionKey);
         String[] content = new String[CardContent.values().length];
         String[] parsed = Arrays.stream(dec.split(";"))
                 .map(c -> c.substring(1))

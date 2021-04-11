@@ -1,12 +1,13 @@
 package team16.employees.security.idcard;
 
 import team16.base.Configuration;
+import team16.employees.security.encryption.EncryptionStrategyContext;
 
 public class MagnetStripe {
     private final String storedData;
 
     public MagnetStripe(String data) {
-        String encrypted = Configuration.instance.encryptionStrategy.encrypt(data, Configuration.instance.encryptionKey);
+        String encrypted = new EncryptionStrategyContext(Configuration.instance.currentEncryptionStrategy).encrypt(data, Configuration.instance.encryptionKey);
         if (encrypted.length() <= 100) {
             this.storedData = encrypted;
         } else {
