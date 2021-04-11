@@ -87,7 +87,7 @@ public class CSVParser {
         for (Package p : generatedPackages) {
             packagesMap.put(p.getId(), p);
 
-            packageBuilder.append(String.format("[%s],[%s],[%05d],[%s],[%.2f]",
+            packageBuilder.append(String.format(Locale.US, "[%s],[%s],[%05d],[%s],[%.2f]",
                     p.getId(), p.getContentAsString(), p.getZipCode(), p.getType().name(), p.getWeight()));
             packageBuilder.append(System.lineSeparator());
         }
