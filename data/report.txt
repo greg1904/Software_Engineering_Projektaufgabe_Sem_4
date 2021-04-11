@@ -1,9 +1,27 @@
-11.04.2021 02:33:58.575: Processed Trucks: 5
-			 ##Packages: EXPRESS - 3630, VALUE - 1171, NORMAL - 19195
+11.04.2021 10:52:02.364: Processed Trucks: 5
+			 ##Packages: VALUE - 1162, NORMAL - 19194, EXPRESS - 3640
 			 ##Explosive Packages: 
-				orwt22: NORMAL
-				ralyqx: VALUE
-				est6pq: EXPRESS
-				6hg0js: NORMAL
+				rjdc0o: EXPRESS
+				mg59ao: NORMAL
+				17poge: NORMAL
+				gtjgoi: NORMAL
+
+
+11.04.2021 10:52:13.280: Processed Trucks: 5
+			 ##Packages: EXPRESS - 3640, VALUE - 1162, NORMAL - 19194
+			 ##Explosive Packages: 
+				rjdc0o: EXPRESS
+				mg59ao: NORMAL
+				17poge: NORMAL
+				gtjgoi: NORMAL
+
+
+11.04.2021 10:52:31.150: Processed Trucks: 5
+			 ##Packages: EXPRESS - 3640, NORMAL - 19194, VALUE - 1162
+			 ##Explosive Packages: 
+				rjdc0o: EXPRESS
+				mg59ao: NORMAL
+				17poge: NORMAL
+				gtjgoi: NORMAL
 
 

@@ -1,4 +1,0 @@
-team16/location/PackageSortingCenterTest.java
- team16.location.PackageSortingCenterTest
-team16/location/logistics/transportation/AutonomousCarTest.java
- team16.location.logistics.transportation.AutonomousCarTest

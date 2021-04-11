@@ -35,11 +35,11 @@ public class SearchAlgorithm implements ISearchAlgorithm {
     }
 
     @Override
-    public boolean checkPackage(Package packet) {
+    public boolean checkPackage(String stringOfContents) {
         if (!this.currentSearchAlgorithmPath.equals(Configuration.instance.searchAlgorithmJarPath) || algorithmInstance == null) {
             algorithmInstance = build(Configuration.instance.searchAlgorithmJarPath);
         }
-        return invokeSearchMethod(packet.getContentAsString());
+        return invokeSearchMethod(stringOfContents);
     }
 
     private boolean invokeSearchMethod(String content) {
